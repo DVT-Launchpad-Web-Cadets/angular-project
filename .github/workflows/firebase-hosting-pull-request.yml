@@ -13,7 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm run build
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x' # Ensure Node.js version 18.x is used
+      - run: npm install -g @angular/cli # Install Angular CLI globally
+      - run: npm install # Install project dependencies
+      - run: npm run build # Build Angular project
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
