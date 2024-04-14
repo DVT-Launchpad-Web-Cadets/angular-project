@@ -2,26 +2,29 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on PR
-'on': pull_request
+"on": pull_request
 permissions:
   checks: write
   contents: read
   pull-requests: write
 jobs:
   build_and_preview:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x' # Ensure Node.js version 18.x is used
+          node-version: "18.x" # Ensure Node.js version 18.x is used
       - run: npm install -g @angular/cli # Install Angular CLI globally
       - run: npm install # Install project dependencies
-      - run: npm run build # Build Angular project
+      - name: Build
+        run: npm run build # Build Angular project
+      - name: Deploy to Firebase Hosting
+          run: firebase deploy
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANGULAR_PROJECT_5EFCD }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANGULAR_PROJECT_5EFCD }}"
           projectId: angular-project-5efcd
