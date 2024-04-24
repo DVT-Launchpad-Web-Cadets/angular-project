@@ -1,0 +1,18 @@
+import { Injectable, inject } from '@angular/core';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { ItenaryInterface } from '../models/Itenary';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ItenaryFirebaseService {
+  firestore = inject(Firestore);
+  itenariesCollection = collection(this.firestore, 'itenaries');
+  
+  getItenaries(): Observable<ItenaryInterface[]> {
+    return collectionData(this.itenariesCollection, { idField: 'id'}) as Observable<ItenaryInterface[]>;
+  }
+
+  constructor() { }
+}
