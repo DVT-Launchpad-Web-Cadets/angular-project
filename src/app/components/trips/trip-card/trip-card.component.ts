@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -9,8 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './trip-card.component.css',
 })
 export class TripCardComponent {
-  name = 'Trip to Paris';
-  starDate = '02 April';
-  endDate = '19 April 2024';
-  location = 'Paris, France';
+  @Input() name = '';
+  @Input() startDate = '';
+  @Input() endDate = '';
+  @Input() location = '';
 }

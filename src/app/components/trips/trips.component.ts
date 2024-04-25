@@ -10,5 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
     imports: [TripCardComponent, MatIconModule]
 })
 export class TripsComponent {
-
+    trips = [
+        { id: '1', name: 'Scotland Trip', startDate: '2024-05-01', endDate: '2024-05-05', location: 'Scotland' },
+        { id:'2', name: 'We are going to Paris', startDate: '2024-06-01', endDate: '2024-06-05', location: 'France, Paris' },
+      ];
 }
