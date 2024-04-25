@@ -1,16 +1,17 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
 import { AuthService } from './services/auth.service';
 import { ItenaryComponent } from "./components/itenary/itenary.component";
+
 
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterOutlet, RouterLink, LoginComponent, SignupComponent, ItenaryComponent]
+    imports: [RouterOutlet, RouterLink, RouterLinkActive, LoginComponent, SignupComponent, ItenaryComponent]
 })
 
 export class AppComponent implements OnInit{
