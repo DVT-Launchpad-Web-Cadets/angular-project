@@ -1,6 +1,26 @@
+<div class="bg-light-blue">
+  <div class="flex justify-end gap-4 p-4">
+    <button
+      class="bg-dark-blue size-12 flex justify-center items-center rounded-lg shadow-2xl"
+    >
+      <ng-icon name="matEdit" class="text-white text-2xl"></ng-icon>
+    </button>
+    <button
+      class="bg-coral size-12 flex justify-center items-center rounded-lg shadow-2xl"
+    >
+      <ng-icon name="matClose" class="text-white text-4xl"></ng-icon>
+    </button>
+  </div>
+  <div class="p-4">
+    <h1 class="text-white text-2xl font-bold">{{ date }}</h1>
+    <div class="flex items-center text-dark-blue">
+      <ng-icon name="matLocationOn" class="text-xl"></ng-icon>
+      <p class="text-sm">{{ location }}</p>
+    </div>
+    <h2 class="text-white text-2xl w-full text-end">{{cost}}</h2>
+  </div>
+</div>
+
 <app-tag [dark]="true" tagName="Transport">
-  <ng-icon
-    name="bootstrapChevronRight"
-    class="text-white size-8"
-  ></ng-icon>
+  <ng-icon name="matEdit" class="text-white size-8"></ng-icon>
 </app-tag>
