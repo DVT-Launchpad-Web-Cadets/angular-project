@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { bootstrapChevronRight } from '@ng-icons/bootstrap-icons';
@@ -13,6 +13,9 @@ import { matLocationOn } from '@ng-icons/material-icons/baseline';
   viewProviders: [provideIcons({ bootstrapChevronRight, matLocationOn })]
 })
 export class DayComponent {
-
+  @Input() day = '';
+  @Input() cost = '';
+  @Input() location = '';
+  @Input() currency = ''
 }
 

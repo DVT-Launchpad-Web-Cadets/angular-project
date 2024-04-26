@@ -14,6 +14,10 @@ export class ItenaryComponent implements OnInit {
   itenaryService = inject(ItenaryService);
   itenaryFirebaseService = inject(ItenaryFirebaseService);
 
+  days = [
+    { id: '1', name: 'Day 1', location: 'Scotland', currency: 'R', cost: '100' },
+    { id: '1', name: 'Day 2', location: 'Livingston', currency:'$', cost: '3000' },
+  ];
 
   ngOnInit(): void {
     this.itenaryFirebaseService.getItenaries().subscribe((itenaries) => {
