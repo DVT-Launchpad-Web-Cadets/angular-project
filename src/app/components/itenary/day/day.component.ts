@@ -10,12 +10,11 @@ import { matLocationOn } from '@ng-icons/material-icons/baseline';
   imports: [MatIconModule, NgIconComponent],
   templateUrl: './day.component.html',
   styleUrl: './day.component.css',
-  viewProviders: [provideIcons({ bootstrapChevronRight, matLocationOn })]
+  viewProviders: [provideIcons({ bootstrapChevronRight, matLocationOn })],
 })
 export class DayComponent {
   @Input() day = '';
   @Input() cost = '';
   @Input() location = '';
-  @Input() currency = ''
+  @Input() currency = '';
 }
-
