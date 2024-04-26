@@ -4,10 +4,12 @@ import { SignupComponent } from './components/signup/signup.component';
 import { TripsComponent } from './components/trips/trips.component';
 import { ItenaryComponent } from './components/itenary/itenary.component';
 import { TripComponent } from './components/trip/trip.component';
+import { DayItenaryComponent } from './components/day-itenary/day-itenary.component';
 
 export const routes: Routes = [
   { path: 'myTrips', component: TripsComponent },
-  { path: 'trip/:id', component: TripComponent },
+  { path: 'trip/:tripId', component: TripComponent },
+  { path: 'trip/:tripId/dayItenary/:dayId', component: DayItenaryComponent },
   { path: 'itenary', component: ItenaryComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
