@@ -2,13 +2,14 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ItenaryService } from '../../services/itenary.service';
 import { ItenaryFirebaseService } from '../../services/itenary-firebase.service';
 import { DayComponent } from "./day/day.component";
+import { EventComponent } from "../event/event.component";
 
 @Component({
     selector: 'app-itenary',
     standalone: true,
     templateUrl: './itenary.component.html',
     styleUrl: './itenary.component.css',
-    imports: [DayComponent]
+    imports: [DayComponent, EventComponent]
 })
 export class ItenaryComponent implements OnInit {
   itenaryService = inject(ItenaryService);

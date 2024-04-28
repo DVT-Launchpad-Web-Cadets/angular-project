@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TagComponent } from "../shared/tag/tag.component";
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { matKeyboardArrowDown } from '@ng-icons/material-icons/baseline';
@@ -12,7 +12,9 @@ import { matKeyboardArrowDown } from '@ng-icons/material-icons/baseline';
     viewProviders: [provideIcons({ matKeyboardArrowDown })]
 })
 export class EventComponent {
-    currency = '$';
-    currencyCost = '259';
-    randCost = '2 590';
+    @Input() currency = '$';
+    @Input() currencyCost = '259';
+    @Input() randCost = '2 590';
+    @Input() startTime = '10:00';
+    @Input() endTime = '11:30';
 }
