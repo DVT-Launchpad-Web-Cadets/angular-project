@@ -1,10 +1,31 @@
-<div class="w-screen flex flex-col">
+<div class="w-full flex flex-col">
     <!-- @for (day of days; track day.id) {
         <app-day [day]="day.name" [location]="day.location" [currency]="day.currency" [cost]="day.cost"></app-day>
         <div class="w-4/5 m-2 ml-8 border-l-4 border-dark-blue h-8"></div>
     } @empty {
         <h2 class="text-2xl">Ready for an adventure? Create your first Trip!</h2>
     } -->
+
+  
+      <nz-tabset
+        style="height:220px;"
+        [nzTabPosition]="nzTabPosition"
+        [(nzSelectedIndex)]="selectedIndex"
+        (nzSelectChange)="log([$event])"
+      >
+        <nz-tab
+          *ngFor="let tab of tabs"
+          [nzTitle]="tab.name"
+          [nzDisabled]="tab.disabled"
+          (nzSelect)="log(['select', tab])"
+          (nzClick)="log(['click', tab])"
+          (nzContextmenu)="log(['contextmenu', tab])"
+          (nzDeselect)="log(['deselect', tab])"
+          class="text-black"
+        >
+          {{ tab.content }}
+        </nz-tab>
+      </nz-tabset>
 
     <app-event></app-event>
     <app-event></app-event>
