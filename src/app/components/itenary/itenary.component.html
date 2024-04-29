@@ -1,33 +1,41 @@
 <div class="w-full flex flex-col">
-    <!-- @for (day of days; track day.id) {
-        <app-day [day]="day.name" [location]="day.location" [currency]="day.currency" [cost]="day.cost"></app-day>
-        <div class="w-4/5 m-2 ml-8 border-l-4 border-dark-blue h-8"></div>
-    } @empty {
-        <h2 class="text-2xl">Ready for an adventure? Create your first Trip!</h2>
-    } -->
+  <nz-tabset>
+    <nz-tab nzTitle="Tab 1"></nz-tab>
+    <nz-tab nzTitle="Tab 2"></nz-tab>
+    <nz-tab nzTitle="Tab 3"></nz-tab>
+    <nz-tab nzTitle="Tab 1"></nz-tab>
+    <nz-tab nzTitle="Tab 2"></nz-tab>
+    <nz-tab nzTitle="Tab 3"></nz-tab>
+    <nz-tab nzTitle="Tab 1"></nz-tab>
+    <nz-tab nzTitle="Tab 2"></nz-tab>
+    <nz-tab nzTitle="Tab 3"></nz-tab>
+  </nz-tabset>
 
-  
-      <nz-tabset
-        style="height:220px;"
-        [nzTabPosition]="nzTabPosition"
-        [(nzSelectedIndex)]="selectedIndex"
-        (nzSelectChange)="log([$event])"
-      >
-        <nz-tab
-          *ngFor="let tab of tabs"
-          [nzTitle]="tab.name"
-          [nzDisabled]="tab.disabled"
-          (nzSelect)="log(['select', tab])"
-          (nzClick)="log(['click', tab])"
-          (nzContextmenu)="log(['contextmenu', tab])"
-          (nzDeselect)="log(['deselect', tab])"
-          class="text-black"
-        >
-          {{ tab.content }}
-        </nz-tab>
-      </nz-tabset>
-
-    <app-event></app-event>
-    <app-event></app-event>
-
+  <div class="flex justify-between items-center mb-4">
+    <div>
+      <h2 class="text-black text-xl font-bold">22 April</h2>
+      <div class="flex items-center text-dark-blue">
+        <ng-icon name="matLocationOn" class="text-xl"></ng-icon>
+        <p class="text-sm">{{ location }}</p>
+      </div>
+    </div>
+    <button
+      class="bg-black size-10 flex justify-center items-center rounded-lg shadow-2xl self-end"
+    >
+      <ng-icon name="matEdit" class="text-white text-2xl"></ng-icon>
+    </button>
+  </div>
 </div>
+
+<app-event></app-event>
+<app-event></app-event>
+<app-event></app-event>
+<app-event></app-event>
+<app-event></app-event>
+
+
+<button
+  class="bg-coral rounded-full size-12 right-8 fixed bottom-12 text-white flex justify-center items-center text-4xl"
+>
+  <ng-icon name="matAdd" class="text-white text-2xl"></ng-icon>
+</button>

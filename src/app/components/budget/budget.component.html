@@ -1,8 +1,33 @@
+<div class="w-full flex justify-end gap-2 mb-4">
+    <button class="bg-black flex text-white justify-center items-center rounded-lg self-end p-1 px-2 mt-2">
+        <ng-icon name="matBarChart" class="text-2xl"></ng-icon>
+    </button>
+    <button nz-button nz-dropdown [nzDropdownMenu]="menu4" class="bg-coral flex text-white justify-center items-center rounded-lg self-end p-1 px-2 mt-2">
+        <p>Currency</p>
+        <ng-icon name="matKeyboardArrowDown" class="text-2xl"></ng-icon>
+    </button>
+</div>
+
+<nz-dropdown-menu #menu4="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item>ZAR</li>
+      <li nz-menu-item>EUR</li>
+      <li nz-menu-item>USD</li>
+    </ul>
+  </nz-dropdown-menu>
+
 <div class="w-full flex flex-col items-center">
     <app-budget-item class="w-full"></app-budget-item>
     <app-budget-item class="w-full"></app-budget-item>
+    <app-budget-item class="w-full"></app-budget-item>
+    <app-budget-item class="w-full"></app-budget-item>
+    <app-budget-item class="w-full"></app-budget-item>
+    <app-budget-item class="w-full"></app-budget-item>
+    <app-budget-item class="w-full"></app-budget-item>
+    <app-budget-item class="w-full"></app-budget-item>
+    <app-budget-item class="w-full"></app-budget-item>
 
-    <div class="bg-black text-white p-3 px-5 rounded-full fixed bottom-4 flex items-center justify center">
+    <div class="bg-black text-white p-3 px-5 rounded-full fixed bottom-4 flex items-center justify-center font-bold">
         <h2 class="text-md text-white">{{currency}}{{totalCost}}</h2>
     </div>
 </div>

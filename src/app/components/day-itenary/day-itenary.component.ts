@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TagComponent } from "../shared/tag/tag.component";
-import { matAirplanemodeActive, matShoppingBag, matHotel, matRestaurant, matCameraAlt, matDirectionsRun, matLocalFlorist, matCoffee, matTrain, matQuestionMark, matEdit, matClose, matLocationOn } from '@ng-icons/material-icons/baseline';
+import { matAirplanemodeActive, matShoppingBag, matHotel, matRestaurant, matCameraAlt, matDirectionsRun, matLocalFlorist, matCoffee, matTrain, matQuestionMark, matEdit, matClose, matLocationOn, matDeleteOutline } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { EventComponent } from "../event/event.component";
 
@@ -9,7 +9,7 @@ import { EventComponent } from "../event/event.component";
     standalone: true,
     templateUrl: './day-itenary.component.html',
     styleUrl: './day-itenary.component.css',
-    viewProviders: [provideIcons({ matAirplanemodeActive, matShoppingBag, matHotel, matRestaurant, matCameraAlt, matDirectionsRun, matLocalFlorist, matCoffee, matTrain, matQuestionMark, matEdit, matClose, matLocationOn })],
+    viewProviders: [provideIcons({ matAirplanemodeActive, matShoppingBag, matHotel, matRestaurant, matCameraAlt, matDirectionsRun, matLocalFlorist, matCoffee, matTrain, matQuestionMark, matEdit, matClose, matLocationOn, matDeleteOutline })],
     imports: [TagComponent, NgIconComponent, EventComponent]
 })
 export class DayItenaryComponent {

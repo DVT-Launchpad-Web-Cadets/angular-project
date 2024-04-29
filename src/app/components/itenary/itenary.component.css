@@ -1,0 +1,8 @@
+.custom-tabset .ant-tabs-nav {
+    border-top: 2px solid #000 !important;/* Add a border over the tabs */
+  }
+  
+  .custom-tabset .ant-tabs-nav .ant-tabs-tab {
+    border-top-left-radius: 5px; /* Adjust tab border radius if needed */
+    border-top-right-radius: 5px;
+  }
