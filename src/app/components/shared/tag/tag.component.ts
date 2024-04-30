@@ -12,6 +12,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 })
 export class TagComponent {
   @Input() tagName = '';
+  @Input() tagLabel = '';
   @Input() dark = false;
   icon = '';
 
