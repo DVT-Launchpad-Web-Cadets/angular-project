@@ -6,6 +6,7 @@ import { ItenaryComponent } from './components/itenary/itenary.component';
 import { TripComponent } from './components/trip/trip.component';
 import { DayItenaryComponent } from './components/day-itenary/day-itenary.component';
 import { AppPageComponent } from './components/app-page/app-page.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
   { path: '', component: AppPageComponent },
@@ -15,4 +16,5 @@ export const routes: Routes = [
   { path: 'itenary', component: ItenaryComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: '**', component: PageNotFoundComponent}
 ];
