@@ -14,7 +14,7 @@ export class ItenaryFirebaseService {
     return collectionData(this.itenariesCollection, { idField: 'id'}) as Observable<ItenaryInterface[]>;
   }
 
-  addTrip(name: String): Observable<string> {
+  addTrip(name: string): Observable<string> {
     const itenaryCreate = {name};
     const promise = addDoc(this.itenariesCollection, itenaryCreate).then((response) => response.id);
     return from(promise);

@@ -4,11 +4,10 @@ name: Lint and Build
 
 on:
   pull_request:
-    branches: [ "dev" ]
+    branches: ["dev"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -16,17 +15,17 @@ jobs:
         node-version: [18.x, 20.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: Install dependencies
-      run: npm ci
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Lint
-      run: npm run lint
+      - name: Lint
+        run: npm run lint
 
-    - name: Build
-      run: npm run build
+      - name: Build
+        run: npm run build
