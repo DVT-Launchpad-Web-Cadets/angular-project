@@ -6,11 +6,12 @@ import { TripInterface } from '../models';
 @Injectable({
   providedIn: 'root'
 })
-export class ItenaryFirebaseService {
+export class TripFirebaseService {
   firestore = inject(Firestore);
-  itenariesCollection = collection(this.firestore, 'itenaries');
+  itenariesCollection = collection(this.firestore, 'trips');
   
-  getItenaries(): Observable<TripInterface[]> {
+  getTrips(): Observable<TripInterface[]> {
+    console.log('getTrips called');
     return collectionData(this.itenariesCollection, { idField: 'id'}) as Observable<TripInterface[]>;
   }
 
