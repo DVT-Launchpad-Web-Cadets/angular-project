@@ -9,7 +9,7 @@
     "test": "ng test",
     "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
     "build:ci": "ng build --prod",
-    "lint": "eslint .",
+    "lint": "ng lint",
     "lint:fix": "eslint . --fix"
   },
   "private": true,

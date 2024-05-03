@@ -3,9 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
   EMPTY,
-  exhaustMap,
   map,
-  retry,
   switchMap,
   tap,
 } from 'rxjs';
@@ -21,7 +19,7 @@ export class TripsEffects {
       switchMap(() =>
         this.tripsService.getTrips().pipe(
           map((trips) => getTripsComplete({ trips })),
-          catchError((err) => EMPTY)
+          catchError(() => EMPTY)
         )
       )
     )
