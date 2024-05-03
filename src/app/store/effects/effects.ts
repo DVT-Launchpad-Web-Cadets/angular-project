@@ -9,7 +9,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { TripFirebaseService } from '../../services/trip-firebase.service';
+import { TripService } from '../../services/trip.service';
 import { getTrips, getTripsComplete } from '../actions/actions';
 
 @Injectable()
@@ -29,6 +29,6 @@ export class TripsEffects {
 
   constructor(
     private actions$: Actions,
-    private tripsService: TripFirebaseService
+    private tripsService: TripService
   ) {}
 }
