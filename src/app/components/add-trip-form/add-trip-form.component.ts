@@ -32,7 +32,7 @@ export class AddTripFormComponent {
     tripDates: this.fb.control<[Date, Date] | null>(null),
   });
 
-  submitForm(): void {
+  addTrip(): void {
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
     } else {
