@@ -1,8 +1,7 @@
-import { isDevMode } from '@angular/core';
-import { ActionReducerMap, createReducer, MetaReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { TripInterface } from '../../models/trip';
 import { DayInterface } from '../../models/day';
-import { getTrips, getTripsComplete } from '../actions/actions';
+import { getTripsComplete } from '../actions/actions';
 
 export const tripsFeatureKey = 'trips';
 

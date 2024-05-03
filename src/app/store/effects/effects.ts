@@ -14,36 +14,6 @@ import { getTrips, getTripsComplete } from '../actions/actions';
 
 @Injectable()
 export class TripsEffects {
-  // getTrips$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(getTrips.type),
-  //     exhaustMap(() =>
-  //       this.tripsService.getTrips().pipe(
-  //         map((trips) => getTripsComplete({ trips })),
-  //         catchError((err) => {
-  //           console.error(`Error fetching trips: ${err}`);
-  //           return EMPTY;})
-  //       )
-  //     )
-  //   )
-  // );
-
-  // getTrips$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(getTrips.type),
-  //     tap(() => console.log('getTrips action dispatched')),
-  //     switchMap(() =>
-  //       this.tripsService.getTrips().pipe(
-  //         map(trips => getTripsComplete({ trips })),
-  //         catchError(error => {
-  //           console.error('Error', error.toString());
-  //           return EMPTY;
-  //         }),
-  //       ),
-  //     ),
-  //   ),
-  // );
-
   getTrips$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getTrips.type),
