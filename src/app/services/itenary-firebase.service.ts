@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Firestore, addDoc, collection, collectionData } from '@angular/fire/firestore';
+import { Observable, from } from 'rxjs';
 import { TripInterface } from '../models';
 
 @Injectable({
@@ -14,5 +14,10 @@ export class ItenaryFirebaseService {
     return collectionData(this.itenariesCollection, { idField: 'id'}) as Observable<TripInterface[]>;
   }
 
+  addTrip(name: string): Observable<string> {
+    const itenaryCreate = {name};
+    const promise = addDoc(this.itenariesCollection, itenaryCreate).then((response) => response.id);
+    return from(promise);
+  }
   constructor() { }
 }
