@@ -23,7 +23,7 @@ import { DayButtonComponent } from "../day-button/day-button.component";
         NzRadioModule,
         NzInputNumberModule,
         NgIconComponent,
-        DayButtonComponent
+        DayButtonComponent,
     ]
 })
 export class ItenaryComponent implements OnInit {

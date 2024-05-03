@@ -1,0 +1,56 @@
+<div class="p-4 w-screen h-screen">
+  <h1 class="text-3xl font-bold text-black">Create a Trip</h1>
+  <form
+    nz-form
+    nzLayout="horizontal"
+    class="mt-12"
+    (ngSubmit)="submitForm()"
+    [formGroup]="validateForm"
+  >
+    <nz-form-item class="w-full">
+      <nz-form-label class="font-bold">Trip name:</nz-form-label>
+      <nz-form-control nzHasFeedback nzErrorTip="Trip name is required">
+        <input
+          nz-input
+          placeholder="e.g Summer Holiday in Greece"
+          name="tripName"
+          required
+          class="w-full bg-transparent border border-gray rounded-lg p-2"
+          formControlName="tripName"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="w-full">
+      <nz-form-label class="font-bold">Trip name:</nz-form-label>
+      <nz-form-control nzHasFeedback nzErrorTip="Destination is required">
+        <input
+          nz-input
+          placeholder="e.g Greece"
+          name="tripDestination"
+          required
+          class="w-full bg-transparent border border-gray rounded-lg p-2"
+          formControlName="tripDestination"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="w-full">
+      <nz-form-label class="font-bold">Trip Dates</nz-form-label>
+      <nz-form-control nzHasFeedback nzErrorTip="Start date is required">
+        <nz-range-picker
+          class="w-full rounded-lg p-2"
+          [nzFormat]="dateFormat"
+          required
+          name="tripDates"
+          formControlName="tripDates"
+        ></nz-range-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button class="bg-black text-lg text-white p-2 w-full rounded-lg" nz-button >
+          Add Trip
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
