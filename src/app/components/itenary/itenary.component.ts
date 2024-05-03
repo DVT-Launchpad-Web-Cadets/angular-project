@@ -15,7 +15,7 @@ import { TripFirebaseService } from '../../services/trip-firebase.service';
   templateUrl: './itenary.component.html',
   styleUrl: './itenary.component.css',
 })
-export class ItenaryComponent implements OnInit {
+export class ItenaryComponent {
   itenaryService = inject(ItenaryService);
   itenaryFirebaseService = inject(ItenaryFirebaseService);
 
@@ -25,14 +25,5 @@ export class ItenaryComponent implements OnInit {
 
   constructor(private store: Store<AppState>) {
     this.store.dispatch(getTrips());
-  }
-
-  ngOnInit(): void {
-    this.itenaryFirebaseService.getItenaries().subscribe((itenaries) => {
-      console.log(itenaries);
-    });
-    // this.tripFirebaseService.getTrips().subscribe((trips) => {
-    //   console.log(trips);
-    // });
   }
 }
