@@ -9,7 +9,7 @@
     "test": "ng test",
     "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
     "build:ci": "ng build --prod",
-    "lint": "eslint .",
+    "lint": "ng lint",
     "lint:fix": "eslint . --fix"
   },
   "private": true,
@@ -30,6 +30,9 @@
     "@ng-icons/heroicons": "^27.3.1",
     "@ng-icons/material-icons": "^27.3.1",
     "ng-zorro-antd": "^17.4.0",
+    "@ngrx/effects": "^17.2.0",
+    "@ngrx/store": "^17.2.0",
+    "@ngrx/store-devtools": "^17.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

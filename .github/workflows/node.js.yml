@@ -21,6 +21,20 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+
+      - name: Add envirnoments
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+        run: |
+          mkdir -p ./src/environments/
+          echo "const firebaseConfigData = {" > ./src/environments/environment.ts
+          echo "  $FIREBASE_CONFIG" >> ./src/environments/environment.ts
+          echo "};" >> ./src/environments/environment.ts
+
+          echo "export const environment = {" >> ./src/environments/environment.ts
+          echo "  firebaseConfig: firebaseConfigData" >> ./src/environments/environment.ts
+          echo "};" >> ./src/environments/environment.ts
+
       - name: Install dependencies
         run: npm ci
 

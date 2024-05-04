@@ -17,7 +17,7 @@
       <h2 class="text-black text-xl font-bold">22 April</h2>
       <div class="flex items-center text-dark-blue">
         <ng-icon name="matLocationOn" class="text-xl"></ng-icon>
-        <p class="text-sm">{{ location }}</p>
+        <p class="text-sm">add Location</p>
       </div>
     </div>
     <button
@@ -39,3 +39,8 @@
 >
   <ng-icon name="matAdd" class="text-white text-2xl"></ng-icon>
 </button>
+@for (trip of selectedTrips$ | async; track trip.id){
+<div class="flex flex-col">
+  <h3>{{ trip.name }}</h3>
+</div>
+}

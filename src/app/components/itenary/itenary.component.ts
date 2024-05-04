@@ -1,6 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ItenaryService } from '../../services/itenary.service';
-import { ItenaryFirebaseService } from '../../services/itenary-firebase.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/reducers/reducer';
+import { getTrips } from '../../store/actions/actions';
+import { selectTrips } from '../../store/selectors/selectors';
+import { AsyncPipe } from '@angular/common';
 import { EventComponent } from '../event/event.component';
 import { NzTabPosition, NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
@@ -15,9 +18,6 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 @Component({
   selector: 'app-itenary',
   standalone: true,
-  templateUrl: './itenary.component.html',
-  styleUrl: './itenary.component.css',
-  viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd })],
   imports: [
     EventComponent,
     NzTabsModule,
@@ -25,9 +25,14 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
     NzInputNumberModule,
     NgIconComponent,
   ],
+  templateUrl: './itenary.component.html',
+  styleUrl: './itenary.component.css',
+  viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd })],
 })
-export class ItenaryComponent{
-  itenaryService = inject(ItenaryService);
-  itenaryFirebaseService = inject(ItenaryFirebaseService);
-  location = 'Add location';
+export class ItenaryComponent {
+  selectedTrips$ = this.store.select(selectTrips);
+
+  constructor(private store: Store<AppState>) {
+    this.store.dispatch(getTrips());
+  }
 }
