@@ -17,5 +17,5 @@ export class EventComponent {
     @Input() randCost = '2 590';
     @Input() startTime = '10:00';
     @Input() endTime = '11:30';
-    @Input() editMode = false;
+    @Input() editMode = true;
 }

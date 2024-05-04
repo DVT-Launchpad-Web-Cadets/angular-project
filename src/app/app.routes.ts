@@ -4,6 +4,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { TripsComponent } from './components/trips/trips.component';
 import { ItenaryComponent } from './components/itenary/itenary.component';
 import { TripComponent } from './components/trip/trip.component';
+import { AddItenaryItemFormComponent } from './components/itenary/add-itenary-item-form/add-itenary-item-form.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 

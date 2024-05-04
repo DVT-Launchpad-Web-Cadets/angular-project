@@ -1,18 +1,16 @@
-<div class="w-full flex justify-end gap-2 mb-4">
-  <button
-    class="bg-black flex text-white justify-center items-center rounded-lg self-end p-1 px-2 mt-2"
-  >
-    <ng-icon name="matBarChart" class="text-2xl"></ng-icon>
-  </button>
-  <button
-    nz-button
-    nz-dropdown
-    [nzDropdownMenu]="menu4"
-    class="bg-coral flex text-white justify-center items-center rounded-lg self-end p-1 px-2 mt-2"
-  >
-    <p>Currency</p>
-    <ng-icon name="matKeyboardArrowDown" class="text-2xl"></ng-icon>
-  </button>
+<div class="w-full flex justify-between gap-2 mb-4 items-end">
+    <h2 class="text-black text-xl font-bold">
+        Travel Budget
+    </h2>
+    <div class="flex gap-2">
+        <button class="bg-black flex text-white justify-center items-center rounded-lg self-end p-1 px-2 mt-2">
+            <ng-icon name="matBarChart" class="text-2xl"></ng-icon>
+        </button>
+        <button nz-button nz-dropdown [nzDropdownMenu]="menu4" class="bg-coral flex text-white justify-center items-center rounded-lg self-end p-1 px-2 mt-2">
+            <p>Currency</p>
+            <ng-icon name="matKeyboardArrowDown" class="text-2xl"></ng-icon>
+        </button>
+    </div>
 </div>
 
 <nz-dropdown-menu #menu4="nzDropdownMenu">
