@@ -26,14 +26,5 @@ export class LoginComponent {
   errorMessage: string | null = null;
 
   onSubmit(): void {
-    const { email, password } = this.form.getRawValue();
-    this.authService.login(email, password).subscribe(
-      () => {
-        this.router.navigate(['/']);
-      },
-      (error) => {
-        this.errorMessage = error.message;
-      }
-    );
   }
 }

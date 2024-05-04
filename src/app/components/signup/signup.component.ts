@@ -25,14 +25,5 @@ export class SignupComponent {
   errorMessage: string | null = null;
 
   onSubmit(): void {
-    const { email, username, password } = this.form.getRawValue();
-    this.authService.register(email, username, password).subscribe(
-      () => {
-        this.router.navigate(['/']);
-      },
-      (error) => {
-        this.errorMessage = error.message;
-      }
-    );
   }
 }
