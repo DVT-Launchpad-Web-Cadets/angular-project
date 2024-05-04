@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducers/reducer';
 import { getTrips } from '../../store/actions/actions';
