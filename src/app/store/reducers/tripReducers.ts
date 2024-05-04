@@ -2,11 +2,18 @@ import { createReducer, on } from '@ngrx/store';
 import { TripInterface } from '../../models/trip';
 import { DayInterface } from '../../models/day';
 import {
-  addTrip,
+  addTripComplete,
   deleteTripComplete,
   editTripComplete,
   getTripsComplete,
 } from '../actions/tripActions';
+import { getDaysComplete } from '../actions/dayActions';
+import {
+  addEventComplete,
+  deleteEventComplete,
+  getEventsComplete,
+} from '../actions/eventActions';
+import { EventInterface } from '../../models';
 
 export const tripsFeatureKey = 'trips';
 
@@ -15,6 +22,8 @@ export interface AppState {
   trips: TripInterface[];
   selectedTrip: TripInterface | null;
   days: DayInterface[];
+  selectedDay: DayInterface | null;
+  events: EventInterface[];
 }
 
 const initialState: AppState = {
@@ -22,11 +31,13 @@ const initialState: AppState = {
   trips: [],
   selectedTrip: null,
   days: [],
+  selectedDay: null,
+  events: [],
 };
 
 export const appReducer = createReducer(
   initialState,
-  on(addTrip, (state, { newTrip }) => ({
+  on(addTripComplete, (state, { newTrip }) => ({
     ...state,
     trips: [...state.trips, newTrip],
     selectedTrip: newTrip,
@@ -38,6 +49,29 @@ export const appReducer = createReducer(
   on(deleteTripComplete, (state, { tripId }) => ({
     ...state,
     trips: state.trips.filter((trip) => trip.id !== tripId),
+    selectedTrip: null,
+  })),
+  on(editTripComplete, (state, { updatedTrip }) => ({
+    ...state,
+    trips: state.trips.map((trip) =>
+      trip.id === updatedTrip.id ? { ...trip, ...updatedTrip } : trip
+    ),
+  })),
+  on(getDaysComplete, (state, { days }) => ({
+    ...state,
+    days,
+  })),
+  on(addEventComplete, (state, { newEvent }) => ({
+    ...state,
+    events: [...state.events, newEvent],
+  })),
+  on(getEventsComplete, (state, { events }) => ({
+    ...state,
+    events,
+  })),
+  on(deleteEventComplete, (state, { eventId }) => ({
+    ...state,
+    events: state.events.filter((event) => event.id !== eventId),
     selectedTrip: null,
   })),
   on(editTripComplete, (state, { updatedTrip }) => ({

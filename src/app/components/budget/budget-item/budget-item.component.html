@@ -1,21 +1,12 @@
-<!-- <div class="bg-cream flex justify-between items-center p-2 rounded-lg my-1">
-    <div class="flex gap-2 items-center">
-        <app-tag tagName="{{category}}" [dark]="true"></app-tag>
-        <div>
-            <h2 class="text-black text-md">{{category}}</h2>
-            <p class="text-dark-gray text-sm">{{percentage}}%</p>
-        </div>
+<div
+  class="bg-transparent border-b border-gray flex justify-between items-center p-2 my-1"
+>
+  <div class="flex gap-2 items-center">
+    <app-tag tagName="{{ category }}" [dark]="true"></app-tag>
+    <div>
+      <h2 class="text-black text-md">{{ category }}</h2>
+      <p class="text-dark-gray text-sm">{{ percentage }}%</p>
     </div>
-    <h3 class="text-light-blue text-md font-bold">{{currency}}{{categoryAmount}}</h3>
-</div> -->
-
-<div class="bg-transparent border-b border-gray flex justify-between items-center p-2 my-1">
-    <div class="flex gap-2 items-center">
-        <app-tag tagName="{{category}}" [dark]="true"></app-tag>
-        <div>
-            <h2 class="text-black text-md">{{category}}</h2>
-            <p class="text-dark-gray text-sm">{{percentage}}%</p>
-        </div>
-    </div>
-    <h3 class="text-light-blue text-md font-bold">{{currency}}{{cost}}</h3>
+  </div>
+  <h3 class="text-light-blue text-md font-bold">{{ currency }}{{ cost }}</h3>
 </div>

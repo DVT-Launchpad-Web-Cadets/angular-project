@@ -1,6 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   NonNullableFormBuilder,
@@ -11,7 +10,7 @@ import {
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/reducers/reducer';
+import { AppState } from '../../store/reducers/tripReducers';
 import { TripInterface } from '../../models';
 import { addTrip } from '../../store/actions/tripActions';
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/reducers/reducer';
+import { AppState } from '../../store/reducers/tripReducers';
 import { getTrips } from '../../store/actions/tripActions';
 import { selectTrips } from '../../store/selectors/selectors';
 import { AsyncPipe } from '@angular/common';
