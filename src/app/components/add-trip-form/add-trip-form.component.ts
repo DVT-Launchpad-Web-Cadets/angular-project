@@ -10,6 +10,10 @@ import {
 } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/reducers/reducer';
+import { TripInterface } from '../../models';
+import { addTrip } from '../../store/actions/tripActions';
 
 @Component({
   selector: 'app-add-trip-form',
@@ -20,7 +24,10 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 })
 export class AddTripFormComponent {
   dateFormat = 'yyyy/MM/dd';
-  constructor(private fb: NonNullableFormBuilder) {}
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private store: Store<AppState>
+  ) {}
 
   validateForm: FormGroup<{
     tripName: FormControl<string>;
@@ -34,9 +41,18 @@ export class AddTripFormComponent {
 
   addTrip(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
+      const newTrip: TripInterface = {
+        name: this.validateForm.value.tripName ?? '',
+        destination: this.validateForm.value.tripDestination ?? '',
+        startDate: this.validateForm.value.tripDates
+          ? this.validateForm.value.tripDates[0]
+          : new Date(),
+        endDate: this.validateForm.value.tripDates
+          ? this.validateForm.value.tripDates[1]
+          : new Date(),
+      };
+      this.store.dispatch(addTrip({ newTrip }));
     } else {
-      console.log('invalid form');
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();

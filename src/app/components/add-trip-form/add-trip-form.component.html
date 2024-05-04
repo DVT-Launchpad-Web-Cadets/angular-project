@@ -7,8 +7,8 @@
     (ngSubmit)="addTrip()"
     [formGroup]="validateForm"
   >
+  <nz-form-label class="font-bold">Trip name</nz-form-label>
     <nz-form-item class="w-full">
-      <nz-form-label class="font-bold">Trip name:</nz-form-label>
       <nz-form-control nzHasFeedback nzErrorTip="Trip name is required">
         <input
           nz-input
@@ -20,8 +20,8 @@
         />
       </nz-form-control>
     </nz-form-item>
+    <nz-form-label class="font-bold">Destination</nz-form-label>
     <nz-form-item class="w-full">
-      <nz-form-label class="font-bold">Trip name:</nz-form-label>
       <nz-form-control nzHasFeedback nzErrorTip="Destination is required">
         <input
           nz-input
@@ -33,8 +33,8 @@
         />
       </nz-form-control>
     </nz-form-item>
+    <nz-form-label class="font-bold">Trip Dates</nz-form-label>
     <nz-form-item class="w-full">
-      <nz-form-label class="font-bold">Trip Dates</nz-form-label>
       <nz-form-control nzHasFeedback nzErrorTip="Start date is required">
         <nz-range-picker
           class="w-full rounded-lg p-2"
