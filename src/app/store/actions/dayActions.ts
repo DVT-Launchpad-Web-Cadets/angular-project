@@ -8,7 +8,7 @@ export const getDaysComplete = createAction(
   props<{ days: DayInterface[] }>()
 );
 
-export const setCurrentDAy = createAction(
+export const setCurrentDay = createAction(
   '[DAYS] setCurrentDay',
   props<{ day: DayInterface }>()
 );

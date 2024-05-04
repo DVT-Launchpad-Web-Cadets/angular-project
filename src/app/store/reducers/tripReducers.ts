@@ -7,10 +7,11 @@ import {
   editTripComplete,
   getTripsComplete,
 } from '../actions/tripActions';
-import { getDaysComplete } from '../actions/dayActions';
+import { getDaysComplete, setCurrentDay } from '../actions/dayActions';
 import {
   addEventComplete,
   deleteEventComplete,
+  editEventComplete,
   getEventsComplete,
 } from '../actions/eventActions';
 import { EventInterface } from '../../models';
@@ -61,6 +62,10 @@ export const appReducer = createReducer(
     ...state,
     days,
   })),
+  on(setCurrentDay, (state, { day }) => ({
+    ...state,
+    selectedDay: day,
+  })),
   on(addEventComplete, (state, { newEvent }) => ({
     ...state,
     events: [...state.events, newEvent],
@@ -74,10 +79,10 @@ export const appReducer = createReducer(
     events: state.events.filter((event) => event.id !== eventId),
     selectedTrip: null,
   })),
-  on(editTripComplete, (state, { updatedTrip }) => ({
+  on(editEventComplete, (state, { updatedEvent }) => ({
     ...state,
     trips: state.trips.map((trip) =>
-      trip.id === updatedTrip.id ? { ...trip, ...updatedTrip } : trip
+      trip.id === updatedEvent.id ? { ...trip, ...updatedEvent } : trip
     ),
   }))
 );

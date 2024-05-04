@@ -1,52 +1,69 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, EMPTY, map, switchMap, tap } from 'rxjs';
-import { TripService } from '../../services/trip.service';
-import { addTrip, addTripComplete, deleteTrip, deleteTripComplete, editTrip, editTripComplete, getTrips, getTripsComplete } from '../actions/tripActions';
+import { catchError, EMPTY, map, switchMap } from 'rxjs';
+import { EventService } from '../../services/event.service';
+import {
+  addEvent,
+  addEventComplete,
+  deleteEvent,
+  deleteEventComplete,
+  editEvent,
+  editEventComplete,
+  getEvents,
+  getEventsComplete,
+} from '../actions/eventActions';
 
 @Injectable()
-export class TripsEffects {
-  addTrip$ = createEffect(() => this.actions$.pipe(
-    ofType(addTrip),
-    switchMap(({ newTrip }) => 
-      this.tripsService.addTrip(newTrip).pipe(
-        map((tripId) => addTripComplete({ newTrip: { ...newTrip, id: tripId } })),
-        catchError(() => EMPTY)
-      )
-    )
-  ));
-
-  getTrips$ = createEffect(() =>
+export class EventsEffects {
+  addEvent$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getTrips.type),
-      switchMap(() =>
-        this.tripsService.getTrips().pipe(
-          map((trips) => getTripsComplete({ trips })),
+      ofType(addEvent),
+      switchMap(({ newEvent }) =>
+        this.eventsService.addEvent(newEvent).pipe(
+          map((eventId) =>
+            addEventComplete({ newEvent: { ...newEvent, id: eventId } })
+          ),
           catchError(() => EMPTY)
         )
       )
     )
   );
-  
-  deleteTrip$ = createEffect(() => this.actions$.pipe(
-    ofType(deleteTrip),
-    switchMap(({ tripId }) => 
-      this.tripsService.deleteTrip(tripId).pipe(
-        map(() => deleteTripComplete({ tripId })),
-        catchError(() => EMPTY)
-      )
-    )
-  ));
 
-  editTrip$ = createEffect(() => this.actions$.pipe(
-    ofType(editTrip),
-    switchMap(({ updatedTrip }) => 
-      this.tripsService.editTrip(updatedTrip).pipe(
-        map(() => editTripComplete({ updatedTrip })),
-        catchError(() => EMPTY)
+  getEvents$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getEvents.type),
+      switchMap(() =>
+        this.eventsService.getEvents().pipe(
+          map((events) => getEventsComplete({ events })),
+          catchError(() => EMPTY)
+        )
       )
     )
-  ));
+  );
+
+  deleteEvent$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteEvent),
+      switchMap(({ eventId }) =>
+        this.eventsService.deleteEvent(eventId).pipe(
+          map(() => deleteEventComplete({ eventId })),
+          catchError(() => EMPTY)
+        )
+      )
+    )
+  );
+
+  editEvent$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(editEvent),
+      switchMap(({ updatedEvent }) =>
+        this.eventsService.editEvent(updatedEvent).pipe(
+          map(() => editEventComplete({ updatedEvent })),
+          catchError(() => EMPTY)
+        )
+      )
+    )
+  );
 
   constructor(private actions$: Actions, private eventsService: EventService) {}
 }
