@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DayItenaryComponent } from './day-itenary.component';
+import { LandingPageComponent } from './landing-page.component';
 
-describe('DayItenaryComponent', () => {
-  let component: DayItenaryComponent;
-  let fixture: ComponentFixture<DayItenaryComponent>;
+describe('LandingPageComponent', () => {
+  let component: LandingPageComponent;
+  let fixture: ComponentFixture<LandingPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DayItenaryComponent]
+      imports: [LandingPageComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DayItenaryComponent);
+    fixture = TestBed.createComponent(LandingPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

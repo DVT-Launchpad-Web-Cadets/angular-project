@@ -12,7 +12,7 @@ import { matKeyboardArrowDown, matDelete, matEdit } from '@ng-icons/material-ico
     viewProviders: [provideIcons({ matKeyboardArrowDown, matDelete, matEdit })]
 })
 export class EventComponent {
-    @Input() currency = '$';
+    @Input() currency = '$'; // These will be dynamically changed later
     @Input() currencyCost = '259';
     @Input() randCost = '2 590';
     @Input() startTime = '10:00';

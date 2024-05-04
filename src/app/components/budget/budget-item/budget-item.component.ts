@@ -9,8 +9,8 @@ import { TagComponent } from "../../shared/tag/tag.component";
     imports: [TagComponent]
 })
 export class BudgetItemComponent {
-    @Input() category = "Transport";
-    @Input() percentage = "12";
-    @Input() categoryAmount = "2400";
-    @Input() currency = "R";
+    @Input() category = "";
+    @Input() percentage = "";
+    @Input() cost = "";
+    @Input() currency = "";
 }
