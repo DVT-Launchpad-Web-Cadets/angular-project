@@ -1,22 +1,21 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ItenaryService } from '../../services/itenary.service';
-import { ItenaryFirebaseService } from '../../services/itenary-firebase.service';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/reducers/reducer';
+import { getTrips } from '../../store/actions/actions';
+import { selectTrips } from '../../store/selectors/selectors';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-itenary',
   standalone: true,
-  imports: [],
+  imports: [AsyncPipe],
   templateUrl: './itenary.component.html',
-  styleUrl: './itenary.component.css'
+  styleUrl: './itenary.component.css',
 })
-export class ItenaryComponent implements OnInit {
-  itenaryService = inject(ItenaryService);
-  itenaryFirebaseService = inject(ItenaryFirebaseService);
+export class ItenaryComponent {
+  selectedTrips$ = this.store.select(selectTrips);
 
-
-  ngOnInit(): void {
-    this.itenaryFirebaseService.getItenaries().subscribe((itenaries) => {
-      console.log(itenaries);
-    });
+  constructor(private store: Store<AppState>) {
+    this.store.dispatch(getTrips());
   }
 }

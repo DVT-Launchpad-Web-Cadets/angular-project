@@ -1,1 +1,5 @@
-<p>itenary works!</p>
+@for (trip of selectedTrips$ | async; track trip.id){
+<div class="flex flex-col">
+  <h3>{{ trip.name }}</h3>
+</div>
+}
