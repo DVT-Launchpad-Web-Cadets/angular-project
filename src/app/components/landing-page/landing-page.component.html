@@ -11,14 +11,18 @@
       alt="image description"
     />
     <div class="flex flex-col items-center gap-4">
-      <button
-        class="bg-white flex justify-center p-4 items-center text-lg text-coral w-3/4 rounded-full"
-      >
-        <p>Sign in</p>
-      </button>
-      <app-signup-button
-        class="w-screen flex flex-col items-center justify-center"
-      ></app-signup-button>
+      <a [routerLink]="['/login']" class="bg-white flex justify-center p-4 items-center text-lg text-coral w-3/4 rounded-full">
+        <button
+          class=""
+        >
+          <p>Sign in</p>
+        </button>
+      </a>
+      <a [routerLink]="['/signup']">
+        <app-signup-button
+          class="w-screen flex flex-col items-center justify-center"
+        ></app-signup-button>
+      </a>
     </div>
   </div>
 </div>

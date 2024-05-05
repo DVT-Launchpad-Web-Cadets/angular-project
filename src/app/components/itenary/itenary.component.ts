@@ -14,21 +14,23 @@ import {
   matAdd,
 } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { AddTripFormComponent } from "../add-trip-form/add-trip-form.component";
 
 @Component({
-  selector: 'app-itenary',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    EventComponent,
-    NzTabsModule,
-    NzRadioModule,
-    NzInputNumberModule,
-    NgIconComponent,
-  ],
-  templateUrl: './itenary.component.html',
-  styleUrl: './itenary.component.css',
-  viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd })],
+    selector: 'app-itenary',
+    standalone: true,
+    templateUrl: './itenary.component.html',
+    styleUrl: './itenary.component.css',
+    viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd })],
+    imports: [
+        AsyncPipe,
+        EventComponent,
+        NzTabsModule,
+        NzRadioModule,
+        NzInputNumberModule,
+        NgIconComponent,
+        AddTripFormComponent
+    ]
 })
 export class ItenaryComponent {
   selectedTrips$ = this.store.select(selectTrips);

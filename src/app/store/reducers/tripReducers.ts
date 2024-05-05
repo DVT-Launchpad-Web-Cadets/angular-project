@@ -58,6 +58,7 @@ export const appReducer = createReducer(
     trips: state.trips.map((trip) =>
       trip.id === updatedTrip.id ? { ...trip, ...updatedTrip } : trip
     ),
+    selectedTrip: updatedTrip,
   })),
   on(getDaysComplete, (state, { days }) => ({
     ...state,

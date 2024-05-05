@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { TripCardComponent } from "./trip-card/trip-card.component";
 import { MatIconModule } from '@angular/material/icon';
+import { AddTripFormComponent } from "../add-trip-form/add-trip-form.component";
 
 @Component({
     selector: 'app-trips',
     standalone: true,
     templateUrl: './trips.component.html',
     styleUrl: './trips.component.css',
-    imports: [TripCardComponent, MatIconModule]
+    imports: [TripCardComponent, MatIconModule, AddTripFormComponent]
 })
 export class TripsComponent {
     trips = [
