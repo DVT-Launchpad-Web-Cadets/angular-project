@@ -11,8 +11,8 @@ import { authGuard } from './auth/auth.guard';
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'form', component: AddTripFormComponent },
-  { path: 'myTrips', component: TripsComponent, canActivate: [authGuard] },
-  { path: 'trip/:tripId', component: TripComponent, },
+  { path: 'myTrips', component: TripsComponent,  },
+  { path: 'trip/:tripId', component: TripComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: '**', component: PageNotFoundComponent },

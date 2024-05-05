@@ -76,7 +76,6 @@ export class AddTripFormComponent implements OnInit {
     } 
 
     this.selectedTrip$.subscribe((trip) => {
-      //not sure if this is the correct way to do this
       if (trip) {
         this.tripName = trip.name;
         this.tripDestination = trip.destination;

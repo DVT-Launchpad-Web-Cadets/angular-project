@@ -16,7 +16,7 @@ import {
 })
 export class TripCardComponent {
   @Input() name = '';
-  @Input() startDate = '';
-  @Input() endDate = '';
+  @Input() startDate = new Date();
+  @Input() endDate = new Date();
   @Input() location = '';
 }
