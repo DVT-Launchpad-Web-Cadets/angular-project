@@ -1,9 +1,8 @@
 import { LocationInterface } from "./location";
 
 export interface DayInterface {
-    id: number;
-    tripId: number;
+    id?: string;
+    tripId: string;
     date: string;
-    location: LocationInterface;
-    events: EventInterface[];
+    location?: LocationInterface;
 }

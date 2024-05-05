@@ -1,6 +1,6 @@
 export interface TripInterface {
   id?: string;
-  userId?: number;
+  userId?: string;
   name: string;
   destination: string;
   startDate: Date;

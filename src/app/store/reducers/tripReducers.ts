@@ -7,7 +7,7 @@ import {
   editTripComplete,
   getTripsComplete,
 } from '../actions/tripActions';
-import { getDaysComplete, setCurrentDay } from '../actions/dayActions';
+import { getDaysComplete, setCurrentDay, setDaysComplete } from '../actions/dayActions';
 import {
   addEventComplete,
   deleteEventComplete,
@@ -29,7 +29,7 @@ export interface AppState {
 }
 
 const initialState: AppState = {
-  userId: null,
+  userId: "123",
   trips: [],
   selectedTrip: null,
   days: [],
@@ -61,6 +61,10 @@ export const appReducer = createReducer(
     selectedTrip: updatedTrip,
   })),
   on(getDaysComplete, (state, { days }) => ({
+    ...state,
+    days,
+  })),
+  on(setDaysComplete, (state, { days }) => ({
     ...state,
     days,
   })),

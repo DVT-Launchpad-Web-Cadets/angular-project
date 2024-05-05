@@ -10,15 +10,26 @@ import {
 import { Observable, from } from 'rxjs';
 import { EventInterface, TripInterface } from '../models';
 import { doc } from '@firebase/firestore';
+import { selectSelectedDay } from '../store/selectors/selectors';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/reducers/tripReducers';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
-  constructor() {}
   firestore = inject(Firestore);
   eventsCollection = collection(this.firestore, 'events');
 
+  selectedDay$ = this.store.select(selectSelectedDay);
+  selectedDayId = '';
+
+  constructor(private store: Store<AppState>) {
+    this.selectedDay$.subscribe((day) => {
+      this.selectedDayId = day?.id ?? '';
+    });
+  }
+  // I actually think this will not be needed
   getEvents(): Observable<EventInterface[]> {
     return collectionData(this.eventsCollection, {
       idField: 'id',

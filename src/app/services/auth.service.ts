@@ -4,7 +4,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  updateProfile,
   user,
 } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
@@ -33,10 +32,7 @@ export class AuthService {
   login(email: string, password: string): Observable<string> {
     return from(
       signInWithEmailAndPassword(this.firebaseAuth, email, password).then(
-        (response) => {
-          console.log('Response:', response); // Log the response object
-          return response.user.uid;
-        }
+        (response) => response.user.uid
       )
     );
   }

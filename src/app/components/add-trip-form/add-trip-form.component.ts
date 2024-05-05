@@ -17,7 +17,13 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { matSettings, matAdd } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { selectSelectedTrip } from '../../store/selectors/selectors';
+import {
+  selectSelectedTrip,
+  selectUser,
+} from '../../store/selectors/selectors';
+import createDays from '../../utils/createDays-utils';
+import { addDay, setDays } from '../../store/actions/dayActions';
+import { concatMap, from } from 'rxjs';
 
 @Component({
   selector: 'app-add-trip-form',
@@ -45,6 +51,7 @@ export class AddTripFormComponent implements OnInit {
   buttonText = 'Add Trip';
 
   selectedTrip$ = this.store.select(selectSelectedTrip);
+  userId$ = this.store.select(selectUser);
 
   tripName = '';
   tripDestination = '';
@@ -65,15 +72,13 @@ export class AddTripFormComponent implements OnInit {
   constructor(
     private fb: NonNullableFormBuilder,
     private store: Store<AppState>
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
     if (this.edit) {
       this.title = 'Edit Trip';
       this.buttonText = 'Edit Trip';
-    } 
+    }
 
     this.selectedTrip$.subscribe((trip) => {
       if (trip) {
@@ -100,6 +105,22 @@ export class AddTripFormComponent implements OnInit {
         this.store.dispatch(editTrip({ updatedTrip: newTrip }));
       } else {
         this.store.dispatch(addTrip({ newTrip }));
+        const daysBetween = createDays(
+          newTrip.startDate,
+          newTrip.endDate,
+          'tripId'
+        );
+        this.store.dispatch(setDays({ days: daysBetween }));
+        this.selectedTrip$.subscribe((trip) => {
+          const daysBetween = createDays(
+            newTrip.startDate,
+            newTrip.endDate,
+            trip?.id ?? ''
+          );
+          for (const day of daysBetween) {
+            this.store.dispatch(addDay({ newDay: day }));
+          }
+        });
       }
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
