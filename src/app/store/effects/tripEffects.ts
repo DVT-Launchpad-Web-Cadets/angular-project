@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, EMPTY, map, switchMap, tap } from 'rxjs';
 import { TripService } from '../../services/trip.service';
 import { addTrip, addTripComplete, deleteTrip, deleteTripComplete, editTrip, editTripComplete, getTrips, getTripsComplete } from '../actions/tripActions';
+import { TripInterface } from '../../models';
 
 @Injectable()
 export class TripsEffects {
@@ -10,7 +11,7 @@ export class TripsEffects {
     ofType(addTrip),
     switchMap(({ newTrip }) => 
       this.tripsService.addTrip(newTrip).pipe(
-        map((tripId) => addTripComplete({ newTrip: { ...newTrip, id: tripId } })),
+        map((tripId) => addTripComplete({ newTrip: { ...(newTrip as TripInterface), id: tripId } })),
         catchError(() => EMPTY)
       )
     )
@@ -18,7 +19,7 @@ export class TripsEffects {
 
   getTrips$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getTrips.type),
+      ofType(getTrips),
       switchMap(() =>
         this.tripsService.getTrips().pipe(
           map((trips) => getTripsComplete({ trips })),

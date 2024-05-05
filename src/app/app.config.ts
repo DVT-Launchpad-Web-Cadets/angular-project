@@ -20,6 +20,8 @@ import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
+import { AuthEffects } from './store/effects/authEffects';
+import { DayEffects } from './store/effects/dayEffects';
 
 registerLocaleData(en);
 
@@ -42,5 +44,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimationsAsync(),
     provideEffects(TripsEffects),
+    provideEffects(AuthEffects),
+    provideEffects(DayEffects),
+    provideEffects(DayEffects),
   ],
 };

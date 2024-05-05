@@ -15,11 +15,12 @@ import {
   getEventsComplete,
 } from '../actions/eventActions';
 import { EventInterface } from '../../models';
+import { loginComplete, logoutComplete, signUpComplete } from '../actions/authActions';
 
 export const tripsFeatureKey = 'trips';
 
 export interface AppState {
-  userId: number | null;
+  userId: string | null;
   trips: TripInterface[];
   selectedTrip: TripInterface | null;
   days: DayInterface[];
@@ -84,5 +85,17 @@ export const appReducer = createReducer(
     trips: state.trips.map((trip) =>
       trip.id === updatedEvent.id ? { ...trip, ...updatedEvent } : trip
     ),
+  })),
+  on(loginComplete, (state, { userId }) => ({
+    ...state,
+    userId,
+  })),
+  on(signUpComplete, (state, { userId }) => ({
+    ...state,
+    userId,
+  })),
+  on(logoutComplete, (state) => ({
+    ...state,
+    userId: null,
   }))
 );

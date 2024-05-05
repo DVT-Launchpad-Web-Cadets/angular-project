@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { SignupButtonComponent } from "../shared/signup-button/signup-button.component";
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/reducers/tripReducers';
+import { login } from '../../store/actions/authActions';
 
 
 @Component({
@@ -25,15 +28,10 @@ export class LoginComponent {
   });
   errorMessage: string | null = null;
 
+  constructor(private store: Store<AppState>) {}
+  
   onSubmit(): void {
     const { email, password } = this.form.getRawValue();
-    this.authService.login(email, password).subscribe(
-      () => {
-        this.router.navigate(['/']);
-      },
-      (error) => {
-        this.errorMessage = error.message;
-      }
-    );
+    this.store.dispatch(login({ email, password}));
   }
 }

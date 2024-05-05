@@ -3,6 +3,11 @@ import { AppState, tripsFeatureKey } from '../reducers/tripReducers';
 
 export const selectFeature = createFeatureSelector<AppState>(tripsFeatureKey);
 
+export const selectUser = createSelector(
+  selectFeature,
+  (state) => state.userId
+);
+
 export const selectTrips = createSelector(
   selectFeature,
   (state) => state.trips
