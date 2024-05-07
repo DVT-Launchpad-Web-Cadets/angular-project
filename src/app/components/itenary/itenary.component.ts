@@ -59,8 +59,9 @@ export class ItenaryComponent implements OnInit {
     this.tripId = this.route.snapshot.params['tripId'];
     this.store.dispatch(getEvents({ tripId: this.tripId }));
 
-    this.store.select(selectSelectedTrip).subscribe((trip) => {
+    this.selectedTrip$.subscribe((trip) => {
       if (trip?.id === this.tripId) {
+        console.log('trip', trip);
         this.trip = trip;
         this.store.select(selectEvents).subscribe((events) => {
           this.daysBetween = createDays(
@@ -69,6 +70,7 @@ export class ItenaryComponent implements OnInit {
             this.tripId,
             events
           );
+          console.log('daysBetween', this.daysBetween);
         });
       }
     });

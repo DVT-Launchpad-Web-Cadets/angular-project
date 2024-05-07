@@ -32,16 +32,16 @@ export class EventsEffects {
 
   getEvents$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getEvents.type),
-      switchMap((tripId) =>
-        this.eventsService.getEvents(tripId).pipe(
-          map((events) => getEventsComplete({ events })),
+      ofType(getEvents),
+      switchMap(action => {
+        const tripId = action.tripId; // Extract tripId from the action payload
+        return this.eventsService.getEvents(tripId).pipe(
+          map(events => getEventsComplete({ events })),
           catchError(() => EMPTY)
-        )
-      )
+        );
+      })
     )
   );
-
   deleteEvent$ = createEffect(() =>
     this.actions$.pipe(
       ofType(deleteEvent.type),
