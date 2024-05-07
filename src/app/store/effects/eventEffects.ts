@@ -18,7 +18,7 @@ import { EventInterface } from '../../models';
 export class EventsEffects {
   addEvent$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(addEvent.type),
+      ofType(addEvent),
       switchMap(({ newEvent }) =>
         this.eventsService.addEvent(newEvent).pipe(
           map((eventId) =>
@@ -33,8 +33,8 @@ export class EventsEffects {
   getEvents$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getEvents.type),
-      switchMap(() =>
-        this.eventsService.getEvents().pipe(
+      switchMap((tripId) =>
+        this.eventsService.getEvents(tripId).pipe(
           map((events) => getEventsComplete({ events })),
           catchError(() => EMPTY)
         )

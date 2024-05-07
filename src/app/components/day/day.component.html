@@ -1,0 +1,21 @@
+<div class="flex justify-between items-center mb-4">
+  <div>
+    <h2 class="text-black text-xl font-bold">{{day?.date}}</h2>
+    <div class="flex items-center text-dark-blue">
+      <ng-icon name="matLocationOn" class="text-xl"></ng-icon>
+      <p class="text-sm">add Location</p>
+    </div>
+  </div>
+  <button
+    class="bg-black size-10 flex justify-center items-center rounded-lg shadow-2xl self-end"
+  >
+    <ng-icon name="matEdit" class="text-white text-2xl"></ng-icon>
+  </button>
+</div>
+
+
+@for(event of events; track event.id){
+    <app-event [event]="event" [editMode]="false"></app-event>
+}
+
+<app-event-form [edit]="false" [date]="day?.date"></app-event-form>

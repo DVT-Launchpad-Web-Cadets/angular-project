@@ -17,8 +17,8 @@ export class DayEffects {
   getDays$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getDays.type),
-      switchMap(() =>
-        this.dayService.getDays().pipe(
+      switchMap((tripId) =>
+        this.dayService.getDays(tripId).pipe(
           map((days) => getDaysComplete({ days })),
           catchError(() => EMPTY)
         )

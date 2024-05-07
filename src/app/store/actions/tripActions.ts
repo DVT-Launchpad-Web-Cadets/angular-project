@@ -37,3 +37,8 @@ export const editTripComplete = createAction(
   '[TRIPS] editTripComplete',
   props<{ updatedTrip: TripInterface }>()
 );
+
+export const selectTrip = createAction(
+  '[TRIPS] selectTrip',
+  props<{ tripId: string }>()
+);

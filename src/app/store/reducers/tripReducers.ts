@@ -6,8 +6,15 @@ import {
   deleteTripComplete,
   editTripComplete,
   getTripsComplete,
+  selectTrip,
 } from '../actions/tripActions';
-import { getDaysComplete, setCurrentDay, setDaysComplete } from '../actions/dayActions';
+import {
+  addDay,
+  addDayComplete,
+  getDaysComplete,
+  setCurrentDay,
+  setDaysComplete,
+} from '../actions/dayActions';
 import {
   addEventComplete,
   deleteEventComplete,
@@ -15,7 +22,11 @@ import {
   getEventsComplete,
 } from '../actions/eventActions';
 import { EventInterface } from '../../models';
-import { loginComplete, logoutComplete, signUpComplete } from '../actions/authActions';
+import {
+  loginComplete,
+  logoutComplete,
+  signUpComplete,
+} from '../actions/authActions';
 
 export const tripsFeatureKey = 'trips';
 
@@ -29,7 +40,7 @@ export interface AppState {
 }
 
 const initialState: AppState = {
-  userId: "123",
+  userId: 'axD1V9RNXDTjvGcArDkaYBSguk22',
   trips: [],
   selectedTrip: null,
   days: [],
@@ -60,6 +71,10 @@ export const appReducer = createReducer(
     ),
     selectedTrip: updatedTrip,
   })),
+  on(selectTrip, (state, { tripId }) => ({
+    ...state,
+    selectedTrip: state.trips.find(trip => trip.id === tripId) || null,
+  })),
   on(getDaysComplete, (state, { days }) => ({
     ...state,
     days,
@@ -67,6 +82,10 @@ export const appReducer = createReducer(
   on(setDaysComplete, (state, { days }) => ({
     ...state,
     days,
+  })),
+  on(addDayComplete, (state, { newDay }) => ({
+    ...state,
+    days: [...state.days, newDay],
   })),
   on(setCurrentDay, (state, { day }) => ({
     ...state,

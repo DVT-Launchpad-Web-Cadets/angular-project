@@ -5,4 +5,5 @@ export interface DayInterface {
     tripId: string;
     date: string;
     location?: LocationInterface;
+    events?: EventInterface[];
 }

@@ -10,9 +10,9 @@ import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
-  { path: 'form', component: AddTripFormComponent },
-  { path: 'myTrips', component: TripsComponent,  },
-  { path: 'trip/:tripId', component: TripComponent, canActivate: [authGuard] },
+  { path: 'form', component: AddTripFormComponent, canActivate: [authGuard] },
+  { path: 'myTrips', component: TripsComponent },
+  { path: 'trip/:tripId', component: TripComponent, canActivate: [authGuard]},
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: '**', component: PageNotFoundComponent },

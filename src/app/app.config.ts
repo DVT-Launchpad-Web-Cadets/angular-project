@@ -22,6 +22,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient } from '@angular/common/http';
 import { AuthEffects } from './store/effects/authEffects';
 import { DayEffects } from './store/effects/dayEffects';
+import { EventsEffects } from './store/effects/eventEffects';
 
 registerLocaleData(en);
 
@@ -46,6 +47,6 @@ export const appConfig: ApplicationConfig = {
     provideEffects(TripsEffects),
     provideEffects(AuthEffects),
     provideEffects(DayEffects),
-    provideEffects(DayEffects),
+    provideEffects(EventsEffects),
   ],
 };

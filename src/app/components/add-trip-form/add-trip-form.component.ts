@@ -21,9 +21,6 @@ import {
   selectSelectedTrip,
   selectUser,
 } from '../../store/selectors/selectors';
-import createDays from '../../utils/createDays-utils';
-import { addDay, setDays } from '../../store/actions/dayActions';
-import { concatMap, from } from 'rxjs';
 
 @Component({
   selector: 'app-add-trip-form',
@@ -104,23 +101,29 @@ export class AddTripFormComponent implements OnInit {
       if (this.edit) {
         this.store.dispatch(editTrip({ updatedTrip: newTrip }));
       } else {
+        // need to improve this
         this.store.dispatch(addTrip({ newTrip }));
-        const daysBetween = createDays(
-          newTrip.startDate,
-          newTrip.endDate,
-          'tripId'
-        );
-        this.store.dispatch(setDays({ days: daysBetween }));
-        this.selectedTrip$.subscribe((trip) => {
-          const daysBetween = createDays(
-            newTrip.startDate,
-            newTrip.endDate,
-            trip?.id ?? ''
-          );
-          for (const day of daysBetween) {
-            this.store.dispatch(addDay({ newDay: day }));
-          }
-        });
+        // const daysBetween = createDays(
+        //   newTrip.startDate,
+        //   newTrip.endDate,
+        //   'tripId'
+        // );
+        // this.store.dispatch(addTrip({ newTrip }));
+        // this.selectedTrip$.pipe(
+        //   filter((trip) => !!trip?.id),
+        //   concatMap((trip) => {
+        //     const daysBetween = createDays(
+        //       newTrip.startDate,
+        //       newTrip.endDate,
+        //       trip!.id!
+        //     );
+        //     return from(
+        //       daysBetween.map((day) =>
+        //         this.store.dispatch(addDay({ newDay: day }))
+        //       )
+        //     );
+        //   })
+        // );
       }
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {

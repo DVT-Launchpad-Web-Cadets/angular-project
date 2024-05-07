@@ -1,7 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { DayInterface } from '../../models';
 
-export const getDays = createAction('[DAYS] getDays');
+export const getDays = createAction(
+  '[DAYS] getDays',
+  props<{ tripId: string }>()
+);
 
 export const getDaysComplete = createAction(
   '[DAYS] getDaysComplete',

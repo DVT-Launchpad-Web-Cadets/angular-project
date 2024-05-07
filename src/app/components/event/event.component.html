@@ -1,20 +1,16 @@
 <div class="flex items-center w-full justify-between px-4">
   <div class="flex items-center gap-2">
     <div class="size-3 rounded-full bg-light-blue"></div>
-    <p class="text-dark-gray text-sm">{{ startTime }}-{{ endTime }}</p>
+    <p class="text-dark-gray text-sm">{{ event?.startTime }}-{{ event?.id }}</p>
   </div>
   @if (editMode) {
   <div class="flex items-center gap-2">
+    <app-event-form [edit]="true"></app-event-form>
     <button
-    class="bg-dark-blue text-white flex justify-center items-center rounded-lg px-4 py-1"
-  >
-    <ng-icon name="matEdit" class="text-white text-lg"></ng-icon>
-  </button>
-  <button
-    class="bg-coral text-white flex justify-center items-center rounded-lg px-4 py-1"
-  >
-    <ng-icon name="matDelete" class="text-white text-lg"></ng-icon>
-  </button>
+      class="bg-coral text-white flex justify-center items-center rounded-lg px-4 py-1"
+    >
+      <ng-icon name="matDelete" class="text-white text-lg"></ng-icon>
+    </button>
   </div>
   }
 </div>
@@ -29,7 +25,7 @@
       <div>
         <h3 class="text-black text-lg">Breakfast</h3>
         <p class="text-dark-gray text-xs">
-          {{ currency }}{{ currencyCost }} | R{{ randCost }}
+          {{ currency }}{{ event?.cost }} | R{{ randCost }}
         </p>
       </div>
     </div>

@@ -33,5 +33,6 @@ export class LoginComponent {
   onSubmit(): void {
     const { email, password } = this.form.getRawValue();
     this.store.dispatch(login({ email, password}));
+    this.router.navigate(['/myTrips']);
   }
 }

@@ -32,5 +32,6 @@ export class SignupComponent {
   onSubmit(): void {
     const { email, username, password } = this.form.getRawValue();
     this.store.dispatch(signUp({ email, username, password }));
+    this.router.navigate(['/myTrips']);
   }
 }

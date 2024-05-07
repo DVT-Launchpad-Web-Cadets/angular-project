@@ -5,7 +5,9 @@ import {
   collection,
   collectionData,
   deleteDoc,
+  query,
   setDoc,
+  where,
 } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
 import { EventInterface, TripInterface } from '../models';
@@ -29,14 +31,18 @@ export class EventService {
       this.selectedDayId = day?.id ?? '';
     });
   }
-  // I actually think this will not be needed
-  getEvents(): Observable<EventInterface[]> {
-    return collectionData(this.eventsCollection, {
-      idField: 'id',
-    }) as Observable<EventInterface[]>;
+
+
+  getEvents(tripId: string): Observable<EventInterface[]> {
+    const q = query(
+      this.eventsCollection,
+      where('tripId', '==', tripId)
+    );
+    return collectionData(q, { idField: 'id' }) as Observable<EventInterface[]>;
   }
 
   addEvent(event: EventInterface): Observable<string> {
+    console.log(" event ", event);
     const promise = addDoc(this.eventsCollection, event).then(
       (response) => response.id
     );

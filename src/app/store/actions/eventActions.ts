@@ -1,7 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { EventInterface } from '../../models';
 
-export const getEvents = createAction('[EVENTS] getEvents');
+export const getEvents = createAction(
+  '[EVENTS] getEvents',
+  props<{ tripId: string }>()
+);
 
 export const getEventsComplete = createAction(
   '[EVENTS] getEventsComplete',
