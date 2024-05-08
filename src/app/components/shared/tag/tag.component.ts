@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { matAirplanemodeActive, matShoppingBag, matHotel, matRestaurant, matCameraAlt, matDirectionsRun, matLocalFlorist, matCoffee, matTrain, matQuestionMark } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tag',
   standalone: true,
-  imports: [NgIconComponent],
+  imports: [NgIconComponent, CommonModule],
   templateUrl: './tag.component.html',
   styleUrl: './tag.component.css',
   viewProviders: [provideIcons({ matAirplanemodeActive, matShoppingBag, matHotel, matRestaurant, matCameraAlt, matDirectionsRun, matLocalFlorist, matCoffee, matTrain, matQuestionMark })]
@@ -14,6 +15,8 @@ export class TagComponent {
   @Input() tagName = '';
   @Input() tagLabel = '';
   @Input() dark = false;
+  @Output() tagClick: EventEmitter<string> = new EventEmitter<string>();
+
   icon = '';
 
   ngOnInit() {
@@ -57,4 +60,8 @@ export class TagComponent {
         break;
     }
   }
+
+  handleClick() {
+    this.tagClick.emit(this.tagName);
+  };
 }

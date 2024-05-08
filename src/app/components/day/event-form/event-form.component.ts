@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  Type,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -24,10 +31,15 @@ import { addEvent, editEvent } from '../../../store/actions/eventActions';
 import { EventInterface } from '../../../models';
 import { ActivatedRoute } from '@angular/router';
 import { selectEvents } from '../../../store/selectors/selectors';
+import { TagComponent } from '../../shared/tag/tag.component';
+import { Tag } from '../../../models';
 
 @Component({
   selector: 'app-event-form',
   standalone: true,
+  viewProviders: [provideIcons({ matEdit, matAdd })],
+  templateUrl: './event-form.component.html',
+  styleUrl: './event-form.component.css',
   imports: [
     NzFormModule,
     FormsModule,
@@ -40,12 +52,14 @@ import { selectEvents } from '../../../store/selectors/selectors';
     NzInputModule,
     NzDrawerModule,
     NgIconComponent,
+    TagComponent,
   ],
-  viewProviders: [provideIcons({ matEdit, matAdd })],
-  templateUrl: './event-form.component.html',
-  styleUrl: './event-form.component.css',
 })
 export class EventFormComponent implements OnInit {
+  @Input() editMode = true;
+  @Input() eventInput: EventInterface | undefined = undefined;
+
+
   constructor(
     private fb: NonNullableFormBuilder,
     private store: Store<AppState>,
@@ -76,7 +90,7 @@ export class EventFormComponent implements OnInit {
     eventName: FormControl<string>;
     eventStartTime: FormControl<Date | null>;
     eventEndTime: FormControl<Date | null>;
-    eventTags: FormControl<string>;
+    eventTags: FormControl<any>; // struggling to get this to work
     eventNotes: FormControl<string>;
     locationUrl: FormControl<string>;
     eventLatitude: FormControl<string>;
@@ -84,28 +98,27 @@ export class EventFormComponent implements OnInit {
     eventCost: FormControl<number>;
     eventCurrency: FormControl<string>;
   }> = this.fb.group({
-    eventName: ['', [Validators.required]],
-    eventStartTime: this.fb.control<Date | null>(null),
-    eventEndTime: this.fb.control<Date | null>(null),
-    eventTags: [''],
-    eventNotes: [''],
-    locationUrl: ['', [Validators.required]],
-    eventLatitude: [''],
-    eventLongitude: [''],
-    eventCost: [0, [Validators.required]],
-    eventCurrency: ['R', [Validators.required]],
+    eventName: [this.eventInput?.name ?? '', [Validators.required]],
+    eventStartTime: this.fb.control<Date | null>(this.eventInput?.startTime ?? null),
+    eventEndTime: this.fb.control<Date | null>(this.eventInput?.endTime ?? null),
+    eventTags: [this.eventInput?.tag ?? 'Other', [Validators.required]],
+    eventNotes: [this.eventInput?.notes ?? ''],
+    locationUrl: [this.eventInput?.locationUrl ?? '', [Validators.required]],
+    eventLatitude: [this.eventInput?.latitude ?? ''],
+    eventLongitude: [this.eventInput?.longitude ?? ''],
+    eventCost: [this.eventInput?.cost ?? 0, [Validators.required]],
+    eventCurrency: [this.eventInput?.currency ?? 'R', [Validators.required]],
   });
 
   addEvent(): void {
     if (this.validateForm.valid) {
-      console.log(this.validateForm.value);
       const newEvent: EventInterface = {
         name: this.validateForm.value.eventName ?? '',
         tripId: this.tripId,
         date: this.date ?? '',
         startTime: this.validateForm.value.eventStartTime ?? new Date(),
         endTime: this.validateForm.value.eventEndTime ?? new Date(),
-        tag: 'Activity',
+        tag: this.validateForm.value.eventTags ?? 'Other',
         notes: this.validateForm.value.eventNotes,
         locationUrl: this.validateForm.value.locationUrl,
         latitude: this.validateForm.value.eventLatitude,
@@ -138,4 +151,17 @@ export class EventFormComponent implements OnInit {
     this.visible = false;
     this.closeDrawer.emit();
   }
+
+  options: { value: Tag }[] = [
+     { value: 'Food' },
+      { value: 'Transport' },
+      { value: 'Lodging' },
+      { value: 'Activity' },
+      { value: 'Historical' },
+      { value: 'Shopping' },
+      { value: 'Flight' },
+      { value: 'Coffee' },
+      { value: 'Entertainment' },
+      { value: 'Other' },
+  ];
 }

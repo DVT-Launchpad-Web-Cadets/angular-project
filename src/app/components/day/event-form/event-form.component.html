@@ -51,6 +51,25 @@
           </nz-form-control>
         </nz-form-item>
 
+        <nz-form-label class="font-bold">Event Type</nz-form-label>
+        <nz-form-item class="w-full">
+          <nz-form-control nzHasFeedback nzErrorTip="Event type required">
+            <nz-select
+              formControlName="eventTags"
+              nzPlaceHolder="Select event type"
+              class="w-full"
+              required
+            >
+            @for (option of options; track option.value) {
+              <nz-option
+                [nzLabel]="option.value"
+                [nzValue]="option.value"
+              ></nz-option>
+              }
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
         <div class="flex justify-between w-full">
           <div class="flex flex-col items-start w-5/12">
             <nz-form-label class="font-bold">Start Time</nz-form-label>

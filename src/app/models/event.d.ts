@@ -12,17 +12,29 @@ export interface EventInterface {
   longitude?: string;
   locationUrl?: string;
   tag:
-    | 'Food'
-    | 'Transport'
-    | 'Lodging'
-    | 'Activity'
-    | 'Histroical'
-    | 'Shppoing'
-    | 'Flight'
-    | 'Coffee'
-    | '`Entertainment'
-    | 'Other';
+  | 'Food'
+  | 'Transport'
+  | 'Lodging'
+  | 'Activity'
+  | 'Historical'
+  | 'Shopping'
+  | 'Flight'
+  | 'Coffee'
+  | 'Entertainment'
+  | 'Other';
   notes?: string;
   cost: number;
   currency?: string;
 }
+
+export type Tag = 
+  | 'Food'
+  | 'Transport'
+  | 'Lodging'
+  | 'Activity'
+  | 'Historical'
+  | 'Shopping'
+  | 'Flight'
+  | 'Coffee'
+  | 'Entertainment'
+  | 'Other';

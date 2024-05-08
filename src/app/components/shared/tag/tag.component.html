@@ -1,17 +1,41 @@
-@if (dark) {
 <div class="flex flex-col">
+  @if (dark) {
   <div
     class="size-12 rounded-full bg-light-blue flex items-center justify-center"
   >
     <ng-icon name="{{ icon }}" class="text-white text-3xl"></ng-icon>
   </div>
-  <p class="text-white text-sm">{{ tagLabel }}</p>
-</div>
-} @else {
-<div class="flex flex-col">
+  } @else {
   <div class="size-12 rounded-full bg-white flex items-center justify-center">
     <ng-icon name="{{ icon }}" class="text-light-blue text-3xl"></ng-icon>
   </div>
-  <p class="text-light-blue text-sm">{{ tagLabel }}</p>
+  }
+  <p class="text-white text-sm">{{ tagLabel }}</p>
 </div>
-}
+
+<!-- <div
+  class="flex flex-col"
+  [ngClass]="{ 'dark-mode': dark, 'light-mode': !dark }"
+>
+  <div
+    class="size-12 rounded-full"
+    [ngClass]="{
+      'bg-light-blue': dark,
+      'bg-white': !dark,
+      'text-white': dark,
+      'text-light-blue': !dark,
+      'flex items-center justify-center': true
+    }"
+  >
+    <ng-icon name="{{ icon }}" class="text-3xl"></ng-icon>
+  </div>
+  <p
+    [ngClass]="{
+      'text-white': dark,
+      'text-light-blue': !dark,
+      'text-sm': true
+    }"
+  >
+    {{ tagLabel }}
+  </p>
+</div> -->

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducers/tripReducers';
 import { getTrips } from '../../store/actions/tripActions';
@@ -63,7 +63,7 @@ export class ItenaryComponent implements OnInit {
       if (trip?.id === this.tripId) {
         console.log('trip', trip);
         this.trip = trip;
-        this.store.select(selectEvents).subscribe((events) => {
+        this.selectedEvents$.subscribe((events) => {
           this.daysBetween = createDays(
             trip.startDate,
             trip.endDate,
