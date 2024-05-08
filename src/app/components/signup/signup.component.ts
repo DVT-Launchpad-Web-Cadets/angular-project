@@ -2,11 +2,13 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
 })
@@ -23,14 +25,5 @@ export class SignupComponent {
   errorMessage: string | null = null;
 
   onSubmit(): void {
-    const { email, username, password } = this.form.getRawValue();
-    this.authService.register(email, username, password).subscribe(
-      () => {
-        this.router.navigate(['/']);
-      },
-      (error) => {
-        this.errorMessage = error.message;
-      }
-    );
   }
 }
