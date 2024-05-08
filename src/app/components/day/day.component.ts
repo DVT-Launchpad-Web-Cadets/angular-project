@@ -35,7 +35,7 @@ export class DayComponent {
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.events = this.day?.events || [];
+    this.events = [];
     this.tripId = this.route.snapshot.params['tripId'];
     this.store.dispatch(getEvents({ tripId: this.tripId }));
 

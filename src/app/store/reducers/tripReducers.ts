@@ -9,13 +9,6 @@ import {
   selectTrip,
 } from '../actions/tripActions';
 import {
-  addDay,
-  addDayComplete,
-  getDaysComplete,
-  setCurrentDay,
-  setDaysComplete,
-} from '../actions/dayActions';
-import {
   addEventComplete,
   deleteEventComplete,
   editEventComplete,
@@ -73,23 +66,7 @@ export const appReducer = createReducer(
   })),
   on(selectTrip, (state, { tripId }) => ({
     ...state,
-    selectedTrip: state.trips.find(trip => trip.id === tripId) || null,
-  })),
-  on(getDaysComplete, (state, { days }) => ({
-    ...state,
-    days,
-  })),
-  on(setDaysComplete, (state, { days }) => ({
-    ...state,
-    days,
-  })),
-  on(addDayComplete, (state, { newDay }) => ({
-    ...state,
-    days: [...state.days, newDay],
-  })),
-  on(setCurrentDay, (state, { day }) => ({
-    ...state,
-    selectedDay: day,
+    selectedTrip: state.trips.find((trip) => trip.id === tripId) || null,
   })),
   on(addEventComplete, (state, { newEvent }) => ({
     ...state,
@@ -102,7 +79,6 @@ export const appReducer = createReducer(
   on(deleteEventComplete, (state, { eventId }) => ({
     ...state,
     events: state.events.filter((event) => event.id !== eventId),
-    selectedTrip: null,
   })),
   on(editEventComplete, (state, { updatedEvent }) => ({
     ...state,

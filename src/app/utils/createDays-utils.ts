@@ -1,4 +1,4 @@
-import { DayInterface, EventInterface } from '../models';
+import { DayInterface } from '../models';
 
 interface FirebaseTimestamp {
   seconds: number;
@@ -28,8 +28,6 @@ function firebaseTimestampToDate(timestamp: FirebaseTimestamp): Date {
 export default function createDays(
   startDate: Date | FirebaseTimestamp,
   endDate: Date | FirebaseTimestamp,
-  tripId: string,
-  events: EventInterface[]
 ): DayInterface[] {
   console.log('startDate', startDate);
   const days: DayInterface[] = [];
@@ -62,14 +60,8 @@ export default function createDays(
   while (currentDate <= endDateObject) {
     const formattedDate = formatDate(currentDate);
 
-    const dayEvents = events.filter((event) => {
-      return formatDate(new Date(event.date)) === formattedDate;
-    });
-
     days.push({
-      tripId,
       date: formattedDate,
-      events: dayEvents,
     });
     currentDate.setDate(currentDate.getDate() + 1);
   }

@@ -63,15 +63,10 @@ export class ItenaryComponent implements OnInit {
       if (trip?.id === this.tripId) {
         console.log('trip', trip);
         this.trip = trip;
-        this.selectedEvents$.subscribe((events) => {
           this.daysBetween = createDays(
             trip.startDate,
             trip.endDate,
-            this.tripId,
-            events
           );
-          console.log('daysBetween', this.daysBetween);
-        });
       }
     });
   }
