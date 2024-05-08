@@ -31,8 +31,6 @@ export class EventComponent {
   randCost = 300;
 
   constructor(private store: Store<AppState>, private nzMessageService: NzMessageService) {
-    console.log('EventComponent');
-    console.error(this.event?.name);
   }
 
   deleteEvent(eventId: string) {

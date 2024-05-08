@@ -82,5 +82,17 @@
         </nz-form-item>
       </form>
     </div>
+    @if (edit) {
+      <button
+      nz-popconfirm
+      nzPopconfirmTitle=" DeleteTrip?"
+      (nzOnConfirm)="deleteTrip(trip?.id ?? '')"
+      nz-button
+      nzType="primary"
+      class="bg-coral w-full text-white flex justify-center items-center rounded-lg px-4 py-1"
+    >
+      Delete Trip
+    </button>
+    }
   </ng-container>
 </nz-drawer>
