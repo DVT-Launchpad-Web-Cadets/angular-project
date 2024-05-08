@@ -4,6 +4,8 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { matKeyboardArrowDown, matDelete, matEdit } from '@ng-icons/material-icons/baseline';
 import { EventInterface } from '../../models';
 import { EventFormComponent } from "../day/event-form/event-form.component";
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+
 
 @Component({
     selector: 'app-event',
@@ -11,7 +13,7 @@ import { EventFormComponent } from "../day/event-form/event-form.component";
     templateUrl: './event.component.html',
     styleUrl: './event.component.css',
     viewProviders: [provideIcons({ matKeyboardArrowDown, matDelete, matEdit })],
-    imports: [TagComponent, NgIconComponent, EventFormComponent]
+    imports: [TagComponent, NgIconComponent, EventFormComponent, NzPopoverModule]
 })
 export class EventComponent {
     @Input() editMode = true;

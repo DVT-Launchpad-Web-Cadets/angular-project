@@ -13,6 +13,7 @@ import { selectEvents } from '../../store/selectors/selectors';
 import { EventFormComponent } from './event-form/event-form.component';
 import { getEvents } from '../../store/actions/eventActions';
 import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-day',
@@ -20,11 +21,13 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './day.component.html',
   styleUrl: './day.component.css',
   viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd })],
-  imports: [NgIconComponent, EventComponent, EventFormComponent],
+  imports: [NgIconComponent, EventComponent, EventFormComponent, CommonModule],
 })
 export class DayComponent {
   @Input() day: DayInterface | undefined;
   events: EventInterface[] = [];
+
+  edit = false;
 
   selectedEvents$ = this.store.select(selectEvents);
   tripId = '';
@@ -41,5 +44,9 @@ export class DayComponent {
         this.events = events.filter((event) => event.date === this.day?.date);
       }
     });
+  }
+
+  toggleEdit(): void {
+    this.edit = !this.edit;
   }
 }

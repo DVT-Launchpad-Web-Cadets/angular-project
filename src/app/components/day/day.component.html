@@ -6,16 +6,17 @@
       <p class="text-sm">add Location</p>
     </div>
   </div>
-  <button
-    class="bg-black size-10 flex justify-center items-center rounded-lg shadow-2xl self-end"
-  >
-    <ng-icon name="matEdit" class="text-white text-2xl"></ng-icon>
-  </button>
+  <button 
+  class="size-10 flex justify-center items-center rounded-lg shadow-2xl self-end"
+  [ngClass]="edit ? 'bg-gray text-black' : 'bg-black text-white'"
+  (click)="toggleEdit()">
+  <ng-icon name="matEdit" class="text-2xl"></ng-icon>
+</button>
 </div>
 
 
 @for(event of events; track event.id){
-    <app-event [event]="event" [editMode]="false"></app-event>
+    <app-event [event]="event" [editMode]="edit"></app-event>
 }
 
 <app-event-form [edit]="false" [date]="day?.date"></app-event-form>

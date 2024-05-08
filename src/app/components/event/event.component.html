@@ -17,13 +17,18 @@
 <div
   class="flex justify-center items-center mx-5 border-l-2 border-light-blue h-24 w-full pl-2 pr-8 pb-4"
 >
-  <div
+  <button
     class="w-full border flex items-center justify-between border-light-blue rounded-full p-2"
+    nz-button
+    nz-popover
+    [nzPopoverTitle]="event?.name"
+    [nzPopoverContent]="contentTemplate"
+    nzPopoverTrigger="click"
   >
     <div class="flex gap-2 h-full items-center">
       <app-tag tagName="Food" [dark]="true"></app-tag>
       <div>
-        <h3 class="text-black text-lg">Breakfast</h3>
+        <h3 class="text-black text-lg">{{ event?.name }}</h3>
         <p class="text-dark-gray text-xs">
           {{ currency }}{{ event?.cost }} | R{{ randCost }}
         </p>
@@ -33,5 +38,18 @@
       name="matKeyboardArrowDown"
       class="text-dark-blue text-4xl"
     ></ng-icon>
-  </div>
+  </button>
 </div>
+
+<ng-template #contentTemplate>
+  <a
+    [href]="event?.locationUrl"
+    target="_blank"
+    class="text-coral"
+    >See Location</a
+  >
+
+  <h3 class="text-dark-gray font-bold">Notes:</h3>
+  <p class="text-black text-sm">{{event?.notes}}</p>
+
+</ng-template>
