@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   matEdit,
   matLocationOn,
@@ -7,13 +7,13 @@ import {
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { EventComponent } from './event/event.component';
 import { DayInterface, EventInterface } from '../../models';
-import { AppState } from '../../store/reducers/tripReducers';
 import { Store } from '@ngrx/store';
-import { selectEvents } from '../../store/selectors/selectors';
+import { selectEvents } from '../../store/selectors';
 import { EventFormComponent } from './event-form/event-form.component';
-import { getEvents } from '../../store/actions/eventActions';
+import { getEvents } from '../../store/actions/event.actions';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TripState } from '../../store/state';
 
 @Component({
   selector: 'app-day',
@@ -32,7 +32,7 @@ export class DayComponent {
   selectedEvents$ = this.store.select(selectEvents);
   tripId = '';
 
-  constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
+  constructor(private store: Store<TripState>, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.events = [];

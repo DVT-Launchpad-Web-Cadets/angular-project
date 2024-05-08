@@ -1,13 +1,5 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  Type,
-} from '@angular/core';
-import {
-  FormBuilder,
   FormControl,
   FormGroup,
   NonNullableFormBuilder,
@@ -26,13 +18,13 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { matEdit, matAdd } from '@ng-icons/material-icons/baseline';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../store/reducers/tripReducers';
-import { addEvent, editEvent } from '../../../store/actions/eventActions';
+import { addEvent, editEvent } from '../../../store/actions/event.actions';
 import { EventInterface } from '../../../models';
 import { ActivatedRoute } from '@angular/router';
-import { selectEvents } from '../../../store/selectors/selectors';
 import { TagComponent } from '../../shared/tag/tag.component';
 import { Tag } from '../../../models';
+import { EventState } from '../../../store/state';
+import { selectEvents } from '../../../store/selectors';
 
 @Component({
   selector: 'app-event-form',
@@ -58,11 +50,13 @@ import { Tag } from '../../../models';
 export class EventFormComponent implements OnInit {
   @Input() editMode = true;
   @Input() eventInput: EventInterface | undefined = undefined;
-
+  @Input() edit = false;
+  @Input() date: string | undefined = undefined;
+  @Output() closeDrawer = new EventEmitter<void>();
 
   constructor(
     private fb: NonNullableFormBuilder,
-    private store: Store<AppState>,
+    private store: Store<EventState>,
     private route: ActivatedRoute
   ) {}
 
@@ -76,9 +70,6 @@ export class EventFormComponent implements OnInit {
 
     this.tripId = this.route.snapshot.params['tripId'];
   }
-  @Input() edit = false;
-  @Input() date: string | undefined = undefined;
-  @Output() closeDrawer = new EventEmitter<void>();
 
   visible = false;
   title = 'Create a Trip';
@@ -99,8 +90,12 @@ export class EventFormComponent implements OnInit {
     eventCurrency: FormControl<string>;
   }> = this.fb.group({
     eventName: [this.eventInput?.name ?? '', [Validators.required]],
-    eventStartTime: this.fb.control<Date | null>(this.eventInput?.startTime ?? null),
-    eventEndTime: this.fb.control<Date | null>(this.eventInput?.endTime ?? null),
+    eventStartTime: this.fb.control<Date | null>(
+      this.eventInput?.startTime ?? null
+    ),
+    eventEndTime: this.fb.control<Date | null>(
+      this.eventInput?.endTime ?? null
+    ),
     eventTags: [this.eventInput?.tag ?? 'Other', [Validators.required]],
     eventNotes: [this.eventInput?.notes ?? ''],
     locationUrl: [this.eventInput?.locationUrl ?? '', [Validators.required]],
@@ -153,15 +148,15 @@ export class EventFormComponent implements OnInit {
   }
 
   options: { value: Tag }[] = [
-     { value: 'Food' },
-      { value: 'Transport' },
-      { value: 'Lodging' },
-      { value: 'Activity' },
-      { value: 'Historical' },
-      { value: 'Shopping' },
-      { value: 'Flight' },
-      { value: 'Coffee' },
-      { value: 'Entertainment' },
-      { value: 'Other' },
+    { value: 'Food' },
+    { value: 'Transport' },
+    { value: 'Lodging' },
+    { value: 'Activity' },
+    { value: 'Historical' },
+    { value: 'Shopping' },
+    { value: 'Flight' },
+    { value: 'Coffee' },
+    { value: 'Entertainment' },
+    { value: 'Other' },
   ];
 }

@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/reducers/tripReducers';
-import { signUp } from '../../store/actions/authActions';
+import { signUp } from '../../store/actions';
+import { AuthState } from '../../store/state';
 
 @Component({
   selector: 'app-signup',
@@ -27,7 +27,7 @@ export class SignupComponent {
   });
   errorMessage: string | null = null;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AuthState>) {}
 
   onSubmit(): void {
     const { email, username, password } = this.form.getRawValue();

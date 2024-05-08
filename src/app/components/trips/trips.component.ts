@@ -3,11 +3,11 @@ import { Component } from '@angular/core';
 import { TripCardComponent } from './trip-card/trip-card.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AddTripFormComponent } from '../add-trip-form/add-trip-form.component';
-import { AppState } from '../../store/reducers/tripReducers';
 import { Store } from '@ngrx/store';
-import { getTrips, selectTrip } from '../../store/actions/tripActions';
-import { selectTrips } from '../../store/selectors/selectors';
+import { getTrips, selectTrip } from '../../store/actions/trip.actions';
 import { RouterModule } from '@angular/router';
+import { TripState } from '../../store/state';
+import { selectTrips } from '../../store/selectors';
 
 @Component({
   selector: 'app-trips',
@@ -25,7 +25,7 @@ import { RouterModule } from '@angular/router';
 export class TripsComponent {
   selectedTrips$ = this.store.select(selectTrips);
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<TripState>) {
     this.store.dispatch(getTrips());
   }
 

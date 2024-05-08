@@ -1,6 +1,3 @@
-import { CostInterface } from './cost';
-import { LocationInterface } from './location';
-
 export interface EventInterface {
   id?: string;
   tripId: string;

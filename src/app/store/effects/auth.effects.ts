@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, EMPTY, map, switchMap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { login, loginComplete, logout, logoutComplete, signUp, signUpComplete } from '../actions/authActions';
+import {
+  login,
+  loginComplete,
+  logout,
+  logoutComplete,
+  signUp,
+  signUpComplete,
+} from '../actions/auth.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -11,7 +18,7 @@ export class AuthEffects {
       ofType(signUp),
       switchMap(({ email, username, password }) =>
         this.authService.signUp(email, username, password).pipe(
-          map((userId) => signUpComplete({ userId})),
+          map((userId) => signUpComplete({ userId })),
           catchError(() => EMPTY)
         )
       )
@@ -41,7 +48,6 @@ export class AuthEffects {
       )
     )
   );
-
 
   constructor(private actions$: Actions, private authService: AuthService) {}
 }

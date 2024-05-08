@@ -12,9 +12,9 @@ import {
 import { Observable, from } from 'rxjs';
 import { TripInterface } from '../models';
 import { doc } from '@firebase/firestore';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '../store/reducers/tripReducers';
-import { selectUser } from '../store/selectors/selectors';
+import { Store } from '@ngrx/store';
+import { selectUser } from '../store/selectors/auth.selectors';
+import { AuthState } from '../store/state/auth.state';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,7 @@ export class TripService {
   userId$ = this.store.select(selectUser);
   userId = '';
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AuthState>) {
     this.userId$.subscribe((userId) => {
       this.userId = userId ?? '';
     });

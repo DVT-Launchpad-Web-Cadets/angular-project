@@ -63,5 +63,5 @@ export class TagComponent {
 
   handleClick() {
     this.tagClick.emit(this.tagName);
-  };
+  }
 }

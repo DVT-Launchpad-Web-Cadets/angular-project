@@ -10,7 +10,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
-import { EventInterface, TripInterface } from '../models';
+import { EventInterface } from '../models';
 import { doc } from '@firebase/firestore';
 
 @Injectable({

@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/reducers/tripReducers';
-import { getTrips } from '../../store/actions/tripActions';
-import {
-  selectEvents,
-  selectSelectedTrip,
-  selectTrips,
-} from '../../store/selectors/selectors';
+import { getTrips } from '../../store/actions/trip.actions';
+
 import { AsyncPipe } from '@angular/common';
 import { EventComponent } from '../day/event/event.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
@@ -23,7 +18,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DayComponent } from '../day/day.component';
 import { DayInterface, TripInterface } from '../../models';
 import createDays from '../../utils/createDays-utils';
-import { getEvents } from '../../store/actions/eventActions';
+import { TripState } from '../../store/state';
+import { selectSelectedTrip, selectTrips } from '../../store/selectors';
 
 @Component({
   selector: 'app-itenary',
@@ -44,29 +40,24 @@ import { getEvents } from '../../store/actions/eventActions';
 })
 export class ItenaryComponent implements OnInit {
   selectedTrips$ = this.store.select(selectTrips);
-  selectedEvents$ = this.store.select(selectEvents);
   selectedTrip$ = this.store.select(selectSelectedTrip);
 
   tripId = '';
   daysBetween: DayInterface[] = [];
   trip: TripInterface | null = null;
 
-  constructor(private store: Store<AppState>, private route: ActivatedRoute) {
+  constructor(private store: Store<TripState>, private route: ActivatedRoute) {
     this.store.dispatch(getTrips());
   }
 
   ngOnInit(): void {
     this.tripId = this.route.snapshot.params['tripId'];
-    this.store.dispatch(getEvents({ tripId: this.tripId }));
 
     this.selectedTrip$.subscribe((trip) => {
       if (trip?.id === this.tripId) {
         console.log('trip', trip);
         this.trip = trip;
-          this.daysBetween = createDays(
-            trip.startDate,
-            trip.endDate,
-          );
+        this.daysBetween = createDays(trip.startDate, trip.endDate);
       }
     });
   }

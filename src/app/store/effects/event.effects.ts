@@ -11,7 +11,7 @@ import {
   editEventComplete,
   getEvents,
   getEventsComplete,
-} from '../actions/eventActions';
+} from '../actions/event.actions';
 import { EventInterface } from '../../models';
 
 @Injectable()
@@ -22,7 +22,9 @@ export class EventsEffects {
       switchMap(({ newEvent }) =>
         this.eventsService.addEvent(newEvent).pipe(
           map((eventId) =>
-            addEventComplete({ newEvent: { ...(newEvent as EventInterface), id: eventId } })
+            addEventComplete({
+              newEvent: { ...(newEvent as EventInterface), id: eventId },
+            })
           ),
           catchError(() => EMPTY)
         )
@@ -33,10 +35,10 @@ export class EventsEffects {
   getEvents$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getEvents),
-      switchMap(action => {
+      switchMap((action) => {
         const tripId = action.tripId; // Extract tripId from the action payload
         return this.eventsService.getEvents(tripId).pipe(
-          map(events => getEventsComplete({ events })),
+          map((events) => getEventsComplete({ events })),
           catchError(() => EMPTY)
         );
       })

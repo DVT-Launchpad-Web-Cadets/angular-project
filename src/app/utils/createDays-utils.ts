@@ -36,7 +36,6 @@ export default function createDays(
   let startDateObject: Date;
   let endDateObject: Date;
 
-  // Check if startDate is a Date object, if so, convert to Firebase timestamp
   if (startDate instanceof Date) {
     startDateObject = startDate;
     startDate = dateToFirebaseTimestamp(startDate);
@@ -44,7 +43,6 @@ export default function createDays(
     startDateObject = firebaseTimestampToDate(startDate);
   }
 
-  // Check if endDate is a Date object, if so, convert to Firebase timestamp
   if (endDate instanceof Date) {
     endDateObject = endDate;
     endDate = dateToFirebaseTimestamp(endDate);
@@ -54,8 +52,7 @@ export default function createDays(
 
   console.log('startDateObject', startDateObject);
 
-  let currentDate = new Date(startDateObject);
-  console.log('currentDate', currentDate);
+  const currentDate = new Date(startDateObject);
 
   while (currentDate <= endDateObject) {
     const formattedDate = formatDate(currentDate);
@@ -67,41 +64,3 @@ export default function createDays(
   }
   return days;
 }
-
-// import { DayInterface, EventInterface } from '../models';
-
-// function formatDate(date: Date): string {
-//   const options: Intl.DateTimeFormatOptions = {
-//     month: 'long',
-//     day: 'numeric',
-//   };
-//   return date.toLocaleDateString('en-US', options);
-// }
-
-// export default function createDays(
-//   startDate: Date,
-//   endDate: Date,
-//   tripId: string,
-//   events: EventInterface[]
-// ): DayInterface[] {
-//   const days: DayInterface[] = [];
-//   const currentDate = new Date(startDate);
-
-//   while (currentDate <= endDate) {
-//     const formattedDate = formatDate(currentDate);
-
-//     const dayEvents = events.filter(event => {
-//       return formatDate(new Date(event.date)) === formattedDate;
-//     });
-
-//     days.push({
-//       tripId,
-//       date: formattedDate,
-//       events: dayEvents,
-//     });
-
-//     currentDate.setDate(currentDate.getDate() + 1);
-//   }
-
-//   return days;
-// }

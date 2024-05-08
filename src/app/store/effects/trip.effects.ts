@@ -11,7 +11,7 @@ import {
   editTripComplete,
   getTrips,
   getTripsComplete,
-} from '../actions/tripActions';
+} from '../actions/trip.actions';
 import { TripInterface } from '../../models';
 
 @Injectable()
