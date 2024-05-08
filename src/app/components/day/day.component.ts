@@ -5,7 +5,7 @@ import {
   matAdd,
 } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { EventComponent } from '../event/event.component';
+import { EventComponent } from './event/event.component';
 import { DayInterface, EventInterface } from '../../models';
 import { AppState } from '../../store/reducers/tripReducers';
 import { Store } from '@ngrx/store';

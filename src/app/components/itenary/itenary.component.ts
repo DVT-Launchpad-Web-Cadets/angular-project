@@ -8,7 +8,7 @@ import {
   selectTrips,
 } from '../../store/selectors/selectors';
 import { AsyncPipe } from '@angular/common';
-import { EventComponent } from '../event/event.component';
+import { EventComponent } from '../day/event/event.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
