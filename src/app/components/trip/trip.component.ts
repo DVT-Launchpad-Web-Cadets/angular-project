@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducers/tripReducers';
 import { selectSelectedTrip } from '../../store/selectors/selectors';
 import { CommonModule } from '@angular/common';
+import { TripInterface } from '../../models';
 
 
 @Component({
@@ -20,13 +21,17 @@ import { CommonModule } from '@angular/common';
 export class TripComponent {
 
   selectedTrip$ = this.store.select(selectSelectedTrip);
-
+  trip: TripInterface | undefined = undefined;
   constructor(private store: Store<AppState>) {
+
   }
 
+  ngOnInit(): void {
+    this.selectedTrip$.subscribe((trip) => {
+      if (trip) {
+        this.trip = trip;
+      }
+    });
+  }
 
-  name = 'Scotland Holiday';
-  startDate = '29 Dec 2024';
-  endDate = '10 Jan 2025';
-  location = 'Scotland';
 }

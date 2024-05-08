@@ -2,7 +2,7 @@
 <h1 class="text-3xl py-8 font-bold w-5/6">My Trips</h1>
 @for (trip of selectedTrips$ | async; track trip.id){
     <a [routerLink]="['/trip', trip.id]" (click)="setTrip(trip.id ?? '')">
-        <app-trip-card [name]="trip.name" [startDate]="trip.startDate" [endDate]="trip.endDate" [location]="trip.destination"></app-trip-card>
+        <app-trip-card [trip]="trip"></app-trip-card>
     </a>
     } @empty {
         <h2 class="text-2xl">Ready for an adventure? Create your first Trip!</h2>

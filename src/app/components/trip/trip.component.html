@@ -1,7 +1,9 @@
 @if(selectedTrip$ | async ){
 <div
   class="h-1/3 w-full bg-cover bg-no-repeat shadow-2xl"
-  style="background-image: url('../../../../assets/backgrounds/scotland.jpeg')"
+  style="
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/angular-project-5efcd.appspot.com/o/scotland.jpeg?alt=media&token=7ea72f1c-6c31-4c1b-890d-93a32cf688c8');
+  "
 >
   <div
     class="bg-black bg-opacity-50 size-full p-4 gap-1 flex flex-col justify-between"
@@ -15,20 +17,21 @@
       <app-add-trip-form [edit]="true"></app-add-trip-form>
     </div>
     <div>
-      <h2 class="text-white text-3xl pb-2 font-bold">{{ name }}</h2>
+      <h2 class="text-white text-3xl pb-2 font-bold">{{ trip?.name }}</h2>
       <div class="flex items-center text-gray">
         <ng-icon name="matCalendarMonth" class="text-2xl"></ng-icon>
-        <h3 class="text-sm text-gray">{{ startDate }} -> {{ endDate }}</h3>
+        <h3 class="text-sm text-gray">
+          {{ trip?.startDate }} -> {{ trip?.endDate }}
+        </h3>
       </div>
       <div class="flex items-center text-gray">
         <ng-icon name="matLocationOn" class="text-2xl"></ng-icon>
-        <h3 class="text-sm text-gray">{{ location }}</h3>
+        <h3 class="text-sm text-gray">{{ trip?.destination }}</h3>
       </div>
     </div>
   </div>
 </div>
 <app-menu></app-menu>
-}
-@else {
-  <h1>Still loading some stuff</h1>
+} @else {
+<h1>Still loading some stuff</h1>
 }
