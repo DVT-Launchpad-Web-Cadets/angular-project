@@ -6,6 +6,8 @@ export interface TripInterface {
   startDate: Date;
   endDate: Date;
   homeCurrency: string;
+  homeCurrencySymbol?: string;
   destinationCurrency: string;
+  destinationCurrencySymbol?: string;
   exchangeRate?: number;
 }

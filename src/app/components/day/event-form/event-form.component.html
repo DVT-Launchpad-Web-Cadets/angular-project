@@ -60,7 +60,7 @@
               class="w-full"
               required
             >
-            @for (option of options; track option.value) {
+              @for (option of options; track option.value) {
               <nz-option
                 [nzLabel]="option.value"
                 [nzValue]="option.value"
@@ -129,16 +129,22 @@
               ></nz-input-number>
             </nz-input-number-group>
             <ng-template #addOnBefore>
+              @if (selectedTrip$ | async; as trip){
               <nz-select
-                nzPlaceHolder="R"
+                [nzPlaceHolder]="trip.homeCurrencySymbol ?? ''"
                 formControlName="eventCurrency"
                 class="w-16"
               >
-                <nz-option nzValue="USD" nzLabel="$"></nz-option>
-                <nz-option nzValue="EUR" nzLabel="€"></nz-option>
-                <nz-option nzValue="GBP" nzLabel="£"></nz-option>
-                <nz-option nzValue="CNY" nzLabel="¥"></nz-option>
+                <nz-option
+                  [nzValue]="trip.homeCurrency"
+                  [nzLabel]="trip.homeCurrencySymbol ?? ''"
+                ></nz-option>
+                <nz-option
+                  [nzValue]="trip.destinationCurrency"
+                  [nzLabel]="trip.destinationCurrencySymbol ?? ''"
+                ></nz-option>
               </nz-select>
+              }
             </ng-template>
           </nz-space>
         </nz-form-item>

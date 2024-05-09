@@ -24,7 +24,8 @@ import { ActivatedRoute } from '@angular/router';
 import { TagComponent } from '../../shared/tag/tag.component';
 import { TagType } from '../../../models';
 import { EventState } from '../../../store/state';
-import { selectEvents } from '../../../store/selectors';
+import { selectEvents, selectSelectedTrip } from '../../../store/selectors';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-form',
@@ -45,6 +46,7 @@ import { selectEvents } from '../../../store/selectors';
     NzDrawerModule,
     NgIconComponent,
     TagComponent,
+    AsyncPipe
   ],
 })
 export class EventFormComponent implements OnInit {
@@ -55,6 +57,7 @@ export class EventFormComponent implements OnInit {
   @Output() closeDrawer = new EventEmitter<void>();
 
   selectedEvent$ = this.store.select(selectEvents);
+  selectedTrip$ = this.store.select(selectSelectedTrip);
 
   visible = false;
   title = 'Create a Trip';
@@ -106,7 +109,7 @@ export class EventFormComponent implements OnInit {
       eventLatitude: [''],
       eventLongitude: [''],
       eventCost: [0, [Validators.required]],
-      eventCurrency: ['R', [Validators.required]],
+      eventCurrency: ['', [Validators.required]],
     });
   }
 

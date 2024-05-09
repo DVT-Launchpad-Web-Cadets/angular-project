@@ -27,7 +27,6 @@ import { selectSelectedTrip, selectUser } from '../../../store/selectors';
 import currencies from '../../../../assets/json/currencies.json';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
-
 @Component({
   selector: 'app-add-trip-form',
   standalone: true,
@@ -40,7 +39,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzSpaceModule,
     NgIconComponent,
     NzPopconfirmModule,
-    NzSelectModule
+    NzSelectModule,
   ],
   templateUrl: './add-trip-form.component.html',
   styleUrl: './add-trip-form.component.css',
@@ -108,6 +107,19 @@ export class AddTripFormComponent implements OnInit {
 
   addTrip(): void {
     if (this.validateForm.valid) {
+      const homeCurrency = this.currencies.find(
+        (currency) => currency['code'] === this.validateForm.value.homeCurrency
+      );
+      const homeCurrencySymbol = homeCurrency ? homeCurrency['symbol'] : '';
+
+      const destinationCurrency = this.currencies.find(
+        (currency) =>
+          currency['code'] === this.validateForm.value.destinationCurrency
+      );
+      const destinationCurrencySymbol = destinationCurrency
+        ? destinationCurrency['symbol']
+        : '';
+
       const newTrip: TripInterface = {
         name: this.validateForm.value.tripName ?? '',
         destination: this.validateForm.value.tripDestination ?? '',
@@ -118,7 +130,9 @@ export class AddTripFormComponent implements OnInit {
           ? this.validateForm.value.tripDates[1]
           : new Date(),
         homeCurrency: this.validateForm.value.homeCurrency ?? '',
+        homeCurrencySymbol: homeCurrencySymbol,
         destinationCurrency: this.validateForm.value.destinationCurrency ?? '',
+        destinationCurrencySymbol: destinationCurrencySymbol,
       };
 
       const action = this.edit
