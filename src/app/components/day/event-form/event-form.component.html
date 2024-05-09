@@ -129,19 +129,19 @@
               ></nz-input-number>
             </nz-input-number-group>
             <ng-template #addOnBefore>
-              @if (selectedTrip$ | async; as trip){
+              @if (selectedCurrencyInfo$ | async; as currencyInfo) {
               <nz-select
-                [nzPlaceHolder]="trip.homeCurrencySymbol ?? ''"
+                [nzPlaceHolder]="currencyInfo.homeCurrencySymbol ?? ''"
                 formControlName="eventCurrency"
                 class="w-16"
               >
                 <nz-option
-                  [nzValue]="trip.homeCurrency"
-                  [nzLabel]="trip.homeCurrencySymbol ?? ''"
+                  [nzValue]="currencyInfo.homeCurrency"
+                  [nzLabel]="currencyInfo.homeCurrencySymbol ?? ''"
                 ></nz-option>
                 <nz-option
-                  [nzValue]="trip.destinationCurrency"
-                  [nzLabel]="trip.destinationCurrencySymbol ?? ''"
+                  [nzValue]="currencyInfo.destinationCurrency"
+                  [nzLabel]="currencyInfo.destinationCurrencySymbol ?? ''"
                 ></nz-option>
               </nz-select>
               }

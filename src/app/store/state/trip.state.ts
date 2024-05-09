@@ -11,3 +11,4 @@ export const tripInitialState: TripState = {
   trips: [],
   selectedTrip: null,
 };
+

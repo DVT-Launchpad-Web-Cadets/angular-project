@@ -24,7 +24,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TagComponent } from '../../shared/tag/tag.component';
 import { TagType } from '../../../models';
 import { EventState } from '../../../store/state';
-import { selectEvents, selectSelectedTrip } from '../../../store/selectors';
+import { selectCurrencyInfo, selectEvents } from '../../../store/selectors';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -57,7 +57,7 @@ export class EventFormComponent implements OnInit {
   @Output() closeDrawer = new EventEmitter<void>();
 
   selectedEvent$ = this.store.select(selectEvents);
-  selectedTrip$ = this.store.select(selectSelectedTrip);
+  selectedCurrencyInfo$ = this.store.select(selectCurrencyInfo)
 
   visible = false;
   title = 'Create a Trip';

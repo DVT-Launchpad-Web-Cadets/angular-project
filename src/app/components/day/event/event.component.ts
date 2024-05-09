@@ -14,6 +14,8 @@ import { deleteEvent } from '../../../store/actions/event.actions';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { EventState } from '../../../store/state';
+import { selectCurrencyInfo } from '../../../store/selectors';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-event',
@@ -27,14 +29,15 @@ import { EventState } from '../../../store/state';
     EventFormComponent,
     NzPopoverModule,
     NzPopconfirmModule,
+    AsyncPipe,
+    DecimalPipe
   ],
 })
 export class EventComponent {
   @Input() editMode = true;
   @Input() event: EventInterface | undefined;
 
-  currency = '$';
-  randCost = 300; // dynamic code to be added when api is integrated
+  selectedCurrencyInfo$ = this.store.select(selectCurrencyInfo);
 
   constructor(
     private store: Store<EventState>,

@@ -35,7 +35,17 @@
       <div>
         <h3 class="text-black text-lg">{{ event?.name }}</h3>
         <p class="text-dark-gray text-xs">
-          {{ currency }}{{ event?.cost }} | R{{ randCost }}
+          @if(selectedCurrencyInfo$ | async; as currencyInfo) {
+          @if(currencyInfo.homeCurrency === event?.currency) {
+          {{ currencyInfo.homeCurrencySymbol }}{{ event?.cost | number:'1.2-2'}} |
+          {{ currencyInfo.destinationCurrencySymbol
+          }}{{ (event?.cost ?? 0) * (currencyInfo.exchangeRate ?? 0) | number:'1.2-2'}}
+          } @else if (currencyInfo.destinationCurrency === event?.currency &&
+          event?.cost && currencyInfo.exchangeRate) {
+          {{ currencyInfo.homeCurrencySymbol
+          }}{{ event?.cost! / currencyInfo.exchangeRate | number:'1.2-2'}} |\
+          {{ currencyInfo.destinationCurrencySymbol }}{{ event?.cost | number:'1.2-2'}}
+          } }
         </p>
       </div>
     </div>
