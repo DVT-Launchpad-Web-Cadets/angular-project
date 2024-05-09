@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { TripCardComponent } from './trip-card/trip-card.component';
 import { MatIconModule } from '@angular/material/icon';
-import { AddTripFormComponent } from '../add-trip-form/add-trip-form.component';
+import { AddTripFormComponent } from '../shared/add-trip-form/add-trip-form.component';
 import { Store } from '@ngrx/store';
 import { getTrips, selectTrip } from '../../store/actions/trip.actions';
 import { RouterModule } from '@angular/router';

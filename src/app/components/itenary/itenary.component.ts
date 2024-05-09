@@ -13,7 +13,7 @@ import {
   matAdd,
 } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { AddTripFormComponent } from '../add-trip-form/add-trip-form.component';
+import { AddTripFormComponent } from '../shared/add-trip-form/add-trip-form.component';
 import { ActivatedRoute } from '@angular/router';
 import { DayComponent } from '../day/day.component';
 import { DayInterface, TripInterface } from '../../models';
