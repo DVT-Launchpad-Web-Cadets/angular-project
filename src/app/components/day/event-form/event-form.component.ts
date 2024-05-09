@@ -22,7 +22,7 @@ import { addEvent, editEvent } from '../../../store/actions/event.actions';
 import { EventInterface } from '../../../models';
 import { ActivatedRoute } from '@angular/router';
 import { TagComponent } from '../../shared/tag/tag.component';
-import { Tag } from '../../../models';
+import { TagType } from '../../../models';
 import { EventState } from '../../../store/state';
 import { selectEvents } from '../../../store/selectors';
 
@@ -61,7 +61,7 @@ export class EventFormComponent implements OnInit {
   buttonText = 'Add Trip';
   tripId = '';
 
-  options: { value: Tag }[] = [
+  options: { value: TagType }[] = [
     { value: 'Food' },
     { value: 'Transport' },
     { value: 'Lodging' },
@@ -162,7 +162,7 @@ export class EventFormComponent implements OnInit {
   }
 
   private createEventObject(): EventInterface {
-    const tag: Tag =
+    const tag: TagType =
       typeof this.validateForm.value.eventTag === 'object'
         ? this.validateForm.value.eventTag
         : 'Other';

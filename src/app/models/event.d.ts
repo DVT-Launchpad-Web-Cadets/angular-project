@@ -24,7 +24,7 @@ export interface EventInterface {
   currency?: string;
 }
 
-export type Tag = 
+export type TagType = 
   | 'Food'
   | 'Transport'
   | 'Lodging'

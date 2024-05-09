@@ -13,7 +13,7 @@ import {
 } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { CommonModule } from '@angular/common';
-import { Tag } from '../../../models';
+import { TagType } from '../../../models';
 
 @Component({
   selector: 'app-tag',
@@ -37,7 +37,7 @@ import { Tag } from '../../../models';
   ],
 })
 export class TagComponent {
-  @Input() tagName: Tag = 'Other';
+  @Input() tagName: TagType = 'Other';
   @Input() tagLabel = '';
   @Input() dark = false;
   @Output() tagClick: EventEmitter<string> = new EventEmitter<string>();
