@@ -54,28 +54,25 @@ export class EventFormComponent implements OnInit {
   @Input() date: string | undefined = undefined;
   @Output() closeDrawer = new EventEmitter<void>();
 
-  constructor(
-    private fb: NonNullableFormBuilder,
-    private store: Store<EventState>,
-    private route: ActivatedRoute
-  ) {}
-
   selectedEvent$ = this.store.select(selectEvents);
-
-  ngOnInit(): void {
-    if (this.edit) {
-      this.title = 'Edit Trip';
-      this.buttonText = 'Edit Trip';
-    }
-
-    this.tripId = this.route.snapshot.params['tripId'];
-  }
 
   visible = false;
   title = 'Create a Trip';
   buttonText = 'Add Trip';
-
   tripId = '';
+
+  options: { value: Tag }[] = [
+    { value: 'Food' },
+    { value: 'Transport' },
+    { value: 'Lodging' },
+    { value: 'Activity' },
+    { value: 'Historical' },
+    { value: 'Shopping' },
+    { value: 'Flight' },
+    { value: 'Coffee' },
+    { value: 'Entertainment' },
+    { value: 'Other' },
+  ];
 
   validateForm: FormGroup<{
     eventName: FormControl<string>;
@@ -88,48 +85,65 @@ export class EventFormComponent implements OnInit {
     eventLongitude: FormControl<string>;
     eventCost: FormControl<number>;
     eventCurrency: FormControl<string>;
-  }> = this.fb.group({
-    eventName: [this.eventInput?.name ?? '', [Validators.required]],
-    eventStartTime: this.fb.control<Date | null>(
-      this.eventInput?.startTime ?? null
-    ),
-    eventEndTime: this.fb.control<Date | null>(
-      this.eventInput?.endTime ?? null
-    ),
-    eventTags: [this.eventInput?.tag ?? 'Other', [Validators.required]],
-    eventNotes: [this.eventInput?.notes ?? ''],
-    locationUrl: [this.eventInput?.locationUrl ?? '', [Validators.required]],
-    eventLatitude: [this.eventInput?.latitude ?? ''],
-    eventLongitude: [this.eventInput?.longitude ?? ''],
-    eventCost: [this.eventInput?.cost ?? 0, [Validators.required]],
-    eventCurrency: [this.eventInput?.currency ?? 'R', [Validators.required]],
-  });
+  }>;
+
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private store: Store<EventState>,
+    private route: ActivatedRoute
+  ) {
+    this.validateForm = this.fb.group({
+      eventName: [this.eventInput?.name ?? '', [Validators.required]],
+      eventStartTime: this.fb.control<Date | null>(
+        this.eventInput?.startTime ?? null
+      ),
+      eventEndTime: this.fb.control<Date | null>(
+        this.eventInput?.endTime ?? null
+      ),
+      eventTags: ['', [Validators.required]],
+      eventNotes: [''],
+      locationUrl: ['', [Validators.required]],
+      eventLatitude: [''],
+      eventLongitude: [''],
+      eventCost: [0, [Validators.required]],
+      eventCurrency: ['R', [Validators.required]],
+    });
+  }
+
+  ngOnInit(): void {
+    if (this.edit) {
+      this.title = 'Edit Trip';
+      this.buttonText = 'Edit Trip';
+    }
+    this.tripId = this.route.snapshot.params['tripId'];
+    if (this.editMode && this.eventInput) this.populateForm(this.eventInput);
+  }
+
+  populateForm(event: EventInterface): void {
+    this.validateForm.patchValue({
+      eventName: event.name,
+      eventStartTime: event.startTime,
+      eventEndTime: event.endTime,
+      eventTags: event.tag,
+      eventNotes: event.notes,
+      locationUrl: event.locationUrl,
+      eventLatitude: event.latitude,
+      eventLongitude: event.longitude,
+      eventCost: event.cost,
+      eventCurrency: event.currency,
+    });
+  }
 
   addEvent(): void {
     if (this.validateForm.valid) {
-      const newEvent: EventInterface = {
-        name: this.validateForm.value.eventName ?? '',
-        tripId: this.tripId,
-        date: this.date ?? '',
-        startTime: this.validateForm.value.eventStartTime ?? new Date(),
-        endTime: this.validateForm.value.eventEndTime ?? new Date(),
-        tag: this.validateForm.value.eventTags ?? 'Other',
-        notes: this.validateForm.value.eventNotes,
-        locationUrl: this.validateForm.value.locationUrl,
-        latitude: this.validateForm.value.eventLatitude,
-        longitude: this.validateForm.value.eventLongitude,
-        cost: this.validateForm.value.eventCost ?? 0,
-        currency: this.validateForm.value.eventCurrency,
-      };
+      const newEvent: EventInterface = this.createEventObject();
       if (this.edit) {
         this.store.dispatch(editEvent({ updatedEvent: newEvent }));
       } else {
         this.store.dispatch(addEvent({ newEvent }));
-        console.log('dispatched');
       }
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
-        console.log(control);
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
@@ -147,16 +161,20 @@ export class EventFormComponent implements OnInit {
     this.closeDrawer.emit();
   }
 
-  options: { value: Tag }[] = [
-    { value: 'Food' },
-    { value: 'Transport' },
-    { value: 'Lodging' },
-    { value: 'Activity' },
-    { value: 'Historical' },
-    { value: 'Shopping' },
-    { value: 'Flight' },
-    { value: 'Coffee' },
-    { value: 'Entertainment' },
-    { value: 'Other' },
-  ];
+  private createEventObject(): EventInterface {
+    return {
+      name: this.validateForm.value.eventName ?? '',
+      tripId: this.tripId,
+      date: this.date ?? '',
+      startTime: this.validateForm.value.eventStartTime ?? new Date(),
+      endTime: this.validateForm.value.eventEndTime ?? new Date(),
+      tag: this.validateForm.value.eventTags ?? 'Other',
+      notes: this.validateForm.value.eventNotes,
+      locationUrl: this.validateForm.value.locationUrl,
+      latitude: this.validateForm.value.eventLatitude,
+      longitude: this.validateForm.value.eventLongitude,
+      cost: this.validateForm.value.eventCost ?? 0,
+      currency: this.validateForm.value.eventCurrency,
+    };
+  }
 }

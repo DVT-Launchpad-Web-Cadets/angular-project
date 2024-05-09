@@ -23,20 +23,23 @@ import { AuthState } from '../../store/state';
 })
 export class LoginComponent {
   fb = inject(FormBuilder);
-  authService = inject(AuthService);
   router = inject(Router);
 
   form = this.fb.nonNullable.group({
-    email: ['', Validators.required],
-    password: ['', Validators.required],
+    email: ['', Validators.required, Validators.email],
+    password: ['', Validators.required, Validators.minLength(6)],
   });
   errorMessage: string | null = null;
 
   constructor(private store: Store<AuthState>) {}
 
   onSubmit(): void {
-    const { email, password } = this.form.getRawValue();
-    this.store.dispatch(login({ email, password }));
-    this.router.navigate(['/myTrips']);
+    if (this.form.valid) {
+      const { email, password } = this.form.getRawValue();
+      this.store.dispatch(login({ email, password }));
+      this.router.navigate(['/myTrips']);
+    } else {
+      this.form.markAllAsTouched();
+    }
   }
 }

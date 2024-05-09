@@ -39,7 +39,6 @@ import { selectSelectedTrip, selectTrips } from '../../store/selectors';
   ],
 })
 export class ItenaryComponent implements OnInit {
-  selectedTrips$ = this.store.select(selectTrips);
   selectedTrip$ = this.store.select(selectSelectedTrip);
 
   tripId = '';
@@ -55,7 +54,6 @@ export class ItenaryComponent implements OnInit {
 
     this.selectedTrip$.subscribe((trip) => {
       if (trip?.id === this.tripId) {
-        console.log('trip', trip);
         this.trip = trip;
         this.daysBetween = createDays(trip.startDate, trip.endDate);
       }

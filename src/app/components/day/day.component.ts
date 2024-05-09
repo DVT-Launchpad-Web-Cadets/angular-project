@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   matEdit,
   matLocationOn,
@@ -14,6 +14,7 @@ import { getEvents } from '../../store/actions/event.actions';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TripState } from '../../store/state';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-day',
@@ -23,27 +24,23 @@ import { TripState } from '../../store/state';
   viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd })],
   imports: [NgIconComponent, EventComponent, EventFormComponent, CommonModule],
 })
-export class DayComponent {
+export class DayComponent implements OnInit {
   @Input() day: DayInterface | undefined;
-  events: EventInterface[] = [];
+
+  selectedEvents$ = this.store
+    .select(selectEvents)
+    .pipe(
+      map((events) => events.filter((event) => event.date === this.day?.date))
+    );
 
   edit = false;
-
-  selectedEvents$ = this.store.select(selectEvents);
   tripId = '';
 
   constructor(private store: Store<TripState>, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.events = [];
     this.tripId = this.route.snapshot.params['tripId'];
     this.store.dispatch(getEvents({ tripId: this.tripId }));
-
-    this.selectedEvents$.subscribe((events) => {
-      if (this.day) {
-        this.events = events.filter((event) => event.date === this.day?.date);
-      }
-    });
   }
 
   toggleEdit(): void {

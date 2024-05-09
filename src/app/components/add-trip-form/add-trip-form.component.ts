@@ -79,7 +79,7 @@ export class AddTripFormComponent implements OnInit {
       this.title = 'Edit Trip';
       this.buttonText = 'Save Changes ';
     }
-    this.selectedTrip$.subscribe((trip) => {
+    this.selectedTrip$.subscribe((trip) => { //Do I have to unsubscribe?
       if (trip) {
         this.trip = trip;
         this.populateForm(trip);

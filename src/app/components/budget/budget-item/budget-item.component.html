@@ -2,7 +2,7 @@
   class="bg-transparent border-b border-gray flex justify-between items-center p-2 my-1"
 >
   <div class="flex gap-2 items-center">
-    <app-tag tagName="{{ category }}" [dark]="true"></app-tag>
+    <app-tag [tagName]="category" [dark]="true"></app-tag>
     <div>
       <h2 class="text-black text-md">{{ category }}</h2>
       <p class="text-dark-gray text-sm">{{ percentage }}%</p>

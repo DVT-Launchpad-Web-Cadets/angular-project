@@ -29,9 +29,7 @@ export default function createDays(
   startDate: Date | FirebaseTimestamp,
   endDate: Date | FirebaseTimestamp,
 ): DayInterface[] {
-  console.log('startDate', startDate);
   const days: DayInterface[] = [];
-  console.log('startDate', startDate);
 
   let startDateObject: Date;
   let endDateObject: Date;
@@ -49,8 +47,6 @@ export default function createDays(
   } else {
     endDateObject = firebaseTimestampToDate(endDate);
   }
-
-  console.log('startDateObject', startDateObject);
 
   const currentDate = new Date(startDateObject);
 

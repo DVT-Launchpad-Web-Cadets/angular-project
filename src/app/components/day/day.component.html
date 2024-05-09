@@ -15,7 +15,7 @@
 </div>
 
 
-@for(event of events; track event.id){
+@for(event of  selectedEvents$ | async; track event.id){
     <app-event [event]="event" [editMode]="edit"></app-event>
 }
 

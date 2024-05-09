@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { TagComponent } from "../../shared/tag/tag.component";
+import { Tag } from '../../../models';
 
 @Component({
     selector: 'app-budget-item',
@@ -9,7 +10,7 @@ import { TagComponent } from "../../shared/tag/tag.component";
     imports: [TagComponent]
 })
 export class BudgetItemComponent {
-    @Input() category = "";
+    @Input() category : Tag = "Other";
     @Input() percentage = "";
     @Input() cost = "";
     @Input() currency = "";

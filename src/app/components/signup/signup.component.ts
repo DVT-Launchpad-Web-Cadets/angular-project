@@ -22,8 +22,8 @@ export class SignupComponent {
 
   form = this.fb.nonNullable.group({
     username: ['', Validators.required],
-    email: ['', Validators.required],
-    password: ['', Validators.required],
+    email: ['', Validators.required, Validators.email],
+    password: ['', Validators.required, Validators.minLength(6)],
   });
   errorMessage: string | null = null;
 
