@@ -31,14 +31,5 @@ import { selectSelectedTrip } from '../../store/selectors';
 })
 export class TripComponent {
   selectedTrip$ = this.store.select(selectSelectedTrip);
-  trip: TripInterface | undefined = undefined;
   constructor(private store: Store<TripState>) {}
-
-  ngOnInit(): void {
-    this.selectedTrip$.subscribe((trip) => {
-      if (trip) {
-        this.trip = trip;
-      }
-    });
-  }
 }
