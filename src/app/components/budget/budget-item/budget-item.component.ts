@@ -12,6 +12,6 @@ import { TagType } from '../../../models';
 export class BudgetItemComponent {
     @Input() category : TagType = "Other";
     @Input() percentage = "";
-    @Input() cost = "";
+    @Input() cost = 0;
     @Input() currency = "";
 }

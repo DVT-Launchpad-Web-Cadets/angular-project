@@ -23,7 +23,7 @@ import { EventInterface } from '../../../models';
 import { ActivatedRoute } from '@angular/router';
 import { TagComponent } from '../../shared/tag/tag.component';
 import { TagType } from '../../../models';
-import { EventState } from '../../../store/state';
+import { EventState, TripState } from '../../../store/state';
 import { selectCurrencyInfo, selectEvents } from '../../../store/selectors';
 import { AsyncPipe } from '@angular/common';
 
@@ -46,7 +46,7 @@ import { AsyncPipe } from '@angular/common';
     NzDrawerModule,
     NgIconComponent,
     TagComponent,
-    AsyncPipe
+    AsyncPipe,
   ],
 })
 export class EventFormComponent implements OnInit {
@@ -56,8 +56,8 @@ export class EventFormComponent implements OnInit {
   @Input() date: string | undefined = undefined;
   @Output() closeDrawer = new EventEmitter<void>();
 
-  selectedEvent$ = this.store.select(selectEvents);
-  selectedCurrencyInfo$ = this.store.select(selectCurrencyInfo)
+  selectedEvent$ = this.eventStore.select(selectEvents);
+  selectedCurrencyInfo$ = this.tripStore.select(selectCurrencyInfo);
 
   visible = false;
   title = 'Create a Trip';
@@ -92,7 +92,8 @@ export class EventFormComponent implements OnInit {
 
   constructor(
     private fb: NonNullableFormBuilder,
-    private store: Store<EventState>,
+    private eventStore: Store<EventState>,
+    private tripStore: Store<TripState>,
     private route: ActivatedRoute
   ) {
     this.validateForm = this.fb.group({
@@ -109,7 +110,7 @@ export class EventFormComponent implements OnInit {
       eventLatitude: [''],
       eventLongitude: [''],
       eventCost: [0, [Validators.required]],
-      eventCurrency: ['', [Validators.required]],
+      eventCurrency: ['R', [Validators.required]],
     });
   }
 
@@ -139,13 +140,15 @@ export class EventFormComponent implements OnInit {
 
   addEvent(): void {
     if (this.validateForm.valid) {
+      console.log('event valid', this.validateForm.value);
       const newEvent: EventInterface = this.createEventObject();
       if (this.edit) {
-        this.store.dispatch(editEvent({ updatedEvent: newEvent }));
+        this.eventStore.dispatch(editEvent({ updatedEvent: newEvent }));
       } else {
-        this.store.dispatch(addEvent({ newEvent }));
+        this.eventStore.dispatch(addEvent({ newEvent }));
       }
     } else {
+      console.log('event invalid', this.validateForm.value);
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
@@ -165,18 +168,13 @@ export class EventFormComponent implements OnInit {
   }
 
   private createEventObject(): EventInterface {
-    const tag: TagType =
-      typeof this.validateForm.value.eventTag === 'object'
-        ? this.validateForm.value.eventTag
-        : 'Other';
-
     return {
       name: this.validateForm.value.eventName ?? '',
       tripId: this.tripId,
       date: this.date ?? '',
       startTime: this.validateForm.value.eventStartTime ?? new Date(),
       endTime: this.validateForm.value.eventEndTime ?? new Date(),
-      tag: tag,
+      tag: this.validateForm.value.eventTag ?? 'Other',
       notes: this.validateForm.value.eventNotes,
       locationUrl: this.validateForm.value.locationUrl,
       latitude: this.validateForm.value.eventLatitude,

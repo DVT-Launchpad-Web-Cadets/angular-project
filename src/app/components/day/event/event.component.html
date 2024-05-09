@@ -43,7 +43,7 @@
           } @else if (currencyInfo.destinationCurrency === event?.currency &&
           event?.cost && currencyInfo.exchangeRate) {
           {{ currencyInfo.homeCurrencySymbol
-          }}{{ event?.cost! / currencyInfo.exchangeRate | number:'1.2-2'}} |\
+          }}{{ event?.cost! / currencyInfo.exchangeRate | number:'1.2-2'}} |
           {{ currencyInfo.destinationCurrencySymbol }}{{ event?.cost | number:'1.2-2'}}
           } }
         </p>
