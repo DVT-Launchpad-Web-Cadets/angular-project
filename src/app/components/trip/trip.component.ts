@@ -10,7 +10,6 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { AddTripFormComponent } from '../add-trip-form/add-trip-form.component';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
-import { TripInterface } from '../../models';
 import { TripState } from '../../store/state';
 import { selectSelectedTrip } from '../../store/selectors';
 

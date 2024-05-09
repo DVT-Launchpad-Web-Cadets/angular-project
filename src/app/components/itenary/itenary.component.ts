@@ -19,7 +19,7 @@ import { DayComponent } from '../day/day.component';
 import { DayInterface, TripInterface } from '../../models';
 import createDays from '../../utils/createDays-utils';
 import { TripState } from '../../store/state';
-import { selectSelectedTrip, selectTrips } from '../../store/selectors';
+import { selectSelectedTrip } from '../../store/selectors';
 
 @Component({
   selector: 'app-itenary',

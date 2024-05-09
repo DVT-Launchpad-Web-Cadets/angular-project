@@ -6,7 +6,7 @@ import {
 } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { EventComponent } from './event/event.component';
-import { DayInterface, EventInterface } from '../../models';
+import { DayInterface } from '../../models';
 import { Store } from '@ngrx/store';
 import { selectEvents } from '../../store/selectors';
 import { EventFormComponent } from './event-form/event-form.component';

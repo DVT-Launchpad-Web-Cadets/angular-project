@@ -78,7 +78,7 @@ export class EventFormComponent implements OnInit {
     eventName: FormControl<string>;
     eventStartTime: FormControl<Date | null>;
     eventEndTime: FormControl<Date | null>;
-    eventTags: FormControl<any>; // struggling to get this to work
+    eventTag: FormControl<string>;
     eventNotes: FormControl<string>;
     locationUrl: FormControl<string>;
     eventLatitude: FormControl<string>;
@@ -100,7 +100,7 @@ export class EventFormComponent implements OnInit {
       eventEndTime: this.fb.control<Date | null>(
         this.eventInput?.endTime ?? null
       ),
-      eventTags: ['', [Validators.required]],
+      eventTag: ['Other', [Validators.required]],
       eventNotes: [''],
       locationUrl: ['', [Validators.required]],
       eventLatitude: [''],
@@ -124,7 +124,7 @@ export class EventFormComponent implements OnInit {
       eventName: event.name,
       eventStartTime: event.startTime,
       eventEndTime: event.endTime,
-      eventTags: event.tag,
+      eventTag: event.tag,
       eventNotes: event.notes,
       locationUrl: event.locationUrl,
       eventLatitude: event.latitude,
@@ -162,13 +162,18 @@ export class EventFormComponent implements OnInit {
   }
 
   private createEventObject(): EventInterface {
+    const tag: Tag =
+      typeof this.validateForm.value.eventTag === 'object'
+        ? this.validateForm.value.eventTag
+        : 'Other';
+
     return {
       name: this.validateForm.value.eventName ?? '',
       tripId: this.tripId,
       date: this.date ?? '',
       startTime: this.validateForm.value.eventStartTime ?? new Date(),
       endTime: this.validateForm.value.eventEndTime ?? new Date(),
-      tag: this.validateForm.value.eventTags ?? 'Other',
+      tag: tag,
       notes: this.validateForm.value.eventNotes,
       locationUrl: this.validateForm.value.locationUrl,
       latitude: this.validateForm.value.eventLatitude,
