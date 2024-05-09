@@ -8,6 +8,7 @@ import { getTrips, selectTrip } from '../../store/actions/trip.actions';
 import { RouterModule } from '@angular/router';
 import { TripState } from '../../store/state';
 import { selectTrips } from '../../store/selectors';
+import { TripInterface } from '../../models';
 
 @Component({
   selector: 'app-trips',
@@ -29,7 +30,7 @@ export class TripsComponent {
     this.store.dispatch(getTrips());
   }
 
-  setTrip(tripId: string) {
-    this.store.dispatch(selectTrip({ tripId }));
+  setTrip(trip: TripInterface) {
+    this.store.dispatch(selectTrip({ trip }));
   }
 }

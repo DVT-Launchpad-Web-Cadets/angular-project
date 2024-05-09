@@ -4,7 +4,7 @@ import {
   deleteTripComplete,
   editTripComplete,
   getTripsComplete,
-  selectTrip,
+  selectTripComplete,
 } from '../actions/trip.actions';
 import { tripInitialState } from '../state/trip.state';
 
@@ -31,8 +31,8 @@ export const tripReducer = createReducer(
     ),
     selectedTrip: updatedTrip,
   })),
-  on(selectTrip, (state, { tripId }) => ({
+  on(selectTripComplete, (state, { trip }) => ({
     ...state,
-    selectedTrip: state.trips.find((trip) => trip.id === tripId) || null,
+    selectedTrip: trip
   }))
 );

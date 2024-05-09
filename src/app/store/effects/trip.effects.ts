@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, EMPTY, map, switchMap } from 'rxjs';
+import { catchError, EMPTY, map, switchMap, tap } from 'rxjs';
 import { TripService } from '../../services/trip.service';
 import {
   addTrip,
@@ -11,8 +11,11 @@ import {
   editTripComplete,
   getTrips,
   getTripsComplete,
+  selectTrip,
+  selectTripComplete,
 } from '../actions/trip.actions';
 import { TripInterface } from '../../models';
+import { CurrencyService } from '../../services/currency.service';
 
 @Injectable()
 export class TripsEffects {
@@ -68,5 +71,43 @@ export class TripsEffects {
     )
   );
 
-  constructor(private actions$: Actions, private tripsService: TripService) {}
+  
+  selectTrip$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(selectTrip),
+      tap(({ trip }) => {
+        console.log('Selected trip:', trip);
+      }),
+      switchMap(({ trip }) =>
+        this.currencyService.getCurrencyRates(trip.homeCurrency, trip.destinationCurrency).pipe(
+          tap((currencyResponse) => {
+            console.log('Currency response:', currencyResponse);
+          }),
+          map((currencyResponse) => {
+            // Access the correct exchange rate from the currency response
+            const exchangeRate = currencyResponse.data[trip.destinationCurrency].value;
+            console.log('Exchange rate:', exchangeRate);
+            // Update the trip with the exchange rate and return the action
+            return selectTripComplete({
+              trip: {
+                ...(trip as TripInterface),
+                exchangeRate: exchangeRate,
+              },
+            });
+          }),
+          catchError((error) => {
+            console.error('Error fetching currency rates:', error);
+            return EMPTY;
+          })
+        )
+      )
+    )
+  );
+  
+
+  constructor(
+    private actions$: Actions,
+    private tripsService: TripService,
+    private currencyService: CurrencyService
+  ) {}
 }

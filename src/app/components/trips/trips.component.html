@@ -1,7 +1,7 @@
 <div class="size-screen flex flex-col items-center justify-center gap-4 bg-white">
 <h1 class="text-3xl py-8 font-bold w-5/6">My Trips</h1>
 @for (trip of selectedTrips$ | async; track trip.id){
-    <a [routerLink]="['/trip', trip.id]" (click)="setTrip(trip.id ?? '')">
+    <a [routerLink]="['/trip', trip.id]" (click)="setTrip(trip ?? '')">
         <app-trip-card [trip]="trip"></app-trip-card>
     </a>
     } @empty {

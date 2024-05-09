@@ -10,7 +10,7 @@ import {
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { Store } from '@ngrx/store';
-import { TripInterface } from '../../../models';
+import { CurrencyDataInterface, TripInterface } from '../../../models';
 import {
   addTrip,
   deleteTrip,
@@ -24,6 +24,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { TripState } from '../../../store/state';
 import { selectSelectedTrip, selectUser } from '../../../store/selectors';
+import currencies from '../../../../assets/json/currencies.json';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+
 
 @Component({
   selector: 'app-add-trip-form',
@@ -37,6 +40,7 @@ import { selectSelectedTrip, selectUser } from '../../../store/selectors';
     NzSpaceModule,
     NgIconComponent,
     NzPopconfirmModule,
+    NzSelectModule
   ],
   templateUrl: './add-trip-form.component.html',
   styleUrl: './add-trip-form.component.css',
@@ -54,10 +58,14 @@ export class AddTripFormComponent implements OnInit {
   userId$ = this.store.select(selectUser);
   trip: TripInterface | undefined;
 
+  currencies: CurrencyDataInterface[] = Object.values(currencies);
+
   validateForm: FormGroup<{
     tripName: FormControl<string>;
     tripDestination: FormControl<string>;
     tripDates: FormControl<[Date, Date] | null>;
+    homeCurrency: FormControl<string>;
+    destinationCurrency: FormControl<string>;
   }>;
 
   constructor(
@@ -71,6 +79,8 @@ export class AddTripFormComponent implements OnInit {
       tripDates: this.fb.control<[Date, Date] | null>(null, {
         validators: [Validators.required],
       }),
+      homeCurrency: ['', [Validators.required]],
+      destinationCurrency: ['', [Validators.required]],
     });
   }
 
@@ -107,6 +117,8 @@ export class AddTripFormComponent implements OnInit {
         endDate: this.validateForm.value.tripDates
           ? this.validateForm.value.tripDates[1]
           : new Date(),
+        homeCurrency: this.validateForm.value.homeCurrency ?? '',
+        destinationCurrency: this.validateForm.value.destinationCurrency ?? '',
       };
 
       const action = this.edit
