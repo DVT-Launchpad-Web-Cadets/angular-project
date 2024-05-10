@@ -47,17 +47,16 @@ export class ItenaryComponent implements OnInit {
   trip: TripInterface | null = null;
 
   constructor(private store: Store<TripState>, private route: ActivatedRoute) {
-    this.store.dispatch(getTrips());
-  }
-
-  ngOnInit(): void {
-    this.tripId = this.route.snapshot.params['tripId'];
-
     this.selectedTrip$.pipe(takeUntilDestroyed()).subscribe((trip) => {
       if (trip?.id === this.tripId) {
         this.trip = trip;
         this.daysBetween = createDays(trip.startDate, trip.endDate);
       }
     });
+    this.store.dispatch(getTrips());
+  }
+
+  ngOnInit(): void {
+    this.tripId = this.route.snapshot.params['tripId'];
   }
 }

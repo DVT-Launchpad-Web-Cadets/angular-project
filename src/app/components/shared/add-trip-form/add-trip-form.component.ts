@@ -3,7 +3,6 @@ import {
   FormGroup,
   NonNullableFormBuilder,
   Validators,
-  FormsModule,
   ReactiveFormsModule,
   FormControl,
 } from '@angular/forms';
@@ -26,13 +25,13 @@ import { TripState } from '../../../store/state';
 import { selectSelectedTrip, selectUser } from '../../../store/selectors';
 import currencies from '../../../../assets/json/currencies.json';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-add-trip-form',
   standalone: true,
   imports: [
     NzFormModule,
-    FormsModule,
     NzDatePickerModule,
     ReactiveFormsModule,
     NzDrawerModule,
@@ -81,6 +80,13 @@ export class AddTripFormComponent implements OnInit {
       homeCurrency: ['', [Validators.required]],
       destinationCurrency: ['', [Validators.required]],
     });
+
+    this.selectedTrip$.pipe(takeUntilDestroyed()).subscribe((trip) => {
+      if (trip) {
+        this.trip = trip;
+        this.populateForm(trip);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -88,13 +94,7 @@ export class AddTripFormComponent implements OnInit {
       this.title = 'Edit Trip';
       this.buttonText = 'Save Changes ';
     }
-    this.selectedTrip$.subscribe((trip) => {
-      //Do I have to unsubscribe?
-      if (trip) {
-        this.trip = trip;
-        this.populateForm(trip);
-      }
-    });
+
   }
 
   populateForm(trip: TripInterface): void {

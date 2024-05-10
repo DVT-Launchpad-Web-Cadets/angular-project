@@ -14,60 +14,67 @@
     </div>
 
     <div
-      class="bg-white h-2/3 w-full rounded-t-badge flex flex-col items-center justify-around p-8"
+      class="bg-white h-2/3 w-full rounded-t-3xl flex flex-col items-center justify-around p-8"
     >
       <h1 class="text-3xl text-black font-bold">New Account</h1>
-      @if (errorMessage) {
-      <div>{{ errorMessage }}</div>
-      }
 
       <form
-        [formGroup]="form"
         (ngSubmit)="onSubmit()"
-        class="w-full flex flex-col gap-6"
+        nzLayout="horizontal"
+        class="w-full flex flex-col"
+        [formGroup]="validateForm"
       >
-        <div class="flex flex-col">
+        <nz-form-item class="flex flex-col" nzFlex>
           <label for="name" class="text-dark-gray">Username:</label>
-          <nz-input-group
-            class="border bg-transparent border-transparent border-b-coral"
-            nzPrefixIcon="user"
-          >
-            <input
-              type="text"
-              nz-input
-              formControlName="userName"
-              placeholder="Username"
-            />
-          </nz-input-group>
-        </div>
-        <div class="flex flex-col">
+          <nz-form-control nzHasFeedback nzErrorTip="Username is required">
+            <nz-input-group
+              class="border bg-transparent border-transparent border-b-coral"
+              nzPrefixIcon="user"
+            >
+              <input
+                nz-input
+                formControlName="username"
+                placeholder="Username"
+                required
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="flex flex-col" nzFlex>
           <label for="email" class="text-dark-gray">Email:</label>
-          <nz-input-group
-            class="border bg-transparent border-transparent border-b-coral"
-            nzPrefixIcon="user"
-          >
-            <input
-              type="text"
-              nz-input
-              formControlName="email"
-              placeholder="Email"
-            />
-          </nz-input-group>
-        </div>
-        <div class="flex flex-col">
+          <nz-form-control nzHasFeedback nzErrorTip="Valid email required">
+            <nz-input-group
+              class="border bg-transparent border-transparent border-b-coral"
+              nzPrefixIcon="mail"
+            >
+              <input
+                type="email"
+                nz-input
+                formControlName="email"
+                placeholder="Email"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="flex flex-col" nzFlex>
           <label for="password" class="text-dark-gray">Password:</label>
-          <nz-input-group
-            class="border bg-transparent border-transparent border-b-coral"
-            nzPrefixIcon="lock"
+          <nz-form-control
+            nzHasFeedback
+            nzErrorTip="Password must be 8 characters long"
           >
-            <input
-              type="password"
-              nz-input
-              formControlName="password"
-              placeholder="Password"
-            />
-          </nz-input-group>
-        </div>
+            <nz-input-group
+              class="border bg-transparent border-transparent border-b-coral"
+              nzPrefixIcon="lock"
+            >
+              <input
+                type="password"
+                nz-input
+                formControlName="password"
+                placeholder="Password"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
         <div class="flex w-full justify-center">
           <button
             type="submit"

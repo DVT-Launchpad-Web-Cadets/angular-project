@@ -96,48 +96,40 @@ export class TripsEffects {
     )
   );
 
-  constructor(
-    private actions$: Actions,
-    private tripsService: TripService,
-    private notificationService: NzNotificationService
-  ) {}
-  
   selectTrip$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectTrip),
-      tap(({ trip }) => {
-        console.log('Selected trip:', trip);
-      }),
       switchMap(({ trip }) =>
-        this.currencyService.getCurrencyRates(trip.homeCurrency, trip.destinationCurrency).pipe(
-          tap((currencyResponse) => {
-            console.log('Currency response:', currencyResponse);
-          }),
-          map((currencyResponse) => {
-            // Access the correct exchange rate from the currency response
-            const exchangeRate = currencyResponse.data[trip.destinationCurrency].value;
-            console.log('Exchange rate:', exchangeRate);
-            // Update the trip with the exchange rate and return the action
-            return selectTripComplete({
-              trip: {
-                ...(trip as TripInterface),
-                exchangeRate: exchangeRate,
-              },
-            });
-          }),
-          catchError((error) => {
-            console.error('Error fetching currency rates:', error);
-            return EMPTY;
-          })
-        )
+        this.currencyService
+          .getCurrencyRates(trip.homeCurrency, trip.destinationCurrency)
+          .pipe(
+            map((currencyResponse) => {
+              const exchangeRate =
+                currencyResponse.data[trip.destinationCurrency].value;
+              console.log('Exchange rate:', exchangeRate);
+              return selectTripComplete({
+                trip: {
+                  ...(trip as TripInterface),
+                  exchangeRate: exchangeRate,
+                },
+              });
+            }),
+            catchError((err) => {
+              this.notificationService.error(
+                `Setting exchange rate failed`,
+                err.toString()
+              );
+              return EMPTY;
+            })
+          )
       )
     )
   );
-  
 
   constructor(
     private actions$: Actions,
     private tripsService: TripService,
-    private currencyService: CurrencyService
+    private currencyService: CurrencyService,
+    private notificationService: NzNotificationService
   ) {}
 }

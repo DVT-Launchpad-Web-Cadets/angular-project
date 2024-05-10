@@ -1,6 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import {
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -16,22 +21,38 @@ import { AuthState } from '../../store/state';
   styleUrl: './signup.component.css',
 })
 export class SignupComponent {
-  fb = inject(FormBuilder);
-  authService = inject(AuthService);
   router = inject(Router);
 
-  form = this.fb.nonNullable.group({
-    username: ['', Validators.required],
-    email: ['', Validators.required, Validators.email],
-    password: ['', Validators.required, Validators.minLength(6)],
-  });
-  errorMessage: string | null = null;
+  validateForm: FormGroup<{
+    username: FormControl<string>;
+    email: FormControl<string>;
+    password: FormControl<string>;
+  }>;
 
-  constructor(private store: Store<AuthState>) {}
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private store: Store<AuthState>
+  ) {
+    this.validateForm = this.fb.group({
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+    });
+  }
 
   onSubmit(): void {
-    const { email, username, password } = this.form.getRawValue();
-    this.store.dispatch(signUp({ email, username, password }));
-    this.router.navigate(['/myTrips']);
+    if (this.validateForm.valid) {
+      this.store.dispatch(
+        signUp({
+          email: this.validateForm.value.email!,
+          username: this.validateForm.value.username!,
+          password: this.validateForm.value.password!,
+        })
+      );
+      this.router.navigate(['/myTrips']);
+    } else {
+      this.validateForm.markAllAsTouched();
+      console.log(this.validateForm);
+    }
   }
 }

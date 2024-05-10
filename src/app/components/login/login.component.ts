@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignupButtonComponent } from '../shared/signup-button/signup-button.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -21,24 +21,37 @@ import { AuthState } from '../../store/state';
   ],
 })
 export class LoginComponent {
-  fb = inject(FormBuilder);
   router = inject(Router);
 
-  form = this.fb.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
-  });
-  errorMessage: string | null = null;
+  validateForm: FormGroup<{
+    username: FormControl<string>;
+    email: FormControl<string>;
+    password: FormControl<string>;
+  }>;
 
-  constructor(private store: Store<AuthState>) {}
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private store: Store<AuthState>
+  ) {
+    this.validateForm = this.fb.group({
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+    });
+  }
 
   onSubmit(): void {
-    if (this.form.valid) {
-      const { email, password } = this.form.getRawValue();
-      this.store.dispatch(login({ email, password }));
+    if (this.validateForm.valid) {
+      this.store.dispatch(
+        login({
+          email: this.validateForm.value.email!,
+          password: this.validateForm.value.password!,
+        })
+      );
       this.router.navigate(['/myTrips']);
     } else {
-      this.form.markAllAsTouched();
+      this.validateForm.markAllAsTouched();
+      console.log(this.validateForm);
     }
   }
 }

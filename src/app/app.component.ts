@@ -5,6 +5,7 @@ import { SignupComponent } from "./components/signup/signup.component";
 import { AuthService } from './services/auth.service';
 import { ItenaryComponent } from "./components/itenary/itenary.component";
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -18,8 +19,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class AppComponent implements OnInit{
   authService = inject(AuthService);
 
+  private userSubscription: Subscription | undefined;
+
+
   ngOnInit(): void {
-    this.authService.user$.pipe(takeUntilDestroyed()).subscribe((user) => {
+    this.userSubscription = this.authService.user$.subscribe((user) => {
       if (user) {
         this.authService.currentUserSig.set({
           email: user.email ?? '',
@@ -31,5 +35,11 @@ export class AppComponent implements OnInit{
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+    this.authService.currentUserSig.set(null);
+  }
   title = 'Angular-Project';
 }
