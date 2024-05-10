@@ -71,7 +71,7 @@ export class BudgetComponent {
         }, 0))
     );
 
-    //for later use
+    // for later use
     // this.budgetItems$ = this.events$.pipe(
     //   mergeMap((events) => from(events)),
     //   groupBy((event) => {

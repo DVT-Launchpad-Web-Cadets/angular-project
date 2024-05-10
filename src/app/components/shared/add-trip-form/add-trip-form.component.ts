@@ -94,7 +94,6 @@ export class AddTripFormComponent implements OnInit {
       this.title = 'Edit Trip';
       this.buttonText = 'Save Changes ';
     }
-
   }
 
   populateForm(trip: TripInterface): void {
@@ -140,6 +139,7 @@ export class AddTripFormComponent implements OnInit {
         : addTrip({ newTrip });
       this.store.dispatch(action);
       this.close();
+      this.validateForm.reset();
     } else {
       this.validateForm.markAllAsTouched();
     }

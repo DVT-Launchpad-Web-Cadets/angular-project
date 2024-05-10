@@ -147,6 +147,8 @@ export class EventFormComponent implements OnInit {
       } else {
         this.eventStore.dispatch(addEvent({ newEvent }));
       }
+      this.validateForm.reset();
+      this.close();
     } else {
       console.log('event invalid', this.validateForm.value);
       Object.values(this.validateForm.controls).forEach((control) => {
