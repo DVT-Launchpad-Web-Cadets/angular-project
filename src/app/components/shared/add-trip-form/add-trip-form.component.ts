@@ -3,14 +3,13 @@ import {
   FormGroup,
   NonNullableFormBuilder,
   Validators,
-  FormsModule,
   ReactiveFormsModule,
   FormControl,
 } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { Store } from '@ngrx/store';
-import { TripInterface } from '../../../models';
+import { CurrencyDataInterface, TripInterface } from '../../../models';
 import {
   addTrip,
   deleteTrip,
@@ -24,19 +23,22 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { TripState } from '../../../store/state';
 import { selectSelectedTrip, selectUser } from '../../../store/selectors';
+import currencies from '../../../../assets/json/currencies.json';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-add-trip-form',
   standalone: true,
   imports: [
     NzFormModule,
-    FormsModule,
     NzDatePickerModule,
     ReactiveFormsModule,
     NzDrawerModule,
     NzSpaceModule,
     NgIconComponent,
     NzPopconfirmModule,
+    NzSelectModule,
   ],
   templateUrl: './add-trip-form.component.html',
   styleUrl: './add-trip-form.component.css',
@@ -54,10 +56,14 @@ export class AddTripFormComponent implements OnInit {
   userId$ = this.store.select(selectUser);
   trip: TripInterface | undefined;
 
+  currencies: CurrencyDataInterface[] = Object.values(currencies);
+
   validateForm: FormGroup<{
     tripName: FormControl<string>;
     tripDestination: FormControl<string>;
     tripDates: FormControl<[Date, Date] | null>;
+    homeCurrency: FormControl<string>;
+    destinationCurrency: FormControl<string>;
   }>;
 
   constructor(
@@ -71,6 +77,15 @@ export class AddTripFormComponent implements OnInit {
       tripDates: this.fb.control<[Date, Date] | null>(null, {
         validators: [Validators.required],
       }),
+      homeCurrency: ['', [Validators.required]],
+      destinationCurrency: ['', [Validators.required]],
+    });
+
+    this.selectedTrip$.pipe(takeUntilDestroyed()).subscribe((trip) => {
+      if (trip && this.edit) {
+        this.trip = trip;
+        this.populateForm(trip);
+      }
     });
   }
 
@@ -79,13 +94,6 @@ export class AddTripFormComponent implements OnInit {
       this.title = 'Edit Trip';
       this.buttonText = 'Save Changes ';
     }
-    this.selectedTrip$.subscribe((trip) => {
-      //Do I have to unsubscribe?
-      if (trip) {
-        this.trip = trip;
-        this.populateForm(trip);
-      }
-    });
   }
 
   populateForm(trip: TripInterface): void {
@@ -98,6 +106,19 @@ export class AddTripFormComponent implements OnInit {
 
   addTrip(): void {
     if (this.validateForm.valid) {
+      const homeCurrency = this.currencies.find(
+        (currency) => currency['code'] === this.validateForm.value.homeCurrency
+      );
+      const homeCurrencySymbol = homeCurrency ? homeCurrency['symbol'] : '';
+
+      const destinationCurrency = this.currencies.find(
+        (currency) =>
+          currency['code'] === this.validateForm.value.destinationCurrency
+      );
+      const destinationCurrencySymbol = destinationCurrency
+        ? destinationCurrency['symbol']
+        : '';
+
       const newTrip: TripInterface = {
         name: this.validateForm.value.tripName ?? '',
         destination: this.validateForm.value.tripDestination ?? '',
@@ -107,6 +128,10 @@ export class AddTripFormComponent implements OnInit {
         endDate: this.validateForm.value.tripDates
           ? this.validateForm.value.tripDates[1]
           : new Date(),
+        homeCurrency: this.validateForm.value.homeCurrency ?? '',
+        homeCurrencySymbol: homeCurrencySymbol,
+        destinationCurrency: this.validateForm.value.destinationCurrency ?? '',
+        destinationCurrencySymbol: destinationCurrencySymbol,
       };
 
       const action = this.edit
@@ -114,6 +139,7 @@ export class AddTripFormComponent implements OnInit {
         : addTrip({ newTrip });
       this.store.dispatch(action);
       this.close();
+      this.validateForm.reset();
     } else {
       this.validateForm.markAllAsTouched();
     }

@@ -3,9 +3,9 @@
   style="background-image: url('../../assets/backgrounds/travel.jpeg')"
 >
   <div
-    class="bg-black bg-opacity-30 h-full w-full flex flex-col items-center justify-between"
+    class="bg-black bg-opacity-30 h-full w-full flex flex-col items-center justify-between md:justify-around"
   >
-    <div class="h-1/3 flex justify-center items-center">
+    <div class="h-1/3 flex justify-center items-center md:hidden">
       <img
         class="size-40 px-4"
         src="../../assets/logos/destigo-high-resolution-logo-transparent.svg"
@@ -14,56 +14,66 @@
     </div>
 
     <div
-      class="bg-white h-2/3 w-full rounded-t-badge flex flex-col items-center justify-around p-8"
+      class="bg-white h-2/3 w-full md:w-2/5 md:h-3/5 lg: rounded-t-3xl md:rounded-3xl flex flex-col items-center justify-center p-8"
     >
+
+    <div class="h-1/3 flex justify-center hidden items-center md:block">
+      <img
+        class="size-40 px-4"
+        src="../../assets/logos/destigo-high-resolution-logo-transparent.svg"
+        alt="destigo logo"
+      />
+    </div>
+
       <h1 class="text-3xl text-black font-bold">Welcome Back</h1>
-      @if (errorMessage) {
-      <div>{{ errorMessage }}</div>
-      }
 
       <form
-        [formGroup]="form"
         (ngSubmit)="onSubmit()"
-        class="w-full flex flex-col gap-8"
+        nzLayout="horizontal"
+        class="w-full flex flex-col justify-self-end"
+        [formGroup]="validateForm"
       >
-        <div class="flex flex-col">
+        <nz-form-item class="flex flex-col" nzFlex>
           <label for="email" class="text-dark-gray">Email:</label>
-          <nz-input-group
-            class="border bg-transparent border-transparent border-b-coral"
-            nzPrefixIcon="user"
-            nzHasFeedback
-            nzErrorTip="Valid email is required"
-          >
-            <input
-              type="email"
-              nz-input
-              formControlName="email"
-              placeholder="Email"
-            />
-          </nz-input-group>
-        </div>
-        <div class="flex flex-col">
+          <nz-form-control nzHasFeedback nzErrorTip="Valid email required">
+            <nz-input-group
+              class="border bg-transparent border-transparent border-b-coral"
+              nzPrefixIcon="mail"
+            >
+              <input
+                type="email"
+                nz-input
+                formControlName="email"
+                placeholder="Email"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="flex flex-col" nzFlex>
           <label for="password" class="text-dark-gray">Password:</label>
-          <nz-input-group
-            class="border bg-transparent border-transparent border-b-coral"
-            nzPrefixIcon="lock"
+          <nz-form-control
             nzHasFeedback
-            nzErrorTip="Please ensure your password is at least 8 characters long."
+            nzErrorTip="Password must be 8 characters long"
           >
-            <input
-              type="password"
-              nz-input
-              formControlName="password"
-              placeholder="Password"
-            />
-          </nz-input-group>
-        </div>
+            <nz-input-group
+              class="border bg-transparent border-transparent border-b-coral"
+              nzPrefixIcon="lock"
+            >
+              <input
+                type="password"
+                nz-input
+                formControlName="password"
+                placeholder="Password"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
         <div class="flex w-full justify-center">
           <button
             type="submit"
-            class="bg-coral flex justify-center p-4 m-4 items-center text-lg text-white w-3/4 rounded-full"
+            class="bg-coral flex justify-center p-4 items-center text-lg text-white w-3/4 rounded-full"
           >
-            <p>Sign in</p>
+            <p>Login</p>
           </button>
         </div>
       </form>

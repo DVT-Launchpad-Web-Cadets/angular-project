@@ -11,6 +11,7 @@
     <div class="text-white flex justify-between text-2xl">
       <button
         class="border border-white rounded-full size-8 flex items-center justify-center"
+        routerLink="/my-trips"
       >
         <ng-icon name="matArrowBack" class="text-white text-2xl"></ng-icon>
       </button>
@@ -21,7 +22,8 @@
       <div class="flex items-center text-gray">
         <ng-icon name="matCalendarMonth" class="text-2xl"></ng-icon>
         <h3 class="text-sm text-gray">
-          {{ trip?.startDate }} -> {{ trip?.endDate }}
+          {{ trip?.startDate | date : "dd/MM/yyyy" }} -
+          {{ trip?.endDate | date : "dd/MM/yyyy" }}
         </h3>
       </div>
       <div class="flex items-center text-gray">
@@ -33,5 +35,7 @@
 </div>
 <app-menu></app-menu>
 } @else {
-<h1>Still loading some stuff</h1>
+<div class="w-full h-screen flex justify-center items-center">
+  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
 }

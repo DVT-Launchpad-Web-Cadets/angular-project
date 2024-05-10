@@ -49,7 +49,7 @@ export class TagComponent {
   }
 
   handleTag() {
-    switch (this.tagName) {
+    switch (this.tagName as TagType) {
       case 'Transport':
         this.icon = 'matTrain';
         break;

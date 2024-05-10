@@ -9,6 +9,7 @@ import {
   deleteEventComplete,
   editEvent,
   editEventComplete,
+  eventLoading,
   getEvents,
   getEventsComplete,
 } from '../actions/event.actions';
@@ -33,6 +34,7 @@ export class EventsEffects {
               `Failed to create a new event`,
               err.toString()
             );
+            eventLoading({loading: false});
             return EMPTY;
           })
         )
@@ -52,6 +54,7 @@ export class EventsEffects {
               `Failed to fetch events`,
               err.toString()
             );
+            eventLoading({loading: false});
             return EMPTY;
           })
         );
@@ -70,6 +73,7 @@ export class EventsEffects {
               `Failed to delete event`,
               err.toString()
             );
+            eventLoading({loading: false});
             return EMPTY;
           })
         )
@@ -88,6 +92,7 @@ export class EventsEffects {
               `Failed to edit event`,
               err.toString()
             );
+            eventLoading({loading: false});
             return EMPTY;
           })
         )

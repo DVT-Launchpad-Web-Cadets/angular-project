@@ -9,13 +9,15 @@ import {
   setDoc,
   where,
 } from '@angular/fire/firestore';
-import { Observable, from } from 'rxjs';
+import { Observable, from, map } from 'rxjs';
 import { TripInterface } from '../models';
 import { doc } from '@firebase/firestore';
 import { Store } from '@ngrx/store';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { AuthState } from '../store/state/auth.state';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TimeUtilService } from './time-util.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +29,7 @@ export class TripService {
   userId$ = this.store.select(selectUser);
   userId = '';
 
-  constructor(private store: Store<AuthState>) {
+  constructor(private store: Store<AuthState>, private timeUtilService: TimeUtilService) {
     this.userId$.pipe(takeUntilDestroyed()).subscribe((userId) => {
       this.userId = userId ?? '';
     });
@@ -35,7 +37,19 @@ export class TripService {
 
   getTrips(): Observable<TripInterface[]> {
     const q = query(this.tripsCollection, where('userId', '==', this.userId));
-    return collectionData(q, { idField: 'id' }) as Observable<TripInterface[]>;
+    const collectionData$ = collectionData(q, { idField: 'id' }) as Observable<
+      TripInterface[]
+    >;
+
+    return collectionData$.pipe(
+      map((trips) =>
+        trips.map((trip) => ({
+          ...trip,
+          startDate: this.timeUtilService.firebaseTimestampToDate(trip.startDate),
+          endDate:  this.timeUtilService.firebaseTimestampToDate(trip.endDate),
+        }))
+      )
+    );
   }
 
   addTrip(trip: TripInterface): Observable<string> {

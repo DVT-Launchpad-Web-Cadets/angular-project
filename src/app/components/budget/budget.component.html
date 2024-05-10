@@ -1,31 +1,51 @@
-<div class="w-full flex justify-between gap-2 mb-4 items-end">
-    <h2 class="text-black text-xl font-bold">
-        Travel Budget
-    </h2>
-    <div class="flex gap-2">
-        <button class="bg-black flex text-white justify-center items-center rounded-lg self-end p-1 px-2 mt-2">
-            <ng-icon name="matBarChart" class="text-2xl"></ng-icon>
-        </button>
-        <button nz-button nz-dropdown [nzDropdownMenu]="menu4" class="bg-coral flex text-white justify-center items-center rounded-lg self-end p-1 px-2 mt-2">
-            <p>Currency</p>
-            <ng-icon name="matKeyboardArrowDown" class="text-2xl"></ng-icon>
-        </button>
-    </div>
+<div class="w-full flex justify-between gap-2 mb-4 items-center">
+  <h2 class="text-black text-xl font-bold">Travel Budget</h2>
+    <button
+      nz-button
+      nz-dropdown
+      [nzDropdownMenu]="menu4"
+      class="bg-coral flex text-white justify-center items-center rounded-lg self-end p-1 px-2 mt-2"
+    >
+      <p>Currency</p>
+      <ng-icon name="matKeyboardArrowDown" class="text-2xl"></ng-icon>
+    </button>
 </div>
 
 <nz-dropdown-menu #menu4="nzDropdownMenu">
   <ul nz-menu>
-    <li nz-menu-item>ZAR</li> <!-- I will be adding more options from the api  -->
-    <li nz-menu-item>EUR</li>
-    <li nz-menu-item>USD</li>
+    @if(currencyInfo$ | async; as currencyInfo){
+    <li nz-menu-item (click)="setCurrency(currencyInfo.homeCurrency ?? '')">
+      {{ currencyInfo.homeCurrency }}
+    </li>
+    <li nz-menu-item (click)="setCurrency(currencyInfo.destinationCurrency ?? '')">
+      {{ currencyInfo.destinationCurrency }}
+    </li>
+    }
   </ul>
 </nz-dropdown-menu>
 
 <div class="w-full flex flex-col items-center">
-  <app-budget-item category="Food" currency="$" cost="3590" percentage="12" class="w-full"></app-budget-item>
+  @for(budgetItem of budgetItems$ | async; track budgetItem.tag){
+  {{ budgetItem.tag }}
+  <app-budget-item
+    [category]="budgetItem.tag"
+    [currency]="currency"
+    [cost]="budgetItem.totalCost"
+    percentage="5"
+    class="w-full"
+  ></app-budget-item>
+  }
   <div
     class="bg-black text-white p-3 px-5 rounded-full fixed bottom-4 flex items-center justify-center font-bold"
   >
-    <h2 class="text-md text-white">{{ currency }}{{ totalCost }}</h2>
+    @if(totalCost$ | async; as cost)
+    { @if(currencyInfo$ | async; as
+    currencyInfo){ @if(currencyInfo.homeCurrency === currency){
+    {{ currencyInfo.homeCurrencySymbol }}{{ cost | number : "1.2-2" }}
+    } @else if (currencyInfo.destinationCurrency === currency && cost &&
+    currencyInfo.exchangeRate){
+    {{ currencyInfo.destinationCurrencySymbol
+    }}{{ cost * currencyInfo.exchangeRate | number : "1.2-2" }}
+    } } }
   </div>
 </div>

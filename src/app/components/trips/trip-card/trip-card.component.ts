@@ -6,11 +6,12 @@ import {
   matCalendarMonth,
 } from '@ng-icons/material-icons/baseline';
 import { TripInterface } from '../../../models';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-trip-card',
   standalone: true,
-  imports: [MatIconModule, NgIconComponent],
+  imports: [MatIconModule, NgIconComponent, DatePipe],
   templateUrl: './trip-card.component.html',
   styleUrl: './trip-card.component.css',
   viewProviders: [provideIcons({ matLocationOn, matCalendarMonth })],

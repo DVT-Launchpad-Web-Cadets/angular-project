@@ -29,7 +29,7 @@
 >
   <ng-container *nzDrawerContent>
     <div class="p-4 w-full h-full">
-      <h1 class="text-3xl font-bold text-black">Add Event</h1>
+      <h1 class="text-3xl font-bold text-black">{{title}}</h1>
       <form
         nz-form
         nzLayout="horizontal"
@@ -55,12 +55,12 @@
         <nz-form-item class="w-full">
           <nz-form-control nzHasFeedback nzErrorTip="Event type required">
             <nz-select
-              formControlName="eventTags"
+              formControlName="eventTag"
               nzPlaceHolder="Select event type"
               class="w-full"
               required
             >
-            @for (option of options; track option.value) {
+              @for (option of options; track option.value) {
               <nz-option
                 [nzLabel]="option.value"
                 [nzValue]="option.value"
@@ -129,16 +129,22 @@
               ></nz-input-number>
             </nz-input-number-group>
             <ng-template #addOnBefore>
+              @if (selectedCurrencyInfo$ | async; as currencyInfo) {
               <nz-select
-                nzPlaceHolder="R"
+                nzPlaceHolder="cur"
                 formControlName="eventCurrency"
                 class="w-16"
               >
-                <nz-option nzValue="USD" nzLabel="$"></nz-option>
-                <nz-option nzValue="EUR" nzLabel="€"></nz-option>
-                <nz-option nzValue="GBP" nzLabel="£"></nz-option>
-                <nz-option nzValue="CNY" nzLabel="¥"></nz-option>
+                <nz-option
+                  [nzValue]="currencyInfo.homeCurrency"
+                  [nzLabel]="currencyInfo.homeCurrencySymbol ?? ''"
+                ></nz-option>
+                <nz-option
+                  [nzValue]="currencyInfo.destinationCurrency"
+                  [nzLabel]="currencyInfo.destinationCurrencySymbol ?? ''"
+                ></nz-option>
               </nz-select>
+              }
             </ng-template>
           </nz-space>
         </nz-form-item>
@@ -166,7 +172,7 @@
               class="bg-black text-lg text-white p-2 w-full rounded-lg"
               nz-button
             >
-              Add Event
+              {{ buttonText }}
             </button>
           </nz-form-control>
         </nz-form-item>

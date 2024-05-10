@@ -11,8 +11,12 @@ import {
   editTripComplete,
   getTrips,
   getTripsComplete,
+  selectTrip,
+  selectTripComplete,
+  tripLoading,
 } from '../actions/trip.actions';
 import { TripInterface } from '../../models';
+import { CurrencyService } from '../../services/currency.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable()
@@ -32,6 +36,7 @@ export class TripsEffects {
               `Failed to create a new trip`,
               err.toString()
             );
+            tripLoading({ loading: false });
             return EMPTY;
           })
         )
@@ -50,6 +55,7 @@ export class TripsEffects {
               `Failed to get trips`,
               err.toString()
             );
+            tripLoading({ loading: false });
             return EMPTY;
           })
         )
@@ -68,6 +74,7 @@ export class TripsEffects {
               `Failed to delete trip`,
               err.toString()
             );
+            tripLoading({ loading: false });
             return EMPTY;
           })
         )
@@ -86,6 +93,7 @@ export class TripsEffects {
               `Failed to edit trip`,
               err.toString()
             );
+            tripLoading({ loading: false });
             return EMPTY;
           })
         )
@@ -93,9 +101,40 @@ export class TripsEffects {
     )
   );
 
+  selectTrip$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(selectTrip),
+      switchMap(({ trip }) =>
+        this.currencyService
+          .getCurrencyRates(trip.homeCurrency, trip.destinationCurrency)
+          .pipe(
+            map((currencyResponse) => {
+              const exchangeRate =
+                currencyResponse.data[trip.destinationCurrency].value;
+              return selectTripComplete({
+                trip: {
+                  ...(trip as TripInterface),
+                  exchangeRate: exchangeRate,
+                },
+              });
+            }),
+            catchError((err) => {
+              this.notificationService.error(
+                `Setting exchange rate failed`,
+                err.toString()
+              );
+              tripLoading({ loading: false });
+              return EMPTY;
+            })
+          )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private tripsService: TripService,
+    private currencyService: CurrencyService,
     private notificationService: NzNotificationService
   ) {}
 }

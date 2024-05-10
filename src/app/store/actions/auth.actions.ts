@@ -23,4 +23,9 @@ export const login = createAction(
     '[SignUp Page] SignUpComplete',
     props<{ userId: string }>()
   );
+
+  export const authLoading = createAction(
+    '[Auth] AuthLoading',
+    props<{ loading: boolean }>()
+  );
   

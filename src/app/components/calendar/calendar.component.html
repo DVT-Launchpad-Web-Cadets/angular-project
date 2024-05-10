@@ -1,3 +1,19 @@
-<nz-calendar >
+<nz-calendar>
+  <ul *nzDateCell="let date" class="events">
+    @for(event of events$ | async; track event.id) {
+    @if(getDateFromString(event.date).day === date.getDate() &&
+    getDateFromString(event.date).month === date.getMonth()){
+    <li nz-button nz-popover [nzPopoverTitle]="event.date" [nzPopoverContent]="contentTemplate" nzPopoverTrigger="click">
+      <nz-badge nzStatus="success" [nzText]="event.name"></nz-badge>
+    </li>
+
+    <ng-template #contentTemplate>
+        <div>
+          <p>{{event.name}}</p>
+        </div>
+      </ng-template>
+    } }
+  </ul>
+
 
 </nz-calendar>

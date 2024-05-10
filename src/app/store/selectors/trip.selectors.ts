@@ -13,3 +13,21 @@ export const selectSelectedTrip = createSelector(
   selectTripFeature,
   (state) => state.selectedTrip
 );
+
+export const selectCurrencyInfo = createSelector(
+  selectTripFeature,
+  (state) =>{
+    return {
+      homeCurrency: state.selectedTrip?.homeCurrency,
+      homeCurrencySymbol: state.selectedTrip?.homeCurrencySymbol,
+      destinationCurrency: state.selectedTrip?.destinationCurrency,
+      destinationCurrencySymbol: state.selectedTrip?.destinationCurrencySymbol,
+      exchangeRate: state.selectedTrip?.exchangeRate
+    }
+  }
+);
+
+export const selectTripLoading = createSelector(
+  selectTripFeature,
+  (state) => state.loading
+);

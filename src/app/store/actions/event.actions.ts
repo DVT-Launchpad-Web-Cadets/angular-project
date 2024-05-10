@@ -40,3 +40,8 @@ export const editEventComplete = createAction(
   '[EVENTS] editEventComplete',
   props<{ updatedEvent: EventInterface }>()
 );
+
+export const eventLoading = createAction(
+  '[EVENTS] eventLoading',
+  props<{ loading: boolean }>()
+);

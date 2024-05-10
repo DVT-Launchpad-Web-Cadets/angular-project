@@ -9,10 +9,10 @@ import {
   setDoc,
   where,
 } from '@angular/fire/firestore';
-import { Observable, from } from 'rxjs';
+import { Observable, from, map } from 'rxjs';
 import { EventInterface } from '../models';
 import { doc } from '@firebase/firestore';
-
+import { TimeUtilService } from './time-util.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -22,7 +22,19 @@ export class EventService {
 
   getEvents(tripId: string): Observable<EventInterface[]> {
     const q = query(this.eventsCollection, where('tripId', '==', tripId));
-    return collectionData(q, { idField: 'id' }) as Observable<EventInterface[]>;
+    const collectiondData$ = collectionData(q, { idField: 'id' }) as Observable<
+      EventInterface[]
+    >;
+
+    return collectiondData$.pipe(
+      map((events) =>
+        events.map((event) => ({
+          ...event,
+          startTime: this.timeUtilService.firebaseTimestampToDate(event.startTime),
+          endTime: this.timeUtilService.firebaseTimestampToDate(event.endTime),
+        }))
+      )
+    );
   }
 
   addEvent(event: EventInterface): Observable<string> {
@@ -43,4 +55,6 @@ export class EventService {
     const promise = setDoc(docRef, event);
     return from(promise);
   }
+
+  constructor(private timeUtilService: TimeUtilService) {}
 }

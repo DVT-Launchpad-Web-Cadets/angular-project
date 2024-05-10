@@ -8,17 +8,7 @@ export interface EventInterface {
   latitude?: string;
   longitude?: string;
   locationUrl?: string;
-  tag:
-  | 'Food'
-  | 'Transport'
-  | 'Lodging'
-  | 'Activity'
-  | 'Historical'
-  | 'Shopping'
-  | 'Flight'
-  | 'Coffee'
-  | 'Entertainment'
-  | 'Other';
+  tag: TagType;
   notes?: string;
   cost: number;
   currency?: string;
@@ -34,4 +24,5 @@ export type TagType =
   | 'Flight'
   | 'Coffee'
   | 'Entertainment'
-  | 'Other';
+  | 'Other'
+  | string;
