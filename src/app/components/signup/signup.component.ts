@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -12,6 +12,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { Store } from '@ngrx/store';
 import { signUp } from '../../store/actions';
 import { AuthState } from '../../store/state';
+import { selectUser } from '../../store/selectors';
+import { Subscription, filter } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +22,7 @@ import { AuthState } from '../../store/state';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
 })
-export class SignupComponent {
+export class SignupComponent implements OnDestroy {
   router = inject(Router);
 
   validateForm: FormGroup<{
@@ -28,6 +30,9 @@ export class SignupComponent {
     email: FormControl<string>;
     password: FormControl<string>;
   }>;
+
+  selectedUser$ = this.store.select(selectUser);
+  private userSubscription: Subscription | undefined;
 
   constructor(
     private fb: NonNullableFormBuilder,
@@ -49,10 +54,17 @@ export class SignupComponent {
           password: this.validateForm.value.password!,
         })
       );
-      this.router.navigate(['/myTrips']);
+      this.userSubscription = this.selectedUser$.pipe(filter(userId => !!userId)).subscribe(() => {
+        this.router.navigate(['/my-trips']);
+      });
     } else {
       this.validateForm.markAllAsTouched();
-      console.log(this.validateForm);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
     }
   }
 }

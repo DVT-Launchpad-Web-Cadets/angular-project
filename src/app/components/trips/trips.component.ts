@@ -6,9 +6,13 @@ import { AddTripFormComponent } from '../shared/add-trip-form/add-trip-form.comp
 import { Store } from '@ngrx/store';
 import { getTrips, selectTrip } from '../../store/actions/trip.actions';
 import { RouterModule } from '@angular/router';
-import { TripState } from '../../store/state';
-import { selectTrips } from '../../store/selectors';
+import { AuthState, TripState } from '../../store/state';
+import { selectTripLoading, selectTrips } from '../../store/selectors';
 import { TripInterface } from '../../models';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { matExitToApp } from '@ng-icons/material-icons/baseline';
+import { logout } from '../../store/actions';
 
 @Component({
   selector: 'app-trips',
@@ -21,16 +25,28 @@ import { TripInterface } from '../../models';
     AddTripFormComponent,
     AsyncPipe,
     RouterModule,
+    NzSpinModule,
+    NgIconComponent
+  ],
+  viewProviders: [
+    provideIcons({
+      matExitToApp
+    }),
   ],
 })
 export class TripsComponent {
-  selectedTrips$ = this.store.select(selectTrips);
+  selectedTrips$ = this.tripStore.select(selectTrips);
+  loading$ = this.tripStore.select(selectTripLoading);
 
-  constructor(private store: Store<TripState>) {
-    this.store.dispatch(getTrips());
+  constructor(private tripStore: Store<TripState>, private authStore: Store<AuthState>) {
+    this.tripStore.dispatch(getTrips());
   }
 
   setTrip(trip: TripInterface) {
-    this.store.dispatch(selectTrip({ trip }));
+    this.tripStore.dispatch(selectTrip({ trip }));
+  }
+
+  logout() {
+    this.authStore.dispatch(logout())
   }
 }

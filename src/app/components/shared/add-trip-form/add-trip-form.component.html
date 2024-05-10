@@ -5,7 +5,7 @@
   </button>
   } @else {
   <button
-    class="bg-coral rounded-full size-12 right-8 fixed bottom-12 text-white flex justify-center items-center text-4xl"
+    class="bg-black rounded-full size-12 right-8 fixed bottom-12 text-white flex justify-center items-center text-4xl"
     nz-button
     nzType="primary"
     (click)="showDrawer()"
@@ -73,7 +73,7 @@
         <nz-form-label class="font-bold">Currencies</nz-form-label>
         <div class="flex w-full">
           <nz-form-item class="w-1/2 flex flex-col items-start">
-            <nz-form-label >Home</nz-form-label>
+            <nz-form-label>Home</nz-form-label>
             <nz-form-control nzHasFeedback nzErrorTip="Currency is required">
               <nz-select
                 formControlName="homeCurrency"
@@ -92,7 +92,7 @@
             </nz-form-control>
           </nz-form-item>
           <nz-form-item class="w-1/2 flex flex-col items-start">
-            <nz-form-label >Destination</nz-form-label>
+            <nz-form-label>Destination</nz-form-label>
             <nz-form-control nzHasFeedback nzErrorTip="Currency is required">
               <nz-select
                 formControlName="destinationCurrency"
@@ -111,7 +111,7 @@
             </nz-form-control>
           </nz-form-item>
         </div>
-        
+
         <nz-form-item>
           <nz-form-control>
             <button

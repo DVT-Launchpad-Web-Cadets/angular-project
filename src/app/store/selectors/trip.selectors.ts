@@ -26,3 +26,8 @@ export const selectCurrencyInfo = createSelector(
     }
   }
 );
+
+export const selectTripLoading = createSelector(
+  selectTripFeature,
+  (state) => state.loading
+);

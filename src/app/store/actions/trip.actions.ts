@@ -47,3 +47,8 @@ export const selectTripComplete = createAction(
   '[TRIPS] selectTripComplete',
   props<{ trip: TripInterface }>()
 );
+
+export const tripLoading = createAction(
+  '[TRIPS] tripLoading',
+  props<{ loading: boolean }>()
+);

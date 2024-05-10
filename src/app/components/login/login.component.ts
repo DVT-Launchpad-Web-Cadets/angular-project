@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignupButtonComponent } from '../shared/signup-button/signup-button.component';
@@ -7,6 +7,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { Store } from '@ngrx/store';
 import { login } from '../../store/actions/auth.actions';
 import { AuthState } from '../../store/state';
+import { selectUser } from '../../store/selectors';
+import { Subscription, filter } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -20,21 +22,22 @@ import { AuthState } from '../../store/state';
     NzInputModule,
   ],
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   router = inject(Router);
 
   validateForm: FormGroup<{
-    username: FormControl<string>;
     email: FormControl<string>;
     password: FormControl<string>;
   }>;
+
+  selectedUser$ = this.store.select(selectUser);
+  private userSubscription: Subscription | undefined;
 
   constructor(
     private fb: NonNullableFormBuilder,
     private store: Store<AuthState>
   ) {
     this.validateForm = this.fb.group({
-      username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
@@ -48,10 +51,17 @@ export class LoginComponent {
           password: this.validateForm.value.password!,
         })
       );
-      this.router.navigate(['/myTrips']);
+      this.userSubscription = this.selectedUser$.pipe(filter(userId => !!userId)).subscribe(() => {
+        this.router.navigate(['/my-trips']);
+      });
     } else {
       this.validateForm.markAllAsTouched();
-      console.log(this.validateForm);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
     }
   }
 }

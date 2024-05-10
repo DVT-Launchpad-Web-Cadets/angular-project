@@ -8,3 +8,8 @@ export const selectEvents = createSelector(
   selectEventFeature,
   (state) => state.events
 );
+
+export const selectLoading = createSelector(
+  selectEventFeature,
+  (state) => state.loading
+);
