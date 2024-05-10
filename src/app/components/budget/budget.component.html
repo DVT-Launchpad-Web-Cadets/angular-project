@@ -49,9 +49,3 @@
     } } }
   </div>
 </div>
-
-<ng-container *ngIf="budgetItems$ | async as budgetItems">
-  <div *ngFor="let item of budgetItems">
-    Tag: {{ item.tag }}, Total Cost: {{ item.totalCost }}
-  </div>
-</ng-container>

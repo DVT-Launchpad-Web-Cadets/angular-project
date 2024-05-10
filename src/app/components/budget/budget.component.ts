@@ -40,6 +40,9 @@ export class BudgetComponent {
   totalCost = '';
   currency = '';
 
+  homeCurrency = '';
+  conversionRate = 1;
+
   budgetItems$: Observable<{ tag: TagType; totalCost: number }[]> | undefined;
 
   events$ = this.eventStore.select(selectEvents);
@@ -53,42 +56,46 @@ export class BudgetComponent {
   ) {}
 
   ngOnInit(): void {
+    this.currencyInfo$.subscribe((currencyInfo) => {
+    this.currency = currencyInfo.homeCurrency ?? this.currency;
+    this.homeCurrency = currencyInfo.homeCurrency ?? this.currency;
+    this.conversionRate = currencyInfo.exchangeRate ?? this.conversionRate;
+    });
+
     this.totalCost$ = this.events$.pipe(
-      map((events) => events.reduce((total, event) => total + event.cost, 0))
+        map(events => events.reduce((total, event) => {
+            if (event.currency === this.homeCurrency) {
+                return total + event.cost;
+            } else 
+                return total + (event.cost / this.conversionRate);
+        }, 0))
     );
 
-    this.budgetItems$ = this.events$.pipe(
-      mergeMap((events) => from(events)),
-      groupBy((event) => {
-        console.log('Event:', event);
-        return event.tag;
-      }),
-      mergeMap((group$) => {
-        console.log('Group:', group$);
-        return group$.pipe(
-          reduce((acc, curr) => {
-            console.log('Accumulated Cost:', acc);
-            console.log('Current Event Cost:', curr.cost);
-            return acc + curr.cost;
-          }, 0),
-          map((totalCost) => {
-            console.log('Total Cost:', totalCost);
-            return { tag: group$.key, totalCost };
-          })
-        );
-      }),
-      tap(console.log),
-      toArray(),
-      tap((finalArray) => console.log('Final Array:', finalArray))
-    );
-
-    this.totalCost$.subscribe((totalCost) => {
-      console.log('Total Cost:', totalCost);
-    });
-
-    this.budgetItems$.subscribe((items) => {
-      console.log('Budget Items:', items);
-    });
+    //for later use
+    // this.budgetItems$ = this.events$.pipe(
+    //   mergeMap((events) => from(events)),
+    //   groupBy((event) => {
+    //     console.log('Event:', event);
+    //     return event.tag;
+    //   }),
+    //   mergeMap((group$) => {
+    //     console.log('Group:', group$);
+    //     return group$.pipe(
+    //       reduce((acc, curr) => {
+    //         console.log('Accumulated Cost:', acc);
+    //         console.log('Current Event Cost:', curr.cost);
+    //         return acc + curr.cost;
+    //       }, 0),
+    //       map((totalCost) => {
+    //         console.log('Total Cost:', totalCost);
+    //         return { tag: group$.key, totalCost };
+    //       })
+    //     );
+    //   }),
+    //   tap(console.log),
+    //   toArray(),
+    //   tap((finalArray) => console.log('Final Array:', finalArray))
+    // );
   }
 
   setCurrency(currency: string): void {

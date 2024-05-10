@@ -10,4 +10,5 @@ export interface TripInterface {
   destinationCurrency: string;
   destinationCurrencySymbol?: string;
   exchangeRate?: number;
+  imageUrl?: string;
 }
