@@ -4,7 +4,6 @@ import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
 import { AuthService } from './services/auth.service';
 import { ItenaryComponent } from "./components/itenary/itenary.component";
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subscription } from 'rxjs';
 
 

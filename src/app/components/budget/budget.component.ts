@@ -8,13 +8,8 @@ import {
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   Observable,
-  from,
-  groupBy,
+  Subscription,
   map,
-  mergeMap,
-  reduce,
-  tap,
-  toArray,
 } from 'rxjs';
 import { EventState, TripState } from '../../store/state';
 import { Store } from '@ngrx/store';
@@ -48,6 +43,8 @@ export class BudgetComponent {
   events$ = this.eventStore.select(selectEvents);
   currencyInfo$ = this.tripStore.select(selectCurrencyInfo);
 
+  subscription: Subscription | undefined;
+
   totalCost$: Observable<number> | undefined;
 
   constructor(
@@ -57,18 +54,19 @@ export class BudgetComponent {
 
   ngOnInit(): void {
     this.currencyInfo$.subscribe((currencyInfo) => {
-    this.currency = currencyInfo.homeCurrency ?? this.currency;
-    this.homeCurrency = currencyInfo.homeCurrency ?? this.currency;
-    this.conversionRate = currencyInfo.exchangeRate ?? this.conversionRate;
+      this.currency = currencyInfo.homeCurrency ?? this.currency;
+      this.homeCurrency = currencyInfo.homeCurrency ?? this.currency;
+      this.conversionRate = currencyInfo.exchangeRate ?? this.conversionRate;
     });
 
     this.totalCost$ = this.events$.pipe(
-        map(events => events.reduce((total, event) => {
-            if (event.currency === this.homeCurrency) {
-                return total + event.cost;
-            } else 
-                return total + (event.cost / this.conversionRate);
-        }, 0))
+      map((events) =>
+        events.reduce((total, event) => {
+          if (event.currency === this.homeCurrency) {
+            return total + event.cost;
+          } else return total + event.cost / this.conversionRate;
+        }, 0)
+      )
     );
 
     // for later use
@@ -100,5 +98,11 @@ export class BudgetComponent {
 
   setCurrency(currency: string): void {
     this.currency = currency;
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

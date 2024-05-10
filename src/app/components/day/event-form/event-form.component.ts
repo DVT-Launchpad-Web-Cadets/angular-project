@@ -140,7 +140,6 @@ export class EventFormComponent implements OnInit {
 
   addEvent(): void {
     if (this.validateForm.valid) {
-      console.log('event valid', this.validateForm.value);
       const newEvent: EventInterface = this.createEventObject();
       if (this.edit) {
         this.eventStore.dispatch(editEvent({ updatedEvent: newEvent }));
@@ -150,7 +149,6 @@ export class EventFormComponent implements OnInit {
       this.validateForm.reset();
       this.close();
     } else {
-      console.log('event invalid', this.validateForm.value);
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();

@@ -4,9 +4,7 @@ import {
   loginComplete,
   logoutComplete,
   signUpComplete,
-  login,
-  signUp,
-  logout
+  login
 } from '../actions/auth.actions';
 
 export const authReducer = createReducer(
