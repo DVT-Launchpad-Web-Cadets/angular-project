@@ -29,7 +29,7 @@
 >
   <ng-container *nzDrawerContent>
     <div class="p-4 w-full h-full">
-      <h1 class="text-3xl font-bold text-black">Add Event</h1>
+      <h1 class="text-3xl font-bold text-black">{{title}}</h1>
       <form
         nz-form
         nzLayout="horizontal"
@@ -131,7 +131,7 @@
             <ng-template #addOnBefore>
               @if (selectedCurrencyInfo$ | async; as currencyInfo) {
               <nz-select
-                [nzPlaceHolder]="currencyInfo.homeCurrencySymbol ?? ''"
+                nzPlaceHolder="cur"
                 formControlName="eventCurrency"
                 class="w-16"
               >
@@ -172,7 +172,7 @@
               class="bg-black text-lg text-white p-2 w-full rounded-lg"
               nz-button
             >
-              Add Event
+              {{ buttonText }}
             </button>
           </nz-form-control>
         </nz-form-item>

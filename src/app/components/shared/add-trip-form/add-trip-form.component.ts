@@ -82,7 +82,7 @@ export class AddTripFormComponent implements OnInit {
     });
 
     this.selectedTrip$.pipe(takeUntilDestroyed()).subscribe((trip) => {
-      if (trip) {
+      if (trip && this.edit) {
         this.trip = trip;
         this.populateForm(trip);
       }

@@ -70,48 +70,44 @@
             ></nz-range-picker>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-label class="font-bold">Currencies</nz-form-label>
-        <div class="flex w-full">
-          <nz-form-item class="w-1/2 flex flex-col items-start">
-            <nz-form-label>Home</nz-form-label>
-            <nz-form-control nzHasFeedback nzErrorTip="Currency is required">
-              <nz-select
-                formControlName="homeCurrency"
-                nzPlaceHolder="Currency"
-                class="w-full bg-transparent rounded-lg p-2"
-                required
-                nzShowSearch
-              >
-                @for(currency of currencies; track currency['code']) {
-                <nz-option
-                  [nzLabel]="currency['code']"
-                  [nzValue]="currency['code']"
-                ></nz-option>
-                }
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item class="w-1/2 flex flex-col items-start">
-            <nz-form-label>Destination</nz-form-label>
-            <nz-form-control nzHasFeedback nzErrorTip="Currency is required">
-              <nz-select
-                formControlName="destinationCurrency"
-                nzPlaceHolder="Currency"
-                class="w-full bg-transparent rounded-lg p-2"
-                required
-                nzShowSearch
-              >
-                @for(currency of currencies; track currency['code']) {
-                <nz-option
-                  [nzLabel]="currency['code']"
-                  [nzValue]="currency['code']"
-                ></nz-option>
-                }
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
+        <nz-form-label class="font-bold">Home Currency</nz-form-label>
+        <nz-form-item class="w-1/2 flex flex-col items-start">
+          <nz-form-control nzHasFeedback nzErrorTip="Home currency is required">
+            <nz-select
+              formControlName="homeCurrency"
+              nzPlaceHolder="Currency"
+              class="w-full bg-transparent rounded-lg p-2"
+              required
+              nzShowSearch
+            >
+              @for(currency of currencies; track currency['code']) {
+              <nz-option
+                [nzLabel]="currency['code']"
+                [nzValue]="currency['code']"
+              ></nz-option>
+              }
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-label class="font-bold">Destination Currency</nz-form-label>
+        <nz-form-item class="w-1/2 flex flex-col items-start">
+          <nz-form-control nzHasFeedback nzErrorTip="Destination is required">
+            <nz-select
+              formControlName="destinationCurrency"
+              nzPlaceHolder="Currency"
+              class="w-full bg-transparent rounded-lg p-2"
+              required
+              nzShowSearch
+            >
+              @for(currency of currencies; track currency['code']) {
+              <nz-option
+                [nzLabel]="currency['code']"
+                [nzValue]="currency['code']"
+              ></nz-option>
+              }
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
         <nz-form-item>
           <nz-form-control>
             <button
