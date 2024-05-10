@@ -13,6 +13,7 @@ import {
   getTripsComplete,
 } from '../actions/trip.actions';
 import { TripInterface } from '../../models';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable()
 export class TripsEffects {
@@ -26,7 +27,13 @@ export class TripsEffects {
               newTrip: { ...(newTrip as TripInterface), id: tripId },
             })
           ),
-          catchError(() => EMPTY)
+          catchError((err) => {
+            this.notificationService.error(
+              `Failed to create a new trip`,
+              err.toString()
+            );
+            return EMPTY;
+          })
         )
       )
     )
@@ -38,7 +45,13 @@ export class TripsEffects {
       switchMap(() =>
         this.tripsService.getTrips().pipe(
           map((trips) => getTripsComplete({ trips })),
-          catchError(() => EMPTY)
+          catchError((err) => {
+            this.notificationService.error(
+              `Failed to get trips`,
+              err.toString()
+            );
+            return EMPTY;
+          })
         )
       )
     )
@@ -50,7 +63,13 @@ export class TripsEffects {
       switchMap(({ tripId }) =>
         this.tripsService.deleteTrip(tripId).pipe(
           map(() => deleteTripComplete({ tripId })),
-          catchError(() => EMPTY)
+          catchError((err) => {
+            this.notificationService.error(
+              `Failed to delete trip`,
+              err.toString()
+            );
+            return EMPTY;
+          })
         )
       )
     )
@@ -62,11 +81,21 @@ export class TripsEffects {
       switchMap(({ updatedTrip }) =>
         this.tripsService.editTrip(updatedTrip).pipe(
           map(() => editTripComplete({ updatedTrip })),
-          catchError(() => EMPTY)
+          catchError((err) => {
+            this.notificationService.error(
+              `Failed to edit trip`,
+              err.toString()
+            );
+            return EMPTY;
+          })
         )
       )
     )
   );
 
-  constructor(private actions$: Actions, private tripsService: TripService) {}
+  constructor(
+    private actions$: Actions,
+    private tripsService: TripService,
+    private notificationService: NzNotificationService
+  ) {}
 }
