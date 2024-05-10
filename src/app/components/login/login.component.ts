@@ -25,8 +25,8 @@ export class LoginComponent {
   router = inject(Router);
 
   form = this.fb.nonNullable.group({
-    email: ['', Validators.required, Validators.email],
-    password: ['', Validators.required, Validators.minLength(6)],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
   });
   errorMessage: string | null = null;
 

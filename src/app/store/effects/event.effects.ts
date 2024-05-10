@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, EMPTY, map, switchMap } from 'rxjs';
+import { catchError, EMPTY, map, retry, switchMap } from 'rxjs';
 import { EventService } from '../../services/event.service';
 import {
   addEvent,
@@ -13,6 +13,7 @@ import {
   getEventsComplete,
 } from '../actions/event.actions';
 import { EventInterface } from '../../models';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable()
 export class EventsEffects {
@@ -21,12 +22,19 @@ export class EventsEffects {
       ofType(addEvent),
       switchMap(({ newEvent }) =>
         this.eventsService.addEvent(newEvent).pipe(
+          retry(1),
           map((eventId) =>
             addEventComplete({
               newEvent: { ...(newEvent as EventInterface), id: eventId },
             })
           ),
-          catchError(() => EMPTY)
+          catchError((err) => {
+            this.notificationService.error(
+              `Failed to create a new event`,
+              err.toString()
+            );
+            return EMPTY;
+          })
         )
       )
     )
@@ -36,21 +44,34 @@ export class EventsEffects {
     this.actions$.pipe(
       ofType(getEvents),
       switchMap((action) => {
-        const tripId = action.tripId; // Extract tripId from the action payload
+        const tripId = action.tripId;
         return this.eventsService.getEvents(tripId).pipe(
           map((events) => getEventsComplete({ events })),
-          catchError(() => EMPTY)
+          catchError((err) => {
+            this.notificationService.error(
+              `Failed to fetch events`,
+              err.toString()
+            );
+            return EMPTY;
+          })
         );
       })
     )
   );
+
   deleteEvent$ = createEffect(() =>
     this.actions$.pipe(
       ofType(deleteEvent.type),
       switchMap(({ eventId }) =>
         this.eventsService.deleteEvent(eventId).pipe(
           map(() => deleteEventComplete({ eventId })),
-          catchError(() => EMPTY)
+          catchError((err) => {
+            this.notificationService.error(
+              `Failed to delete event`,
+              err.toString()
+            );
+            return EMPTY;
+          })
         )
       )
     )
@@ -62,11 +83,21 @@ export class EventsEffects {
       switchMap(({ updatedEvent }) =>
         this.eventsService.editEvent(updatedEvent).pipe(
           map(() => editEventComplete({ updatedEvent })),
-          catchError(() => EMPTY)
+          catchError((err) => {
+            this.notificationService.error(
+              `Failed to edit event`,
+              err.toString()
+            );
+            return EMPTY;
+          })
         )
       )
     )
   );
 
-  constructor(private actions$: Actions, private eventsService: EventService) {}
+  constructor(
+    private actions$: Actions,
+    private eventsService: EventService,
+    private notificationService: NzNotificationService
+  ) {}
 }

@@ -20,6 +20,7 @@ import { DayInterface, TripInterface } from '../../models';
 import createDays from '../../utils/createDays-utils';
 import { TripState } from '../../store/state';
 import { selectSelectedTrip } from '../../store/selectors';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-itenary',
@@ -52,7 +53,7 @@ export class ItenaryComponent implements OnInit {
   ngOnInit(): void {
     this.tripId = this.route.snapshot.params['tripId'];
 
-    this.selectedTrip$.subscribe((trip) => {
+    this.selectedTrip$.pipe(takeUntilDestroyed()).subscribe((trip) => {
       if (trip?.id === this.tripId) {
         this.trip = trip;
         this.daysBetween = createDays(trip.startDate, trip.endDate);

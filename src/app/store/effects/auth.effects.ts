@@ -10,6 +10,7 @@ import {
   signUp,
   signUpComplete,
 } from '../actions/auth.actions';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable()
 export class AuthEffects {
@@ -19,7 +20,13 @@ export class AuthEffects {
       switchMap(({ email, username, password }) =>
         this.authService.signUp(email, username, password).pipe(
           map((userId) => signUpComplete({ userId })),
-          catchError(() => EMPTY)
+          catchError((err) => {
+            this.notificationService.error(
+              `Failed to create account`,
+              err.toString()
+            );
+            return EMPTY;
+          })
         )
       )
     )
@@ -31,7 +38,13 @@ export class AuthEffects {
       switchMap(({ email, password }) =>
         this.authService.login(email, password).pipe(
           map((userId) => loginComplete({ userId })),
-          catchError(() => EMPTY)
+          catchError((err) => {
+            this.notificationService.error(
+              `Failed to login`,
+              err.toString()
+            );
+            return EMPTY;
+          })
         )
       )
     )
@@ -43,11 +56,21 @@ export class AuthEffects {
       switchMap(() =>
         this.authService.logout().pipe(
           map(() => logoutComplete()),
-          catchError(() => EMPTY)
+          catchError((err) => {
+            this.notificationService.error(
+              `Failed to logout`,
+              err.toString()
+            );
+            return EMPTY;
+          })
         )
       )
     )
   );
 
-  constructor(private actions$: Actions, private authService: AuthService) {}
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private notificationService: NzNotificationService
+  ) {}
 }

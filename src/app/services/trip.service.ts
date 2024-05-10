@@ -15,6 +15,7 @@ import { doc } from '@firebase/firestore';
 import { Store } from '@ngrx/store';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { AuthState } from '../store/state/auth.state';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ export class TripService {
   userId = '';
 
   constructor(private store: Store<AuthState>) {
-    this.userId$.subscribe((userId) => {
+    this.userId$.pipe(takeUntilDestroyed()).subscribe((userId) => {
       this.userId = userId ?? '';
     });
   }

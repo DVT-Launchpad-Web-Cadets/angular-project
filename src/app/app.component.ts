@@ -4,6 +4,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
 import { AuthService } from './services/auth.service';
 import { ItenaryComponent } from "./components/itenary/itenary.component";
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit{
   authService = inject(AuthService);
 
   ngOnInit(): void {
-    this.authService.user$.subscribe((user) => {
+    this.authService.user$.pipe(takeUntilDestroyed()).subscribe((user) => {
       if (user) {
         this.authService.currentUserSig.set({
           email: user.email ?? '',
