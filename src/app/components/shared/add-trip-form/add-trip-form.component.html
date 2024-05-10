@@ -1,0 +1,98 @@
+<nz-space>
+  @if(edit){
+  <button nz-button nzType="primary" (click)="showDrawer()">
+    <ng-icon name="matSettings" class="text-white text-3xl"></ng-icon>
+  </button>
+  } @else {
+  <button
+    class="bg-coral rounded-full size-12 right-8 fixed bottom-12 text-white flex justify-center items-center text-4xl"
+    nz-button
+    nzType="primary"
+    (click)="showDrawer()"
+  >
+    <ng-icon name="matAdd" class="text-white text-2xl"></ng-icon>
+  </button>
+  }
+</nz-space>
+
+<nz-drawer
+  nzSize="default"
+  [nzVisible]="visible"
+  nzPlacement="right"
+  [nzTitle]="title"
+  (nzOnClose)="close()"
+>
+  <ng-container *nzDrawerContent>
+    <div class="p-4 w-full h-full">
+      <h1 class="text-3xl font-bold text-black">Create a Trip</h1>
+      <form
+        nz-form
+        nzLayout="horizontal"
+        class="mt-12"
+        (ngSubmit)="addTrip()"
+        [formGroup]="validateForm"
+      >
+        <nz-form-label class="font-bold">Trip name</nz-form-label>
+        <nz-form-item class="w-full">
+          <nz-form-control nzHasFeedback nzErrorTip="Trip name is required">
+            <input
+              nz-input
+              placeholder="e.g Summer Holiday in Greece"
+              name="tripName"
+              required
+              class="w-full bg-transparent border border-gray rounded-lg p-2"
+              formControlName="tripName"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-label class="font-bold">Destination</nz-form-label>
+        <nz-form-item class="w-full">
+          <nz-form-control nzHasFeedback nzErrorTip="Destination is required">
+            <input
+              nz-input
+              placeholder="e.g Greece"
+              name="tripDestination"
+              required
+              class="w-full bg-transparent border border-gray rounded-lg p-2"
+              formControlName="tripDestination"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-label class="font-bold">Trip Dates</nz-form-label>
+        <nz-form-item class="w-full">
+          <nz-form-control nzHasFeedback nzErrorTip="Start date is required">
+            <nz-range-picker
+              class="w-full rounded-lg p-2"
+              [nzFormat]="dateFormat"
+              required
+              name="tripDates"
+              formControlName="tripDates"
+            ></nz-range-picker>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <button
+              class="bg-black text-lg text-white p-2 w-full rounded-lg"
+              nz-button
+            >
+              {{ buttonText }}
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+    @if (edit) {
+      <button
+      nz-popconfirm
+      nzPopconfirmTitle=" DeleteTrip?"
+      (nzOnConfirm)="deleteTrip(trip?.id ?? '')"
+      nz-button
+      nzType="primary"
+      class="bg-coral w-full text-white flex justify-center items-center rounded-lg px-4 py-1"
+    >
+      Delete Trip
+    </button>
+    }
+  </ng-container>
+</nz-drawer>

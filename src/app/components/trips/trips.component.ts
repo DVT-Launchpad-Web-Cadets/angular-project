@@ -1,17 +1,35 @@
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { TripCardComponent } from "./trip-card/trip-card.component";
+import { TripCardComponent } from './trip-card/trip-card.component';
 import { MatIconModule } from '@angular/material/icon';
+import { AddTripFormComponent } from '../shared/add-trip-form/add-trip-form.component';
+import { Store } from '@ngrx/store';
+import { getTrips, selectTrip } from '../../store/actions/trip.actions';
+import { RouterModule } from '@angular/router';
+import { TripState } from '../../store/state';
+import { selectTrips } from '../../store/selectors';
 
 @Component({
-    selector: 'app-trips',
-    standalone: true,
-    templateUrl: './trips.component.html',
-    styleUrl: './trips.component.css',
-    imports: [TripCardComponent, MatIconModule]
+  selector: 'app-trips',
+  standalone: true,
+  templateUrl: './trips.component.html',
+  styleUrl: './trips.component.css',
+  imports: [
+    TripCardComponent,
+    MatIconModule,
+    AddTripFormComponent,
+    AsyncPipe,
+    RouterModule,
+  ],
 })
 export class TripsComponent {
-    trips = [
-        { id: '1', name: 'Scotland Trip', startDate: '2024-05-01', endDate: '2024-05-05', location: 'Scotland' },
-        { id:'2', name: 'We are going to Paris', startDate: '2024-06-01', endDate: '2024-06-05', location: 'France, Paris' },
-      ];
+  selectedTrips$ = this.store.select(selectTrips);
+
+  constructor(private store: Store<TripState>) {
+    this.store.dispatch(getTrips());
+  }
+
+  setTrip(tripId: string) {
+    this.store.dispatch(selectTrip({ tripId }));
+  }
 }

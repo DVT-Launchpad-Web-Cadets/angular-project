@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ItenaryService } from './itenary.service';
+import { EventService } from './event.service';
 
-describe('ItenaryService', () => {
-  let service: ItenaryService;
+describe('EventService', () => {
+  let service: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ItenaryService);
+    service = TestBed.inject(EventService);
   });
 
   it('should be created', () => {

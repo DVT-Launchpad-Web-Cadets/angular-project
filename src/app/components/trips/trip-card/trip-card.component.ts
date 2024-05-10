@@ -5,6 +5,7 @@ import {
   matLocationOn,
   matCalendarMonth,
 } from '@ng-icons/material-icons/baseline';
+import { TripInterface } from '../../../models';
 
 @Component({
   selector: 'app-trip-card',
@@ -15,8 +16,6 @@ import {
   viewProviders: [provideIcons({ matLocationOn, matCalendarMonth })],
 })
 export class TripCardComponent {
-  @Input() name = '';
-  @Input() startDate = '';
-  @Input() endDate = '';
-  @Input() location = '';
+  @Input() trip: TripInterface | undefined;
+
 }

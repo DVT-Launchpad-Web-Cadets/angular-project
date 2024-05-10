@@ -1,11 +1,12 @@
 <div class="size-screen flex flex-col items-center justify-center gap-4 bg-white">
 <h1 class="text-3xl py-8 font-bold w-5/6">My Trips</h1>
-    @for (trip of trips; track trip.id) {
-        <app-trip-card [name]="trip.name" [startDate]="trip.startDate" [endDate]="trip.endDate" [location]="trip.location"></app-trip-card>
+@for (trip of selectedTrips$ | async; track trip.id){
+    <a [routerLink]="['/trip', trip.id]" (click)="setTrip(trip.id ?? '')">
+        <app-trip-card [trip]="trip"></app-trip-card>
+    </a>
     } @empty {
         <h2 class="text-2xl">Ready for an adventure? Create your first Trip!</h2>
     }
 </div>
-<button class="bg-dark-blue rounded-full size-12 right-8 fixed bottom-12 text-white flex justify-center items-center text-4xl">
-    <mat-icon class="">add</mat-icon>
-</button>
+<app-add-trip-form></app-add-trip-form>
+    

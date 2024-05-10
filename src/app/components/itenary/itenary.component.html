@@ -1,46 +1,9 @@
 <div class="w-full flex flex-col">
   <nz-tabset>
-    <nz-tab nzTitle="Dec 29"></nz-tab>
-    <nz-tab nzTitle="Dec 30"></nz-tab>
-    <nz-tab nzTitle="Dec 31"></nz-tab>
-    <nz-tab nzTitle="Jan 1"></nz-tab>
-    <nz-tab nzTitle="Jan 2"></nz-tab>
-    <nz-tab nzTitle="Tab 3"></nz-tab>
-    <nz-tab nzTitle="Tab 1"></nz-tab>
-    <nz-tab nzTitle="Tab 2"></nz-tab>
-    <nz-tab nzTitle="Tab 3"></nz-tab>
-    <!-- These will be dynamically generated with a for loop once I received days data from the db -->
+    @for (day of daysBetween; track day.date ){
+      <nz-tab [nzTitle]="day.date"><app-day [day]="day"></app-day></nz-tab>
+  } @empty {
+      <h2 class="text-2xl">Ready for an adventure? Create your first Trip!</h2>
+  }
   </nz-tabset>
 
-  <div class="flex justify-between items-center mb-4">
-    <div>
-      <h2 class="text-black text-xl font-bold">22 April</h2>
-      <div class="flex items-center text-dark-blue">
-        <ng-icon name="matLocationOn" class="text-xl"></ng-icon>
-        <p class="text-sm">add Location</p>
-      </div>
-    </div>
-    <button
-      class="bg-black size-10 flex justify-center items-center rounded-lg shadow-2xl self-end"
-    >
-      <ng-icon name="matEdit" class="text-white text-2xl"></ng-icon>
-    </button>
-  </div>
-</div>
-
-<app-event></app-event>
-<app-event></app-event>
-<app-event></app-event>
-<app-event></app-event>
-<app-event></app-event>
-
-<button
-  class="bg-coral rounded-full size-12 right-8 fixed bottom-12 text-white flex justify-center items-center text-4xl"
->
-  <ng-icon name="matAdd" class="text-white text-2xl"></ng-icon>
-</button>
-@for (trip of selectedTrips$ | async; track trip.id){
-<div class="flex flex-col">
-  <h3>{{ trip.name }}</h3>
-</div>
-}

@@ -14,6 +14,6 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 
 })
 export class BudgetComponent {
-    totalCost = '33 430';
+    totalCost = '';
     currency = 'R';
 }

@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/reducers/reducer';
-import { getTrips } from '../../store/actions/actions';
-import { selectTrips } from '../../store/selectors/selectors';
+import { getTrips } from '../../store/actions/trip.actions';
+
 import { AsyncPipe } from '@angular/common';
-import { EventComponent } from '../event/event.component';
+import { EventComponent } from '../day/event/event.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
@@ -14,10 +13,21 @@ import {
   matAdd,
 } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { AddTripFormComponent } from '../shared/add-trip-form/add-trip-form.component';
+import { ActivatedRoute } from '@angular/router';
+import { DayComponent } from '../day/day.component';
+import { DayInterface, TripInterface } from '../../models';
+import createDays from '../../utils/createDays-utils';
+import { TripState } from '../../store/state';
+import { selectSelectedTrip } from '../../store/selectors';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-itenary',
   standalone: true,
+  templateUrl: './itenary.component.html',
+  styleUrl: './itenary.component.css',
+  viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd })],
   imports: [
     AsyncPipe,
     EventComponent,
@@ -25,15 +35,29 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
     NzRadioModule,
     NzInputNumberModule,
     NgIconComponent,
+    AddTripFormComponent,
+    DayComponent,
   ],
-  templateUrl: './itenary.component.html',
-  styleUrl: './itenary.component.css',
-  viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd })],
 })
-export class ItenaryComponent {
-  selectedTrips$ = this.store.select(selectTrips);
+export class ItenaryComponent implements OnInit {
+  selectedTrip$ = this.store.select(selectSelectedTrip);
 
-  constructor(private store: Store<AppState>) {
+  tripId = '';
+  daysBetween: DayInterface[] = [];
+  trip: TripInterface | null = null;
+
+  constructor(private store: Store<TripState>, private route: ActivatedRoute) {
     this.store.dispatch(getTrips());
+  }
+
+  ngOnInit(): void {
+    this.tripId = this.route.snapshot.params['tripId'];
+
+    this.selectedTrip$.pipe(takeUntilDestroyed()).subscribe((trip) => {
+      if (trip?.id === this.tripId) {
+        this.trip = trip;
+        this.daysBetween = createDays(trip.startDate, trip.endDate);
+      }
+    });
   }
 }

@@ -4,7 +4,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  updateProfile,
   user,
 } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
@@ -18,22 +17,22 @@ export class AuthService {
   user$ = user(this.firebaseAuth);
   currentUserSig = signal<UserInterface | null | undefined>(undefined);
 
-  register(
+  signUp(
     email: string,
     username: string,
     password: string
-  ): Observable<void> {
+  ): Observable<string> {
     return from(
       createUserWithEmailAndPassword(this.firebaseAuth, email, password).then(
-        (response) => updateProfile(response.user, { displayName: username })
+        (response) => response.user.uid
       )
     );
   }
 
-  login(email: string, password: string): Observable<void> {
+  login(email: string, password: string): Observable<string> {
     return from(
       signInWithEmailAndPassword(this.firebaseAuth, email, password).then(
-        () => {}
+        (response) => response.user.uid
       )
     );
   }

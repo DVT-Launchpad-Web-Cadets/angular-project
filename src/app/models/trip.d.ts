@@ -1,8 +1,8 @@
 export interface TripInterface {
-  id: number;
-  userId: number;
+  id?: string;
+  userId?: string;
   name: string;
   destination: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
 }
