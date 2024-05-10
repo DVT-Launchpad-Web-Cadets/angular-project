@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CurrencyInterface, CurrencyResponseInterface } from '../models';
-import { Observable, retry, take } from 'rxjs';
+import { CurrencyResponseInterface } from '../models';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

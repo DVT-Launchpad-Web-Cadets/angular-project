@@ -1,6 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { TripState, tripsFeatureKey } from '../state/trip.state';
-import { TripInterface } from '../../models';
 
 export const selectTripFeature =
   createFeatureSelector<TripState>(tripsFeatureKey);

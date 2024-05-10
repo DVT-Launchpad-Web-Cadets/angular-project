@@ -6,10 +6,10 @@ import {
   matBarChart,
 } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { Observable, from, groupBy, map, mergeMap, of, reduce, tap, toArray } from 'rxjs';
+import { Observable, map} from 'rxjs';
 import { EventState, TripState } from '../../store/state';
 import { Store } from '@ngrx/store';
-import { selectCurrencyInfo, selectEvents, selectSelectedTrip } from '../../store/selectors';
+import { selectCurrencyInfo, selectEvents } from '../../store/selectors';
 import { TagType } from '../../models';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 
