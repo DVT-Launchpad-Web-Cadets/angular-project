@@ -15,7 +15,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { EventState, TripState } from '../../../store/state';
 import { selectCurrencyInfo } from '../../../store/selectors';
-import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event',
@@ -30,7 +30,8 @@ import { AsyncPipe, DecimalPipe } from '@angular/common';
     NzPopoverModule,
     NzPopconfirmModule,
     AsyncPipe,
-    DecimalPipe
+    DecimalPipe,
+    DatePipe
   ],
 })
 export class EventComponent {

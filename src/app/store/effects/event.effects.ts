@@ -48,6 +48,7 @@ export class EventsEffects {
         return this.eventsService.getEvents(tripId).pipe(
           map((events) => getEventsComplete({ events })),
           catchError((err) => {
+            console.log(err);
             this.notificationService.error(
               `Failed to fetch events`,
               err.toString()

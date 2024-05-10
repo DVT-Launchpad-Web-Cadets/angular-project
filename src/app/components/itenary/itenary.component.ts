@@ -20,7 +20,7 @@ import { DayInterface, TripInterface } from '../../models';
 import createDays from '../../utils/createDays-utils';
 import { TripState } from '../../store/state';
 import { selectSelectedTrip } from '../../store/selectors';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-itenary',
@@ -41,22 +41,30 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class ItenaryComponent implements OnInit {
   selectedTrip$ = this.store.select(selectSelectedTrip);
+  selectedTripSubscription: Subscription | undefined;
 
   tripId = '';
   daysBetween: DayInterface[] = [];
   trip: TripInterface | null = null;
 
   constructor(private store: Store<TripState>, private route: ActivatedRoute) {
-    this.selectedTrip$.pipe(takeUntilDestroyed()).subscribe((trip) => {
-      if (trip?.id === this.tripId) {
-        this.trip = trip;
-        this.daysBetween = createDays(trip.startDate, trip.endDate);
-      }
-    });
     this.store.dispatch(getTrips());
   }
 
   ngOnInit(): void {
     this.tripId = this.route.snapshot.params['tripId'];
+
+    this.selectedTripSubscription = this.selectedTrip$.subscribe((trip) => {
+      if (trip?.id === this.tripId) {
+        this.trip = trip;
+        this.daysBetween = createDays(trip.startDate, trip.endDate);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.selectedTripSubscription) {
+      this.selectedTripSubscription.unsubscribe();
+    }
   }
 }
