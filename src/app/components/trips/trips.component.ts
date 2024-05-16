@@ -13,6 +13,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { matExitToApp } from '@ng-icons/material-icons/baseline';
 import { logout } from '../../store/actions';
+import { LoadingPageComponent } from '../loading-page/loading-page.component';
 
 @Component({
   selector: 'app-trips',
@@ -26,7 +27,8 @@ import { logout } from '../../store/actions';
     AsyncPipe,
     RouterModule,
     NzSpinModule,
-    NgIconComponent
+    NgIconComponent,
+    LoadingPageComponent
   ],
   viewProviders: [
     provideIcons({

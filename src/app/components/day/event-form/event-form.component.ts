@@ -60,8 +60,8 @@ export class EventFormComponent implements OnInit {
   selectedCurrencyInfo$ = this.tripStore.select(selectCurrencyInfo);
 
   visible = false;
-  title = 'Create a Trip';
-  buttonText = 'Add Trip';
+  title = 'Create an Event';
+  buttonText = 'Add Event';
   tripId = '';
 
   options: { value: TagType }[] = [

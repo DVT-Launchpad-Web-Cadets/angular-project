@@ -30,7 +30,10 @@ export class DayComponent implements OnInit {
   selectedEvents$ = this.store
     .select(selectEvents)
     .pipe(
-      map((events) => events.filter((event) => event.date === this.day?.date))
+      map((events) => events.filter((event) => event.date === this.day?.date)),
+      map(events => events.sort((a, b) => {
+        return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+      }))
     );
 
   edit = false;

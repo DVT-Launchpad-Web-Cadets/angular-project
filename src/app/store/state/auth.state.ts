@@ -6,6 +6,6 @@ export interface AuthState {
 }
 
 export const authInitialState: AuthState = {
-  userId: null,
+  userId: "1",
   loading: false,
 };

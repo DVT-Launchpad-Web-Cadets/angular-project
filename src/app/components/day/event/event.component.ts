@@ -5,6 +5,7 @@ import {
   matKeyboardArrowDown,
   matDelete,
   matEdit,
+  matKeyboardArrowUp
 } from '@ng-icons/material-icons/baseline';
 import { EventInterface } from '../../../models';
 import { EventFormComponent } from '../event-form/event-form.component';
@@ -16,13 +17,14 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { EventState, TripState } from '../../../store/state';
 import { selectCurrencyInfo } from '../../../store/selectors';
 import { AsyncPipe, DecimalPipe, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-event',
   standalone: true,
   templateUrl: './event.component.html',
   styleUrl: './event.component.css',
-  viewProviders: [provideIcons({ matKeyboardArrowDown, matDelete, matEdit })],
+  viewProviders: [provideIcons({ matKeyboardArrowDown, matDelete, matEdit, matKeyboardArrowUp })],
   imports: [
     TagComponent,
     NgIconComponent,
@@ -31,14 +33,16 @@ import { AsyncPipe, DecimalPipe, DatePipe } from '@angular/common';
     NzPopconfirmModule,
     AsyncPipe,
     DecimalPipe,
-    DatePipe
+    DatePipe,
+    CommonModule
   ],
 })
 export class EventComponent {
-  @Input() editMode = true;
   @Input() event: EventInterface | undefined;
 
   selectedCurrencyInfo$ = this.tripStore.select(selectCurrencyInfo);
+
+  isOpen = false;
 
   constructor(
     private eventStore: Store<EventState>,
@@ -49,5 +53,9 @@ export class EventComponent {
   deleteEvent(eventId: string) {
     this.eventStore.dispatch(deleteEvent({ eventId }));
     this.nzMessageService.info('event deleted');
+  }
+
+  toggleContent() {
+    this.isOpen = !this.isOpen;
   }
 }

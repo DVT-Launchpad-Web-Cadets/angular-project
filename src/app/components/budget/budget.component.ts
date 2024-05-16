@@ -9,7 +9,14 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   Observable,
   Subscription,
+  from,
+  groupBy,
   map,
+  mergeMap,
+  reduce,
+  scan,
+  tap,
+  toArray,
 } from 'rxjs';
 import { EventState, TripState } from '../../store/state';
 import { Store } from '@ngrx/store';
@@ -70,30 +77,35 @@ export class BudgetComponent {
     );
 
     // for later use
-    // this.budgetItems$ = this.events$.pipe(
-    //   mergeMap((events) => from(events)),
-    //   groupBy((event) => {
-    //     console.log('Event:', event);
-    //     return event.tag;
-    //   }),
-    //   mergeMap((group$) => {
-    //     console.log('Group:', group$);
-    //     return group$.pipe(
-    //       reduce((acc, curr) => {
-    //         console.log('Accumulated Cost:', acc);
-    //         console.log('Current Event Cost:', curr.cost);
-    //         return acc + curr.cost;
-    //       }, 0),
-    //       map((totalCost) => {
-    //         console.log('Total Cost:', totalCost);
-    //         return { tag: group$.key, totalCost };
-    //       })
-    //     );
-    //   }),
-    //   tap(console.log),
-    //   toArray(),
-    //   tap((finalArray) => console.log('Final Array:', finalArray))
-    // );
+
+    // why does this only return a single item? Not a whole array?
+    this.budgetItems$ = this.events$.pipe(
+      mergeMap((events) => from(events)),
+      groupBy((event) => {
+        return event.tag;
+      }),
+      mergeMap((group$) => {
+        console.log('Group:', group$);
+        return group$.pipe(
+          map((event) => {
+            if (event.currency === this.homeCurrency) {
+              return event.cost;
+            } else {
+                return event.cost / this.conversionRate
+            };
+          }),
+          scan((sum, eventCost) => {
+            return sum + eventCost;
+          }, 0),
+          map((totalCost) => {
+            return { tag: group$.key, totalCost };
+          })
+        );
+      }),
+      tap((item) => console.log('Item:', item)),
+      map((item) => [item]), // Wrap the object in an array
+      tap((itemsArray) => console.log('Final Result:', itemsArray))
+    );
   }
 
   setCurrency(currency: string): void {

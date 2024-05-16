@@ -14,8 +14,8 @@ import { TripState } from '../../store/state';
 import { selectSelectedTrip } from '../../store/selectors';
 import { DatePipe, AsyncPipe } from '@angular/common';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import {RouterModule} from '@angular/router';
-
+import { RouterModule } from '@angular/router';
+import { LoadingPageComponent } from '../loading-page/loading-page.component';
 
 @Component({
   selector: 'app-trip',
@@ -30,7 +30,17 @@ import {RouterModule} from '@angular/router';
       matCalendarMonth,
     }),
   ],
-  imports: [MenuComponent, NgIconComponent, AddTripFormComponent, CommonModule, DatePipe, AsyncPipe, NzSpinModule, RouterModule],
+  imports: [
+    MenuComponent,
+    NgIconComponent,
+    AddTripFormComponent,
+    CommonModule,
+    DatePipe,
+    AsyncPipe,
+    NzSpinModule,
+    RouterModule,
+    LoadingPageComponent
+  ],
 })
 export class TripComponent {
   selectedTrip$ = this.store.select(selectSelectedTrip);

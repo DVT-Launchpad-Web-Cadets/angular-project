@@ -1,18 +1,7 @@
-<div class="flex justify-between items-center mb-4">
-  <div>
-    <h2 class="text-black text-xl font-bold">{{ day?.date }}</h2>
-  </div>
-  <button
-    class="size-10 flex justify-center items-center rounded-lg shadow-2xl self-end"
-    [ngClass]="edit ? 'bg-gray text-black' : 'bg-black text-white'"
-    (click)="toggleEdit()"
-  >
-    <ng-icon name="matEdit" class="text-2xl"></ng-icon>
-  </button>
-</div>
+<h2 class="text-black my-2 text-xl font-bold">{{ day?.date }}</h2>
 
 @for(event of selectedEvents$ | async; track event.id){
-<app-event [event]="event" [editMode]="edit"></app-event>
+<app-event [event]="event" class="w-full"></app-event>
 }
 
-<app-event-form [edit]="false" [date]="day?.date"></app-event-form>
+<app-event-form [date]="day?.date"></app-event-form>
