@@ -1,14 +1,14 @@
 <div class="w-full flex justify-between gap-2 mb-4 items-center">
   <h2 class="text-black text-xl font-bold">Travel Budget</h2>
-    <button
-      nz-button
-      nz-dropdown
-      [nzDropdownMenu]="menu4"
-      class="bg-coral flex text-white justify-center items-center rounded-lg self-end p-1 px-2 mt-2"
-    >
-      <p>Currency</p>
-      <ng-icon name="matKeyboardArrowDown" class="text-2xl"></ng-icon>
-    </button>
+  <button
+    nz-button
+    nz-dropdown
+    [nzDropdownMenu]="menu4"
+    class="bg-coral flex text-white justify-center items-center rounded-lg self-end p-1 px-2 mt-2"
+  >
+    <p>Currency</p>
+    <ng-icon name="matKeyboardArrowDown" class="text-2xl"></ng-icon>
+  </button>
 </div>
 
 <nz-dropdown-menu #menu4="nzDropdownMenu">
@@ -17,7 +17,10 @@
     <li nz-menu-item (click)="setCurrency(currencyInfo.homeCurrency ?? '')">
       {{ currencyInfo.homeCurrency }}
     </li>
-    <li nz-menu-item (click)="setCurrency(currencyInfo.destinationCurrency ?? '')">
+    <li
+      nz-menu-item
+      (click)="setCurrency(currencyInfo.destinationCurrency ?? '')"
+    >
       {{ currencyInfo.destinationCurrency }}
     </li>
     }
@@ -25,8 +28,8 @@
 </nz-dropdown-menu>
 
 <div class="w-full flex flex-col items-center">
-  @for(budgetItem of budgetItems$ | async; track budgetItem.tag){
-  {{ budgetItem.tag }}
+  @if(budgetItems$ | async; as budgetItems){ @for(budgetItem of budgetItems;
+  track budgetItem.tag){ @if(homeCurrency === currency){
   <app-budget-item
     [category]="budgetItem.tag"
     [currency]="currency"
@@ -34,12 +37,20 @@
     percentage="5"
     class="w-full"
   ></app-budget-item>
-  }
+  } @else {
+  <app-budget-item
+    [category]="budgetItem.tag"
+    [currency]="currency"
+    [cost]="budgetItem.totalCost * conversionRate"
+    percentage="5"
+    class="w-full"
+  ></app-budget-item>
+  } } }
+
   <div
     class="bg-black text-white p-3 px-5 rounded-full fixed bottom-4 flex items-center justify-center font-bold"
   >
-    @if(totalCost$ | async; as cost)
-    { @if(currencyInfo$ | async; as
+    @if(totalCost$ | async; as cost) { @if(currencyInfo$ | async; as
     currencyInfo){ @if(currencyInfo.homeCurrency === currency){
     {{ currencyInfo.homeCurrencySymbol }}{{ cost | number : "1.2-2" }}
     } @else if (currencyInfo.destinationCurrency === currency && cost &&
