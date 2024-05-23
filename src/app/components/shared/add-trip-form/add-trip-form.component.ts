@@ -17,7 +17,7 @@ import {
 } from '../../../store/actions/trip.actions';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { matSettings, matAdd } from '@ng-icons/material-icons/baseline';
+import { matSettings, matAdd, matDelete } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
@@ -26,6 +26,7 @@ import { selectSelectedTrip, selectUser } from '../../../store/selectors';
 import currencies from '../../../../assets/json/currencies.json';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-add-trip-form',
@@ -39,10 +40,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     NgIconComponent,
     NzPopconfirmModule,
     NzSelectModule,
+    NzModalModule
   ],
   templateUrl: './add-trip-form.component.html',
   styleUrl: './add-trip-form.component.css',
-  viewProviders: [provideIcons({ matSettings, matAdd })],
+  viewProviders: [provideIcons({ matSettings, matAdd, matDelete })],
 })
 export class AddTripFormComponent implements OnInit {
   @Input() edit = false;
