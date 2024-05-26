@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import {
   FormGroup,
   NonNullableFormBuilder,
@@ -17,7 +26,11 @@ import {
 } from '../../../store/actions/trip.actions';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { matSettings, matAdd, matDelete } from '@ng-icons/material-icons/baseline';
+import {
+  matSettings,
+  matAdd,
+  matDelete,
+} from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
@@ -27,10 +40,17 @@ import currencies from '../../../../assets/json/currencies.json';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import {
+  LocationAutoCompleteComponent,
+  PlaceSearchResult,
+} from '../location-auto-complete/location-auto-complete.component';
 
 @Component({
   selector: 'app-add-trip-form',
   standalone: true,
+  templateUrl: './add-trip-form.component.html',
+  styleUrl: './add-trip-form.component.css',
+  viewProviders: [provideIcons({ matSettings, matAdd, matDelete })],
   imports: [
     NzFormModule,
     NzDatePickerModule,
@@ -40,11 +60,9 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     NgIconComponent,
     NzPopconfirmModule,
     NzSelectModule,
-    NzModalModule
+    NzModalModule,
+    LocationAutoCompleteComponent,
   ],
-  templateUrl: './add-trip-form.component.html',
-  styleUrl: './add-trip-form.component.css',
-  viewProviders: [provideIcons({ matSettings, matAdd, matDelete })],
 })
 export class AddTripFormComponent implements OnInit {
   @Input() edit = false;
@@ -59,6 +77,8 @@ export class AddTripFormComponent implements OnInit {
   trip: TripInterface | undefined;
 
   currencies: CurrencyDataInterface[] = Object.values(currencies);
+
+  fromValue: PlaceSearchResult | undefined;
 
   validateForm: FormGroup<{
     tripName: FormControl<string>;
@@ -134,6 +154,7 @@ export class AddTripFormComponent implements OnInit {
         homeCurrencySymbol: homeCurrencySymbol,
         destinationCurrency: this.validateForm.value.destinationCurrency ?? '',
         destinationCurrencySymbol: destinationCurrencySymbol,
+        imageUrl: this.fromValue?.imageUrl,
       };
 
       const action = this.edit

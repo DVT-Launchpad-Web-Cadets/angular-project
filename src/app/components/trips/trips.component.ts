@@ -14,27 +14,29 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { matExitToApp } from '@ng-icons/material-icons/baseline';
 import { logout } from '../../store/actions';
 import { LoadingPageComponent } from '../loading-page/loading-page.component';
+import { LocationAutoCompleteComponent } from "../shared/location-auto-complete/location-auto-complete.component";
 
 @Component({
-  selector: 'app-trips',
-  standalone: true,
-  templateUrl: './trips.component.html',
-  styleUrl: './trips.component.css',
-  imports: [
-    TripCardComponent,
-    MatIconModule,
-    AddTripFormComponent,
-    AsyncPipe,
-    RouterModule,
-    NzSpinModule,
-    NgIconComponent,
-    LoadingPageComponent
-  ],
-  viewProviders: [
-    provideIcons({
-      matExitToApp
-    }),
-  ],
+    selector: 'app-trips',
+    standalone: true,
+    templateUrl: './trips.component.html',
+    styleUrl: './trips.component.css',
+    viewProviders: [
+        provideIcons({
+            matExitToApp
+        }),
+    ],
+    imports: [
+        TripCardComponent,
+        MatIconModule,
+        AddTripFormComponent,
+        AsyncPipe,
+        RouterModule,
+        NzSpinModule,
+        NgIconComponent,
+        LoadingPageComponent,
+        LocationAutoCompleteComponent
+    ]
 })
 export class TripsComponent {
   selectedTrips$ = this.tripStore.select(selectTrips);

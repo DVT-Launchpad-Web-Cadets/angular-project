@@ -1,14 +1,21 @@
 @if(loading$ | async){
-<app-loading-page/>
-}
-@else {
-<div class="h-screen w-screen bg-white dark:bg-dark-bg md:px-12 text-black dark:text-gray">
-    <div class="bg-white dark:bg-dark-bg border-b border-b-dark-gray w-full fixed top-0 h-16 flex justify-between items-center px-4">
-        <h1 class="text-2xl text-black dark:text-gray font-bold">My Trips</h1>
-        <button (click)="logout()">
-            <ng-icon (click)="logout" name="matExitToApp" class="text-3xl text-black dark:text-gray"></ng-icon>
-        </button>
-      </div>
+<app-loading-page />
+} @else {
+<div
+  class="h-screen w-screen bg-white dark:bg-dark-bg md:px-12 text-black dark:text-gray"
+>
+  <div
+    class="bg-white dark:bg-dark-bg border-b border-b-dark-gray w-full fixed top-0 h-16 flex justify-between items-center px-4"
+  >
+    <h1 class="text-2xl text-black dark:text-gray font-bold">My Trips</h1>
+    <button (click)="logout()">
+      <ng-icon
+        (click)="(logout)"
+        name="matExitToApp"
+        class="text-3xl text-black dark:text-gray"
+      ></ng-icon>
+    </button>
+  </div>
   <div
     class="w-full pt-20 flex flex-col items-center md:justify-start md:items:start justify-center gap-4 bg-white dark:bg-dark-bg px-8"
   >
@@ -20,8 +27,6 @@
     <h2 class="text-2xl">Ready for an adventure? Create your first Trip!</h2>
     }
   </div>
-<app-add-trip-form></app-add-trip-form>
-
+  <app-add-trip-form></app-add-trip-form>
 </div>
-
 }

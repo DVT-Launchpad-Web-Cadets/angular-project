@@ -44,9 +44,11 @@
               required
               class="w-full bg-transparent border border-gray rounded-lg p-2"
               formControlName="tripName"
+              #destinationInput
             />
           </nz-form-control>
         </nz-form-item>
+        <app-location-auto-complete (placeSelected)="fromValue = $event"/>
         <nz-form-label class="font-bold">Destination</nz-form-label>
         <nz-form-item class="w-full">
           <nz-form-control nzHasFeedback nzErrorTip="Destination is required">
