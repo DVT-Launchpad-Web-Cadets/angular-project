@@ -43,9 +43,12 @@ export class BudgetComponent {
   currency = '';
 
   homeCurrency = '';
+  currencySymbol = '';
   conversionRate = 1;
 
-  budgetItems$: Observable<{ tag: TagType; totalCost: number }[]> | undefined;
+  budgetItems$: Observable<{ tag: TagType; totalCost: number }> | undefined;
+
+  array : { tag: TagType; totalCost: number }[] = [];
 
   events$ = this.eventStore.select(selectEvents);
   currencyInfo$ = this.tripStore.select(selectCurrencyInfo);
@@ -64,6 +67,7 @@ export class BudgetComponent {
       this.currency = currencyInfo.homeCurrency ?? this.currency;
       this.homeCurrency = currencyInfo.homeCurrency ?? this.currency;
       this.conversionRate = currencyInfo.exchangeRate ?? this.conversionRate;
+      this.currencySymbol = currencyInfo.homeCurrencySymbol ?? this.currencySymbol;
     });
 
     this.totalCost$ = this.events$.pipe(
@@ -78,43 +82,76 @@ export class BudgetComponent {
 
     // for later use
 
-    // why does this only return a single item? Not a whole array?
     this.budgetItems$ = this.events$.pipe(
       mergeMap((events) => from(events)),
-      groupBy((event) => {
-        return event.tag;
+      groupBy((event) => event.tag),
+      mergeMap((group$) => group$.pipe(
+        map((event) => event.currency === this.homeCurrency ? event.cost : event.cost / this.conversionRate),
+        scan((sum, cost) => sum + cost, 0),
+        map((totalCost) => ({ tag: group$.key, totalCost }))
+      )),
+      tap((item) => {
+        this.replaceBudgetItem(item);
+        console.log('Item:', item);
+        console.log('Array:', this.array);
       }),
-      mergeMap((group$) => {
-        console.log('Group:', group$);
-        return group$.pipe(
-          map((event) => {
-            if (event.currency === this.homeCurrency) {
-              return event.cost;
-            } else {
-                return event.cost / this.conversionRate
-            };
-          }),
-          scan((sum, eventCost) => {
-            return sum + eventCost;
-          }, 0),
-          map((totalCost) => {
-            return { tag: group$.key, totalCost };
-          })
-        );
-      }),
-      tap((item) => console.log('Item:', item)),
-      map((item) => [item]), // Wrap the object in an array
-      tap((itemsArray) => console.log('Final Result:', itemsArray))
     );
+    // why does this only return a single item? Not a whole array?
+    // this.budgetItems$ = this.events$.pipe(
+    //   mergeMap((events) => from(events)),
+    //   groupBy((event) => {
+    //     return event.tag;
+    //   }),
+    //   mergeMap((group$) => {
+    //     console.log('Group:', group$);
+    //     return group$.pipe(
+    //       map((event) => {
+    //         if (event.currency === this.homeCurrency) {
+    //           return event.cost;
+    //         } else {
+    //             return event.cost / this.conversionRate
+    //         };
+    //       }),
+    //       scan((sum, eventCost) => {
+    //         return sum + eventCost;
+    //       }, 0),
+    //       map((totalCost) => {
+    //         return { tag: group$.key, totalCost };
+    //       })
+    //     );
+    //   }),
+    //   tap((item) => {
+    //     this.array.push(item);
+    //     console.log('Item:', item);
+    //     console.log('Array:', this.array);
+    //   }),
+    //   map((item) => [item]), // Wrap the object in an array
+    //   tap((itemsArray) => console.log('Final Result:', itemsArray))
+    // );
   }
 
-  setCurrency(currency: string): void {
+  setCurrency(currency: string, symbol: string): void {
     this.currency = currency;
+    this.currencySymbol = symbol;
   }
 
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+  }
+
+  replaceBudgetItem(item: { tag: TagType; totalCost: number }) {
+    const existingIndex = this.array.findIndex(
+      (arrItem) => arrItem.tag === item.tag
+    );
+  
+    if (existingIndex === -1) {
+      // If the tag doesn't exist in the array, push the new item
+      this.array.push(item);
+    } else {
+      // If the tag exists, replace the existing item with the new one
+      this.array[existingIndex] = item;
     }
   }
 }

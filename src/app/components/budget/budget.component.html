@@ -14,12 +14,12 @@
 <nz-dropdown-menu #menu4="nzDropdownMenu">
   <ul nz-menu>
     @if(currencyInfo$ | async; as currencyInfo){
-    <li nz-menu-item (click)="setCurrency(currencyInfo.homeCurrency ?? '')">
+    <li nz-menu-item (click)="setCurrency(currencyInfo.homeCurrency ?? '', currencyInfo.homeCurrencySymbol ?? '')">
       {{ currencyInfo.homeCurrency }}
     </li>
     <li
       nz-menu-item
-      (click)="setCurrency(currencyInfo.destinationCurrency ?? '')"
+      (click)="setCurrency(currencyInfo.destinationCurrency ?? '', currencyInfo.destinationCurrencySymbol ?? '')"
     >
       {{ currencyInfo.destinationCurrency }}
     </li>
@@ -28,11 +28,11 @@
 </nz-dropdown-menu>
 
 <div class="w-full flex flex-col items-center">
-  @if(budgetItems$ | async; as budgetItems){ @for(budgetItem of budgetItems;
+  @if(budgetItems$ | async; as budgetItems){ @for(budgetItem of array;
   track budgetItem.tag){ @if(homeCurrency === currency){
   <app-budget-item
     [category]="budgetItem.tag"
-    [currency]="currency"
+    [currency]="currencySymbol"
     [cost]="budgetItem.totalCost"
     percentage="5"
     class="w-full"
@@ -40,7 +40,7 @@
   } @else {
   <app-budget-item
     [category]="budgetItem.tag"
-    [currency]="currency"
+    [currency]="currencySymbol"
     [cost]="budgetItem.totalCost * conversionRate"
     percentage="5"
     class="w-full"
