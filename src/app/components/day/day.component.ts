@@ -14,7 +14,7 @@ import { EventFormComponent } from './event-form/event-form.component';
 import { getEvents } from '../../store/actions/event.actions';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TripState } from '../../store/state';
+import { EventState, TripState } from '../../store/state';
 import { map } from 'rxjs';
 
 @Component({
@@ -40,7 +40,7 @@ export class DayComponent implements OnInit {
   edit = false;
   tripId = '';
 
-  constructor(private store: Store<TripState>, private route: ActivatedRoute) {}
+  constructor(private store: Store<EventState>, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.tripId = this.route.snapshot.params['tripId'];
