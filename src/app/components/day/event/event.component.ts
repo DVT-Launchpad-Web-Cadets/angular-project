@@ -18,6 +18,7 @@ import { EventState, TripState } from '../../../store/state';
 import { selectCurrencyInfo } from '../../../store/selectors';
 import { AsyncPipe, DecimalPipe, DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-event',
@@ -34,7 +35,8 @@ import { CommonModule } from '@angular/common';
     AsyncPipe,
     DecimalPipe,
     DatePipe,
-    CommonModule
+    CommonModule,
+    NzModalModule
   ],
 })
 export class EventComponent {
@@ -47,12 +49,26 @@ export class EventComponent {
   constructor(
     private eventStore: Store<EventState>,
     private tripStore: Store<TripState>,
-    private nzMessageService: NzMessageService
+    private nzMessageService: NzMessageService,
+    private modal: NzModalService
   ) {}
 
   deleteEvent(eventId: string) {
     this.eventStore.dispatch(deleteEvent({ eventId }));
     this.nzMessageService.info('event deleted');
+  }
+
+  showDeleteConfirm(): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure delete this event?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteEvent(this.event?.id || ''),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 
   toggleContent() {

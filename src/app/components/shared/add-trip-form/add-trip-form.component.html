@@ -1,7 +1,7 @@
 <nz-space>
   @if(edit){
   <button nz-button nzType="primary" (click)="showDrawer()">
-    <ng-icon name="matSettings" class="text-white text-3xl"></ng-icon>
+    <ng-icon name="remixEditBoxLine" class="text-white text-3xl"></ng-icon>
   </button>
   } @else {
   <button
@@ -62,16 +62,28 @@
             />
           </nz-form-control>
         </nz-form-item>
-        <nz-form-label class="font-bold">Trip Dates</nz-form-label>
+        <nz-form-label class="font-bold">Start Date</nz-form-label>
         <nz-form-item class="w-full">
           <nz-form-control nzHasFeedback nzErrorTip="Start date is required">
-            <nz-range-picker
+            <nz-date-picker
               class="w-full rounded-lg p-2"
               [nzFormat]="dateFormat"
               required
-              name="tripDates"
-              formControlName="tripDates"
-            ></nz-range-picker>
+              name="startDate"
+              formControlName="startDate"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-label class="font-bold">End Date</nz-form-label>
+        <nz-form-item class="w-full">
+          <nz-form-control nzHasFeedback nzErrorTip="End date is required">
+            <nz-date-picker
+              class="w-full rounded-lg p-2"
+              [nzFormat]="dateFormat"
+              required
+              name="endDate"
+              formControlName="endDate"
+            ></nz-date-picker>
           </nz-form-control>
         </nz-form-item>
         <nz-form-label class="font-bold">Home Currency</nz-form-label>
@@ -124,11 +136,7 @@
         </nz-form-item>
         @if (edit) {
           <button
-            nz-popconfirm
-            nzPopconfirmTitle=" DeleteTrip?"
-            (nzOnConfirm)="deleteTrip(trip?.id ?? '')"
-            nz-button
-            nzType="primary"
+            (click)="showDeleteConfirm()"
             class="bg-transparent border border-red text-red text-lg p-2 w-full rounded-lg mb-2"
             >
            Delete Trip

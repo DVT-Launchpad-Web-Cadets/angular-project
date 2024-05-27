@@ -2,6 +2,11 @@
 
 @for(event of selectedEvents$ | async; track event.id){
 <app-event [event]="event" class="w-full"></app-event>
+} @empty {
+    <div class="w-full h-full flex flex-col justify-center items-center">
+        <ng-icon name="matEditCalendar" class="text-8xl text-gray mt-4"></ng-icon>
+        <h2 class="text-dark-gray text-md">Start planning your adventure</h2>
+    </div>
 }
 
 <app-event-form [date]="day?.date"></app-event-form>

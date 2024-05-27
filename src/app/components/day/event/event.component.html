@@ -68,11 +68,8 @@
             }
             <div class="flex gap-2">
               <button
-                nz-popconfirm
-                nzPopconfirmTitle=" Delete Event?"
-                (nzOnConfirm)="deleteEvent(event?.id ?? '')"
+                (click)="showDeleteConfirm()"
                 nz-button
-                nzType="primary"
                 class="text-coral border border-coral flex justify-center items-center rounded-lg px-4 py-1"
               >
                 <ng-icon name="matDelete" class="text-coral text-lg"></ng-icon>

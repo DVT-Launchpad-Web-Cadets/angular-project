@@ -48,7 +48,7 @@
   } } }
 
   <div
-    class="bg-black text-white p-3 px-5 rounded-full fixed bottom-4 flex items-center justify-center font-bold"
+    class="bg-black min-w-28 text-white p-2 px-5 rounded-full fixed bottom-4 flex items-center justify-center font-bold"
   >
     @if(totalCost$ | async; as cost) { @if(currencyInfo$ | async; as
     currencyInfo){ @if(currencyInfo.homeCurrency === currency){
@@ -58,5 +58,8 @@
     {{ currencyInfo.destinationCurrencySymbol
     }}{{ cost * currencyInfo.exchangeRate | number : "1.2-2" }}
     } } }
+    @else {
+      0
+    }
   </div>
 </div>

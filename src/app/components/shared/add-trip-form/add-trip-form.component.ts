@@ -7,6 +7,7 @@ import {
   Output,
   ViewChild,
   AfterViewInit,
+  inject,
 } from '@angular/core';
 import {
   FormGroup,
@@ -39,18 +40,21 @@ import { selectSelectedTrip, selectUser } from '../../../store/selectors';
 import currencies from '../../../../assets/json/currencies.json';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import {
   LocationAutoCompleteComponent,
   PlaceSearchResult,
 } from '../location-auto-complete/location-auto-complete.component';
+import { Router } from '@angular/router';
+import { featherEdit } from '@ng-icons/feather-icons';
+import { remixEditBoxLine } from '@ng-icons/remixicon';
 
 @Component({
   selector: 'app-add-trip-form',
   standalone: true,
   templateUrl: './add-trip-form.component.html',
   styleUrl: './add-trip-form.component.css',
-  viewProviders: [provideIcons({ matSettings, matAdd, matDelete })],
+  viewProviders: [provideIcons({ matSettings, matAdd, matDelete, featherEdit, remixEditBoxLine })],
   imports: [
     NzFormModule,
     NzDatePickerModule,
@@ -65,6 +69,9 @@ import {
   ],
 })
 export class AddTripFormComponent implements OnInit {
+  router = inject(Router);
+
+
   @Input() edit = false;
   @Output() closeDrawer = new EventEmitter<void>();
 
@@ -83,7 +90,8 @@ export class AddTripFormComponent implements OnInit {
   validateForm: FormGroup<{
     tripName: FormControl<string>;
     tripDestination: FormControl<string>;
-    tripDates: FormControl<[Date, Date] | null>;
+    startDate: FormControl<Date | null>;
+    endDate: FormControl<Date | null>;
     homeCurrency: FormControl<string>;
     destinationCurrency: FormControl<string>;
   }>;
@@ -91,12 +99,16 @@ export class AddTripFormComponent implements OnInit {
   constructor(
     private fb: NonNullableFormBuilder,
     private store: Store<TripState>,
-    private nzMessageService: NzMessageService
+    private nzMessageService: NzMessageService,
+    private modal: NzModalService
   ) {
     this.validateForm = this.fb.group({
       tripName: ['', [Validators.required]],
       tripDestination: ['', [Validators.required]],
-      tripDates: this.fb.control<[Date, Date] | null>(null, {
+      startDate: this.fb.control<Date | null>(null, {
+        validators: [Validators.required],
+      }),
+      endDate: this.fb.control<Date | null>(null, {
         validators: [Validators.required],
       }),
       homeCurrency: ['', [Validators.required]],
@@ -122,7 +134,8 @@ export class AddTripFormComponent implements OnInit {
     this.validateForm.patchValue({
       tripName: trip.name,
       tripDestination: trip.destination,
-      tripDates: [trip.startDate, trip.endDate],
+      startDate: trip.startDate,
+      endDate: trip.endDate,
     });
   }
 
@@ -144,12 +157,8 @@ export class AddTripFormComponent implements OnInit {
       const newTrip: TripInterface = {
         name: this.validateForm.value.tripName ?? '',
         destination: this.validateForm.value.tripDestination ?? '',
-        startDate: this.validateForm.value.tripDates
-          ? this.validateForm.value.tripDates[0]
-          : new Date(),
-        endDate: this.validateForm.value.tripDates
-          ? this.validateForm.value.tripDates[1]
-          : new Date(),
+        startDate: this.validateForm.value.startDate ?? new Date(),
+        endDate: this.validateForm.value.endDate ?? new Date(),
         homeCurrency: this.validateForm.value.homeCurrency ?? '',
         homeCurrencySymbol: homeCurrencySymbol,
         destinationCurrency: this.validateForm.value.destinationCurrency ?? '',
@@ -180,5 +189,20 @@ export class AddTripFormComponent implements OnInit {
   deleteTrip(tripId: string): void {
     this.store.dispatch(deleteTrip({ tripId }));
     this.nzMessageService.info('Trip deleted');
+    this.close();
+    this.router.navigate(['/my-trips']);
+  }
+
+  showDeleteConfirm(): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure delete this trip?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteTrip(this.trip?.id ?? ''),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 }

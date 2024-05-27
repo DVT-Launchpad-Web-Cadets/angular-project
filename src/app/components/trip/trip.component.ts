@@ -16,6 +16,7 @@ import { DatePipe, AsyncPipe } from '@angular/common';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { RouterModule } from '@angular/router';
 import { LoadingPageComponent } from '../loading-page/loading-page.component';
+import { featherEdit } from '@ng-icons/feather-icons';
 
 @Component({
   selector: 'app-trip',
@@ -28,6 +29,7 @@ import { LoadingPageComponent } from '../loading-page/loading-page.component';
       matLocationOn,
       matArrowBack,
       matCalendarMonth,
+      featherEdit
     }),
   ],
   imports: [

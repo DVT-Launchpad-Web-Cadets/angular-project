@@ -3,6 +3,7 @@ import {
   matEdit,
   matLocationOn,
   matAdd,
+  matEditCalendar
 } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { EventComponent } from './event/event.component';
@@ -21,7 +22,7 @@ import { map } from 'rxjs';
   standalone: true,
   templateUrl: './day.component.html',
   styleUrl: './day.component.css',
-  viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd })],
+  viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd, matEditCalendar })],
   imports: [NgIconComponent, EventComponent, EventFormComponent, CommonModule],
 })
 export class DayComponent implements OnInit {

@@ -39,7 +39,7 @@ import { AsyncPipe, DecimalPipe } from '@angular/common';
   viewProviders: [provideIcons({ matKeyboardArrowDown, matBarChart })],
 })
 export class BudgetComponent {
-  totalCost = '';
+  totalCost = 0;
   currency = '';
 
   homeCurrency = '';
