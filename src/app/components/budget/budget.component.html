@@ -14,12 +14,12 @@
 <nz-dropdown-menu #menu4="nzDropdownMenu">
   <ul nz-menu>
     @if(currencyInfo$ | async; as currencyInfo){
-    <li nz-menu-item (click)="setCurrency(currencyInfo.homeCurrency ?? '', currencyInfo.homeCurrencySymbol ?? '')">
+    <li nz-menu-item (click)="setCurrency(currencyInfo.homeCurrency ?? '', currencyInfo.homeCurrencySymbol ?? '', 1)">
       {{ currencyInfo.homeCurrency }}
     </li>
     <li
       nz-menu-item
-      (click)="setCurrency(currencyInfo.destinationCurrency ?? '', currencyInfo.destinationCurrencySymbol ?? '')"
+      (click)="setCurrency(currencyInfo.destinationCurrency ?? '', currencyInfo.destinationCurrencySymbol ?? '', currencyInfo.exchangeRate ?? 1)"
     >
       {{ currencyInfo.destinationCurrency }}
     </li>
@@ -28,16 +28,8 @@
 </nz-dropdown-menu>
 
 <div class="w-full flex flex-col items-center">
-  @for(budgetItem of tagTotals$ |async;
-  track budgetItem.tag){ @if(homeCurrency === currency){
-  <app-budget-item
-    [category]="budgetItem.tag"
-    [currency]="currencySymbol"
-    [cost]="budgetItem.totalCost"
-    [percentage]="budgetItem.percentage"
-    class="w-full"
-  ></app-budget-item>
-  } @else {
+  @for(budgetItem of tagTotals$ | async;
+  track budgetItem.tag){
   <app-budget-item
     [category]="budgetItem.tag"
     [currency]="currencySymbol"
@@ -45,21 +37,13 @@
     [percentage]="budgetItem.percentage"
     class="w-full"
   ></app-budget-item>
-  } } 
+  }
 
   <div
     class="bg-black min-w-28 text-white p-2 px-5 rounded-full fixed bottom-4 flex items-center justify-center font-bold"
   >
-    @if(totalCost$ | async; as cost) { @if(currencyInfo$ | async; as
-    currencyInfo){ @if(currencyInfo.homeCurrency === currency){
-    {{ currencyInfo.homeCurrencySymbol }}{{ cost | number : "1.2-2" }}
-    } @else if (currencyInfo.destinationCurrency === currency && cost &&
-    currencyInfo.exchangeRate){
-    {{ currencyInfo.destinationCurrencySymbol
-    }}{{ cost * currencyInfo.exchangeRate | number : "1.2-2" }}
-    } } }
-    @else {
-      0
+    @if(totalCost$ | async; as cost) { 
+      {{currencySymbol}}{{cost*conversionRate | number : "1.2-2"}}
     }
   </div>
 </div>
