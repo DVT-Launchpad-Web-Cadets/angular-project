@@ -1,6 +1,6 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SignupButtonComponent } from '../shared/signup-button/signup-button.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -20,6 +20,7 @@ import { Subscription, filter } from 'rxjs';
     SignupButtonComponent,
     NzFormModule,
     NzInputModule,
+    RouterModule
   ],
 })
 export class LoginComponent implements OnDestroy {

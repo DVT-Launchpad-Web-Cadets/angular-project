@@ -1,14 +1,18 @@
-<div
-  class="max-w-sm md:max-w-full md:w-full rounded-lg overflow-hidden shadow-lg text-black md:flex dark:bg-dark-bg-2"
+
+<div class="w-screen px-8">
+  <div
+  class="w-full md:w-2/3 lg:w-1/2 rounded-lg overflow-hidden shadow-lg text-black md:flex dark:bg-dark-bg-2"
 >
-  <div class="w-full h-54 max-w-sm">
-    <img
+  <div class="w-full h-54">
+    <div class="w-full h-40 bg-gray object-cover">
+      <img
       class="w-full h-full object-cover"
       [src]="trip?.imageUrl"
       alt="Card image"
     />
+    </div>
   </div>
-  <div class="px-4 py-2 md:flex md:flex-col md:justify-center text-black dark:text-gray">
+  <div class="px-4 py-2 md:flex md:flex-col md:justify-center text-black dark:text-gray w-full">
     <h2 class="text-lg pb-2 font-bold text-black dark:text-gray">{{ trip?.name }}</h2>
     <div class="flex items-center text-black dark:text-gray">
       <ng-icon name="matCalendarMonth" class="text-2xl"></ng-icon>
@@ -23,3 +27,5 @@
     </div>
   </div>
 </div>
+</div>
+

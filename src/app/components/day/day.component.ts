@@ -11,7 +11,6 @@ import { DayInterface } from '../../models';
 import { Store } from '@ngrx/store';
 import { selectEvents } from '../../store/selectors';
 import { EventFormComponent } from './event-form/event-form.component';
-import { getEvents } from '../../store/actions/event.actions';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EventState, TripState } from '../../store/state';
@@ -25,7 +24,7 @@ import { map } from 'rxjs';
   viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd, matEditCalendar })],
   imports: [NgIconComponent, EventComponent, EventFormComponent, CommonModule],
 })
-export class DayComponent implements OnInit {
+export class DayComponent {
   @Input() day: DayInterface | undefined;
 
   selectedEvents$ = this.store
@@ -41,11 +40,6 @@ export class DayComponent implements OnInit {
   tripId = '';
 
   constructor(private store: Store<EventState>, private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.tripId = this.route.snapshot.params['tripId'];
-    this.store.dispatch(getEvents({ tripId: this.tripId }));
-  }
 
   toggleEdit(): void {
     this.edit = !this.edit;

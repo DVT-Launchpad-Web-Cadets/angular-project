@@ -12,7 +12,7 @@ import { AsyncPipe, DecimalPipe } from '@angular/common';
 })
 export class BudgetItemComponent {
     @Input() category : TagType = "Other";
-    @Input() percentage = "";
+    @Input() percentage = 0;
     @Input() cost = 0;
     @Input() currency = "";
 }

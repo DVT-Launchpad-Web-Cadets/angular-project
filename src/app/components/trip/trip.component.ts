@@ -10,13 +10,14 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { AddTripFormComponent } from '../shared/add-trip-form/add-trip-form.component';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
-import { TripState } from '../../store/state';
+import { EventState, TripState } from '../../store/state';
 import { selectSelectedTrip } from '../../store/selectors';
 import { DatePipe, AsyncPipe } from '@angular/common';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { LoadingPageComponent } from '../loading-page/loading-page.component';
 import { featherEdit } from '@ng-icons/feather-icons';
+import { getEvents } from '../../store/actions';
 
 @Component({
   selector: 'app-trip',
@@ -46,5 +47,8 @@ import { featherEdit } from '@ng-icons/feather-icons';
 })
 export class TripComponent {
   selectedTrip$ = this.store.select(selectSelectedTrip);
-  constructor(private store: Store<TripState>) {}
+  constructor(private store: Store<TripState>, private eventStore: Store<EventState>, private route: ActivatedRoute) {
+    const tripId = this.route.snapshot.params['tripId'];
+    this.eventStore.dispatch(getEvents({ tripId: tripId }));
+  }
 }

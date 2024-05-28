@@ -15,13 +15,14 @@ import {
   mergeMap,
   reduce,
   scan,
+  startWith,
   tap,
   toArray,
 } from 'rxjs';
 import { EventState, TripState } from '../../store/state';
 import { Store } from '@ngrx/store';
-import { selectCurrencyInfo, selectEvents } from '../../store/selectors';
-import { TagType } from '../../models';
+import { selectCurrencyInfo, selectEvents, selectTagTotals } from '../../store/selectors';
+import { EventInterface, TagType } from '../../models';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 
 @Component({
@@ -49,9 +50,12 @@ export class BudgetComponent {
   budgetItems$: Observable<{ tag: TagType; totalCost: number }> | undefined;
 
   array : { tag: TagType; totalCost: number }[] = [];
+  eventss: EventInterface[] = [];
 
   events$ = this.eventStore.select(selectEvents);
   currencyInfo$ = this.tripStore.select(selectCurrencyInfo);
+
+  tagTotals$ = this.eventStore.select(selectTagTotals);
 
   subscription: Subscription | undefined;
 
@@ -85,16 +89,23 @@ export class BudgetComponent {
     this.budgetItems$ = this.events$.pipe(
       mergeMap((events) => from(events)),
       groupBy((event) => event.tag),
-      mergeMap((group$) => group$.pipe(
-        map((event) => event.currency === this.homeCurrency ? event.cost : event.cost / this.conversionRate),
-        scan((sum, cost) => sum + cost, 0),
-        map((totalCost) => ({ tag: group$.key, totalCost }))
-      )),
+      mergeMap((group$) =>
+        group$.pipe(
+          map((event) =>
+            event.currency === this.homeCurrency
+              ? event.cost
+              : event.cost / this.conversionRate
+          ),
+          startWith(0),
+          scan((sum, cost) => sum + cost),
+          map((totalCost) => ({ tag: group$.key, totalCost: totalCost as number })) // Cast totalCost to number
+        )
+      ),
       tap((item) => {
         this.replaceBudgetItem(item);
         console.log('Item:', item);
         console.log('Array:', this.array);
-      }),
+      })
     );
     // why does this only return a single item? Not a whole array?
     // this.budgetItems$ = this.events$.pipe(
@@ -128,6 +139,12 @@ export class BudgetComponent {
     //   map((item) => [item]), // Wrap the object in an array
     //   tap((itemsArray) => console.log('Final Result:', itemsArray))
     // );
+
+
+
+    this.events$.subscribe((events) => {
+      this.eventss = events;
+    });
   }
 
   setCurrency(currency: string, symbol: string): void {

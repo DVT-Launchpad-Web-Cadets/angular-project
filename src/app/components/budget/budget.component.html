@@ -28,13 +28,13 @@
 </nz-dropdown-menu>
 
 <div class="w-full flex flex-col items-center">
-  @if(budgetItems$ | async; as budgetItems){ @for(budgetItem of array;
+  @for(budgetItem of tagTotals$ |async;
   track budgetItem.tag){ @if(homeCurrency === currency){
   <app-budget-item
     [category]="budgetItem.tag"
     [currency]="currencySymbol"
     [cost]="budgetItem.totalCost"
-    percentage="5"
+    [percentage]="budgetItem.percentage"
     class="w-full"
   ></app-budget-item>
   } @else {
@@ -42,10 +42,10 @@
     [category]="budgetItem.tag"
     [currency]="currencySymbol"
     [cost]="budgetItem.totalCost * conversionRate"
-    percentage="5"
+    [percentage]="budgetItem.percentage"
     class="w-full"
   ></app-budget-item>
-  } } }
+  } } 
 
   <div
     class="bg-black min-w-28 text-white p-2 px-5 rounded-full fixed bottom-4 flex items-center justify-center font-bold"

@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { Store } from '@ngrx/store';
@@ -18,7 +18,7 @@ import { Subscription, filter } from 'rxjs';
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, RouterModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
 })
@@ -54,9 +54,11 @@ export class SignupComponent implements OnDestroy {
           password: this.validateForm.value.password!,
         })
       );
-      this.userSubscription = this.selectedUser$.pipe(filter(userId => !!userId)).subscribe(() => {
-        this.router.navigate(['/my-trips']);
-      });
+      this.userSubscription = this.selectedUser$
+        .pipe(filter((userId) => !!userId))
+        .subscribe(() => {
+          this.router.navigate(['/my-trips']);
+        });
     } else {
       this.validateForm.markAllAsTouched();
     }

@@ -14,7 +14,7 @@
     </div>
 
     <div
-      class="bg-white h-2/3 w-full md:w-2/5 md:h-3/5 rounded-t-large md:rounded-large flex flex-col items-center justify-center p-8"
+      class="bg-white h-2/3 w-full md:w-2/5 md:h-3/5 rounded-t-large md:rounded-large flex flex-col items-center justify-around p-8"
     >
 
 
@@ -61,7 +61,6 @@
               class="border-none bg-transparent border border-b-coral"
               style="border-bottom: 1px #E29578 solid;"
               nzPrefixIcon="lock"
-              
             >
               <input
                 type="password"
@@ -79,6 +78,13 @@
           >
             <p>Login</p>
           </button>
+        </div>
+        <div class="my-2">
+          <p class="text-dark-gray text-center ">
+            Don't have an account? <a 
+            class="text-coral"
+            [routerLink]="['/signup']">Sign up</a>
+          </p>
         </div>
       </form>
     </div>  
