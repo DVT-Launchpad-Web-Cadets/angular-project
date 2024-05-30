@@ -1,0 +1,6 @@
+<google-map height="500px" width="100%" [zoom]="zoom">
+  <map-directions-renderer
+    *ngIf="directionsResult"
+    [directions]="directionsResult"
+  ></map-directions-renderer>
+</google-map>

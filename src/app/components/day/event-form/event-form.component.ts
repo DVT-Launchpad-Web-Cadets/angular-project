@@ -26,28 +26,30 @@ import { TagType } from '../../../models';
 import { EventState, TripState } from '../../../store/state';
 import { selectCurrencyInfo, selectEvents } from '../../../store/selectors';
 import { AsyncPipe } from '@angular/common';
+import { LocationAutoCompleteComponent, PlaceSearchResult } from "../../shared/location-auto-complete/location-auto-complete.component";
 
 @Component({
-  selector: 'app-event-form',
-  standalone: true,
-  viewProviders: [provideIcons({ matEdit, matAdd })],
-  templateUrl: './event-form.component.html',
-  styleUrl: './event-form.component.css',
-  imports: [
-    NzFormModule,
-    FormsModule,
-    NzDatePickerModule,
-    ReactiveFormsModule,
-    NzInputNumberModule,
-    NzSelectModule,
-    NzSpaceModule,
-    NzTimePickerModule,
-    NzInputModule,
-    NzDrawerModule,
-    NgIconComponent,
-    TagComponent,
-    AsyncPipe,
-  ],
+    selector: 'app-event-form',
+    standalone: true,
+    viewProviders: [provideIcons({ matEdit, matAdd })],
+    templateUrl: './event-form.component.html',
+    styleUrl: './event-form.component.css',
+    imports: [
+        NzFormModule,
+        FormsModule,
+        NzDatePickerModule,
+        ReactiveFormsModule,
+        NzInputNumberModule,
+        NzSelectModule,
+        NzSpaceModule,
+        NzTimePickerModule,
+        NzInputModule,
+        NzDrawerModule,
+        NgIconComponent,
+        TagComponent,
+        AsyncPipe,
+        LocationAutoCompleteComponent
+    ]
 })
 export class EventFormComponent implements OnInit {
   @Input() editMode = true;
@@ -63,6 +65,8 @@ export class EventFormComponent implements OnInit {
   title = 'Create an Event';
   buttonText = 'Add Event';
   tripId = '';
+
+  formValue: PlaceSearchResult | undefined;
 
   options: { value: TagType }[] = [
     { value: 'Food' },
@@ -83,12 +87,13 @@ export class EventFormComponent implements OnInit {
     eventEndTime: FormControl<Date | null>;
     eventTag: FormControl<string>;
     eventNotes: FormControl<string>;
-    locationUrl: FormControl<string>;
     eventLatitude: FormControl<string>;
     eventLongitude: FormControl<string>;
     eventCost: FormControl<number>;
     eventCurrency: FormControl<string>;
   }>;
+
+    destination =  'Sundown Restaurant';
 
   constructor(
     private fb: NonNullableFormBuilder,
@@ -106,7 +111,6 @@ export class EventFormComponent implements OnInit {
       ),
       eventTag: ['Other', [Validators.required]],
       eventNotes: [''],
-      locationUrl: [''],
       eventLatitude: [''],
       eventLongitude: [''],
       eventCost: [0],
@@ -130,17 +134,16 @@ export class EventFormComponent implements OnInit {
       eventEndTime: event.endTime,
       eventTag: event.tag,
       eventNotes: event.notes,
-      locationUrl: event.locationUrl,
-      eventLatitude: event.latitude,
-      eventLongitude: event.longitude,
       eventCost: event.cost,
       eventCurrency: event.currency,
     });
+    this.destination = event.locationUrl ?? '';
   }
 
   addEvent(): void {
     if (this.validateForm.valid) {
       const newEvent: EventInterface = this.createEventObject();
+      console.log(newEvent);
       if (this.edit) {
         this.eventStore.dispatch(editEvent({ updatedEvent: newEvent }));
       } else {
@@ -176,9 +179,9 @@ export class EventFormComponent implements OnInit {
       endTime: this.validateForm.value.eventEndTime ?? new Date(),
       tag: this.validateForm.value.eventTag ?? 'Other',
       notes: this.validateForm.value.eventNotes,
-      locationUrl: this.validateForm.value.locationUrl,
-      latitude: this.validateForm.value.eventLatitude,
-      longitude: this.validateForm.value.eventLongitude,
+      locationUrl: this.formValue?.url,
+      latitude: this.formValue?.location?.lat(),
+      longitude: this.formValue?.location?.lng(),
       cost: this.validateForm.value.eventCost ?? 0,
       currency: this.validateForm.value.eventCurrency,
     };

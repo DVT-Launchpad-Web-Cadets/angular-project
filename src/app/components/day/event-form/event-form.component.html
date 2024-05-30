@@ -100,20 +100,8 @@
           </div>
         </div>
 
-        <nz-form-label class="font-bold w-full text-left"
-          >Location URL</nz-form-label
-        >
-        <nz-form-item class="w-full">
-          <nz-form-control>
-            <input
-              nz-input
-              placeholder="e.g google maps link"
-              name="tripDestination"
-              class="w-full bg-transparent border border-gray rounded-lg p-2"
-              formControlName="locationUrl"
-            />
-          </nz-form-control>
-        </nz-form-item>
+        <nz-form-label class="font-bold">Location</nz-form-label>
+        <app-location-auto-complete (placeSelected)="formValue = $event" [placeholder]="destination" />
 
         <nz-form-label class="font-bold">Event Cost Estimate</nz-form-label>
         <nz-form-item>

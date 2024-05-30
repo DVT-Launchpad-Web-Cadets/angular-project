@@ -5,8 +5,8 @@ export interface EventInterface {
   name: string;
   startTime: Date;
   endTime: Date;
-  latitude?: string;
-  longitude?: string;
+  latitude?: number;
+  longitude?: number;
   locationUrl?: string;
   tag: TagType;
   notes?: string;
