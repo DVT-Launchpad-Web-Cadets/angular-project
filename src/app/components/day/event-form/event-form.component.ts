@@ -27,30 +27,33 @@ import { EventState, TripState } from '../../../store/state';
 import { selectCurrencyInfo, selectEvents } from '../../../store/selectors';
 import { AsyncPipe } from '@angular/common';
 
-import { LocationAutoCompleteComponent, PlaceSearchResult } from "../../shared/location-auto-complete/location-auto-complete.component";
+import {
+  LocationAutoCompleteComponent,
+  PlaceSearchResult,
+} from '../../shared/location-auto-complete/location-auto-complete.component';
 
 @Component({
-    selector: 'app-event-form',
-    standalone: true,
-    viewProviders: [provideIcons({ matEdit, matAdd })],
-    templateUrl: './event-form.component.html',
-    styleUrl: './event-form.component.css',
-    imports: [
-        NzFormModule,
-        FormsModule,
-        NzDatePickerModule,
-        ReactiveFormsModule,
-        NzInputNumberModule,
-        NzSelectModule,
-        NzSpaceModule,
-        NzTimePickerModule,
-        NzInputModule,
-        NzDrawerModule,
-        NgIconComponent,
-        TagComponent,
-        AsyncPipe,
-        LocationAutoCompleteComponent
-    ]
+  selector: 'app-event-form',
+  standalone: true,
+  viewProviders: [provideIcons({ matEdit, matAdd })],
+  templateUrl: './event-form.component.html',
+  styleUrl: './event-form.component.css',
+  imports: [
+    NzFormModule,
+    FormsModule,
+    NzDatePickerModule,
+    ReactiveFormsModule,
+    NzInputNumberModule,
+    NzSelectModule,
+    NzSpaceModule,
+    NzTimePickerModule,
+    NzInputModule,
+    NzDrawerModule,
+    NgIconComponent,
+    TagComponent,
+    AsyncPipe,
+    LocationAutoCompleteComponent,
+  ],
 })
 export class EventFormComponent implements OnInit {
   @Input() editMode = true;
@@ -94,7 +97,7 @@ export class EventFormComponent implements OnInit {
     eventCurrency: FormControl<string>;
   }>;
 
-    destination =  'e.g Ambrosia Restaurant';
+  destination = 'e.g Ambrosia Restaurant';
 
   constructor(
     private fb: NonNullableFormBuilder,
@@ -115,7 +118,7 @@ export class EventFormComponent implements OnInit {
       eventLatitude: [''],
       eventLongitude: [''],
       eventCost: [0],
-      eventCurrency: ['R'],
+      eventCurrency: [''],
     });
   }
 
@@ -171,7 +174,7 @@ export class EventFormComponent implements OnInit {
   }
 
   private createEventObject(): EventInterface {
-    let newEvent : EventInterface = {
+    let newEvent: EventInterface = {
       name: this.validateForm.value.eventName ?? '',
       tripId: this.tripId,
       date: this.date ?? '',
@@ -188,9 +191,8 @@ export class EventFormComponent implements OnInit {
     };
 
     if (this.editMode && this.eventInput) {
-      newEvent = {...newEvent, id: this.eventInput.id};
+      newEvent = { ...newEvent, id: this.eventInput.id };
     }
     return newEvent;
-
   }
 }
