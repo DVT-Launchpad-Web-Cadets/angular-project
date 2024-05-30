@@ -76,7 +76,6 @@ export class TripService {
     }
 
     const docRef = doc(this.firestore, `trips/${trip.id}`);
-    console.log('trip edit happened in service: ', trip);
     const promise = setDoc(docRef, trip).catch((error) => {
       console.error('Error editing trip:', error);
       throw error;

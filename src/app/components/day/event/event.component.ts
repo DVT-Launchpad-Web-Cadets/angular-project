@@ -67,7 +67,6 @@ export class EventComponent {
       nzOkDanger: true,
       nzOnOk: () => this.deleteEvent(this.event?.id || ''),
       nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel')
     });
   }
 

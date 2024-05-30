@@ -219,7 +219,6 @@ export class AddTripFormComponent implements OnInit {
       nzOkDanger: true,
       nzOnOk: () => this.deleteTrip(this.trip?.id ?? ''),
       nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel'),
     });
   }
 }
