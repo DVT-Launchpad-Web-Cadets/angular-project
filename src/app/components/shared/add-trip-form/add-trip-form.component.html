@@ -25,7 +25,7 @@
   <ng-container *nzDrawerContent>
     <div class="p-4 w-full h-full">
       <div class="flex justify-between">
-        <h1 class="text-3xl font-bold text-black">{{title}}</h1>
+        <h1 class="text-3xl font-bold text-black">{{ title }}</h1>
       </div>
       <form
         nz-form
@@ -42,26 +42,12 @@
               placeholder="e.g Summer Holiday in Greece"
               name="tripName"
               required
-              class="w-full bg-transparent border border-gray rounded-lg p-2"
+              class="w-full bg-transparent border border-gray rounded-lg p-2 focus:border-coral"
               formControlName="tripName"
-              #destinationInput
             />
           </nz-form-control>
         </nz-form-item>
-        <app-location-auto-complete (placeSelected)="fromValue = $event"/>
-        <nz-form-label class="font-bold">Destination</nz-form-label>
-        <nz-form-item class="w-full">
-          <nz-form-control nzHasFeedback nzErrorTip="Destination is required">
-            <input
-              nz-input
-              placeholder="e.g Greece"
-              name="tripDestination"
-              required
-              class="w-full bg-transparent border border-gray rounded-lg p-2"
-              formControlName="tripDestination"
-            />
-          </nz-form-control>
-        </nz-form-item>
+        <app-location-auto-complete (placeSelected)="fromValue = $event" [placeholder]="destination" />
         <nz-form-label class="font-bold">Start Date</nz-form-label>
         <nz-form-item class="w-full">
           <nz-form-control nzHasFeedback nzErrorTip="Start date is required">
@@ -87,12 +73,16 @@
           </nz-form-control>
         </nz-form-item>
         <nz-form-label class="font-bold">Home Currency</nz-form-label>
-        <nz-form-item class="w-1/2 flex flex-col items-start">
-          <nz-form-control nzHasFeedback nzErrorTip="Home currency is required">
+        <nz-form-item class="w-full rounded-full">
+          <nz-form-control
+            nzHasFeedback
+            nzErrorTip="Home currency is required"
+            class="w-full"
+          >
             <nz-select
               formControlName="homeCurrency"
               nzPlaceHolder="Currency"
-              class="w-full bg-transparent rounded-lg p-2"
+              class="w-full bg-transparent rounded-full"
               required
               nzShowSearch
             >
@@ -106,12 +96,12 @@
           </nz-form-control>
         </nz-form-item>
         <nz-form-label class="font-bold">Destination Currency</nz-form-label>
-        <nz-form-item class="w-1/2 flex flex-col items-start">
+        <nz-form-item class="w-full flex flex-col items-start">
           <nz-form-control nzHasFeedback nzErrorTip="Destination is required">
             <nz-select
               formControlName="destinationCurrency"
               nzPlaceHolder="Currency"
-              class="w-full bg-transparent rounded-lg p-2"
+              class="w-full bg-transparent rounded-full"
               required
               nzShowSearch
             >
@@ -135,16 +125,14 @@
           </nz-form-control>
         </nz-form-item>
         @if (edit) {
-          <button
-            (click)="showDeleteConfirm()"
-            class="bg-transparent border border-red text-red text-lg p-2 w-full rounded-lg mb-2"
-            >
-           Delete Trip
-      
-          </button>
-          }
+        <button
+          (click)="showDeleteConfirm()"
+          class="bg-transparent border border-red text-red text-lg p-2 w-full rounded-lg mb-2"
+        >
+          Delete Trip
+        </button>
+        }
       </form>
     </div>
-
   </ng-container>
 </nz-drawer>

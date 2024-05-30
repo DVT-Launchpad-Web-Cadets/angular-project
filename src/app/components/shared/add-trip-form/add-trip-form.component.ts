@@ -51,7 +51,15 @@ import { remixEditBoxLine } from '@ng-icons/remixicon';
   standalone: true,
   templateUrl: './add-trip-form.component.html',
   styleUrl: './add-trip-form.component.css',
-  viewProviders: [provideIcons({ matSettings, matAdd, matDelete, featherEdit, remixEditBoxLine })],
+  viewProviders: [
+    provideIcons({
+      matSettings,
+      matAdd,
+      matDelete,
+      featherEdit,
+      remixEditBoxLine,
+    }),
+  ],
   imports: [
     NzFormModule,
     NzDatePickerModule,
@@ -67,7 +75,7 @@ import { remixEditBoxLine } from '@ng-icons/remixicon';
 })
 export class AddTripFormComponent implements OnInit {
   router = inject(Router);
-
+  destination = 'e.g Greece';
 
   @Input() edit = false;
   @Output() closeDrawer = new EventEmitter<void>();
@@ -101,7 +109,7 @@ export class AddTripFormComponent implements OnInit {
   ) {
     this.validateForm = this.fb.group({
       tripName: ['', [Validators.required]],
-      tripDestination: ['', [Validators.required]],
+      tripDestination: [''],
       startDate: this.fb.control<Date | null>(null, {
         validators: [Validators.required],
       }),
@@ -136,6 +144,8 @@ export class AddTripFormComponent implements OnInit {
       homeCurrency: trip.homeCurrency,
       destinationCurrency: trip.destinationCurrency,
     });
+
+    this.destination = trip.destination;
   }
 
   addTrip(): void {
@@ -165,12 +175,12 @@ export class AddTripFormComponent implements OnInit {
         imageUrl: this.fromValue?.imageUrl,
       };
 
-      if (this.edit){
+      if (this.edit) {
         newTrip = {
           ...newTrip,
           id: this.trip?.id,
-          userId: this.trip?.userId
-        }
+          userId: this.trip?.userId,
+        };
       }
 
       const action = this.edit
@@ -209,7 +219,7 @@ export class AddTripFormComponent implements OnInit {
       nzOkDanger: true,
       nzOnOk: () => this.deleteTrip(this.trip?.id ?? ''),
       nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel')
+      nzOnCancel: () => console.log('Cancel'),
     });
   }
 }

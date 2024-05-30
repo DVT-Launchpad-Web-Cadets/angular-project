@@ -1,0 +1,20 @@
+nz-select {
+    display: inline-block;
+  }
+  
+  nz-select .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border-radius: 20px !important;
+  }
+  
+  nz-select .ant-select-focused:not(.ant-select-disabled) .ant-select-selector {
+    border-radius: 20px !important;
+  }
+  
+  /* Target the nz-select dropdown options */
+  nz-select .ant-select-dropdown {
+    border-radius: 20px !important;
+  }
+  
+  nz-select .ant-select-dropdown .ant-select-item-option-content {
+    border-radius: 20px !important;
+  }
