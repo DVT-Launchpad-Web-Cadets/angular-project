@@ -94,7 +94,7 @@ export class EventFormComponent implements OnInit {
     eventCurrency: FormControl<string>;
   }>;
 
-    destination =  'Sundown Restaurant';
+    destination =  'e.g Ambrosia Restaurant';
 
   constructor(
     private fb: NonNullableFormBuilder,

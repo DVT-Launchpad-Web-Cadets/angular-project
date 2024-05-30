@@ -43,7 +43,6 @@ export class LocationAutoCompleteComponent {
 
     this.autoComplete.addListener('place_changed', () => {
       const place = this.autoComplete?.getPlace();
-      console.log(place);
 
       const result: PlaceSearchResult = {
         address: this.inputField.nativeElement.value,
@@ -53,7 +52,6 @@ export class LocationAutoCompleteComponent {
         name: place?.name,
         url: place?.url
       };
-      console.log(result);
       this.placeSelected.emit(result);
     });
   }

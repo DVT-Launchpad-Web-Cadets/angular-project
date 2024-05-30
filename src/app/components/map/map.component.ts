@@ -33,8 +33,6 @@ import { EventInterface } from '../../models';
           return new google.maps.LatLng(event.latitude ?? 0, event.longitude);
         });
     
-        console.log(waypoints);
-    
         if (waypoints.length > 1) {
           this.getDirectionsWithWaypoints(waypoints);
         }
