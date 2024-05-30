@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 export interface PlaceSearchResult {
   address: string;
@@ -21,12 +22,12 @@ export interface PlaceSearchResult {
 @Component({
   selector: 'app-location-auto-complete',
   standalone: true,
-  imports: [MatFormFieldModule, CommonModule, MatInputModule],
+  imports: [MatFormFieldModule, CommonModule, MatInputModule, NzFormModule],
   templateUrl: './location-auto-complete.component.html',
   styleUrl: './location-auto-complete.component.css',
 })
 export class LocationAutoCompleteComponent {
-  @Input() placeholder = '';
+  @Input() placeholder = 'e.g Greece';
   @Output() placeSelected = new EventEmitter<PlaceSearchResult>();
 
   @ViewChild('inputField')

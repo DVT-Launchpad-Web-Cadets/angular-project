@@ -1,3 +1,14 @@
-<mat-form-field appearance="outline" class="w-full">
-  <input matInput [placeholder]="placeholder" #inputField />
-</mat-form-field>
+<nz-form-label class="font-bold">Destination</nz-form-label>
+<nz-form-item class="w-full">
+  <nz-form-control nzHasFeedback nzErrorTip="Destination is required">
+    <input
+      nz-input
+      [placeholder]="placeholder" 
+      #inputField
+      name="tripDestination"
+      required
+      class="w-full bg-transparent border border-gray rounded-lg p-2"
+      formControlName="tripDestination"
+    />
+  </nz-form-control>
+</nz-form-item>

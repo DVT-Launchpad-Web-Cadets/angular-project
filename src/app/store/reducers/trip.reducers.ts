@@ -52,7 +52,7 @@ export const tripReducer = createReducer(
   on(editTripComplete, (state, { updatedTrip }) => ({
     ...state,
     trips: state.trips.map((trip) =>
-      trip.id === updatedTrip.id ? { ...trip, ...updatedTrip } : trip
+      trip.id === updatedTrip.id ? updatedTrip : trip
     ),
     selectedTrip: updatedTrip,
     loading: false,

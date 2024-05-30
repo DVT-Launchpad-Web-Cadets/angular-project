@@ -8,7 +8,6 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class CurrencyService {
-  
   private apiKey: string;
 
   constructor(private http: HttpClient) {
@@ -19,6 +18,7 @@ export class CurrencyService {
     homeCurrency: string,
     desitnationCurrency: string
   ): Observable<CurrencyResponseInterface> {
+    console.log(homeCurrency, desitnationCurrency);
     return this.http.get<CurrencyResponseInterface>(
       `https://api.currencyapi.com/v3/latest?apikey=${this.apiKey}&base_currency=${homeCurrency}&currencies=${desitnationCurrency}`
     );

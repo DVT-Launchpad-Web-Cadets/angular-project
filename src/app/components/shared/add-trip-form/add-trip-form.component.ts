@@ -1,12 +1,9 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
   Output,
-  ViewChild,
-  AfterViewInit,
   inject,
 } from '@angular/core';
 import {
@@ -136,6 +133,8 @@ export class AddTripFormComponent implements OnInit {
       tripDestination: trip.destination,
       startDate: trip.startDate,
       endDate: trip.endDate,
+      homeCurrency: trip.homeCurrency,
+      destinationCurrency: trip.destinationCurrency,
     });
   }
 
@@ -154,9 +153,9 @@ export class AddTripFormComponent implements OnInit {
         ? destinationCurrency['symbol']
         : '';
 
-      const newTrip: TripInterface = {
+      let newTrip: TripInterface = {
         name: this.validateForm.value.tripName ?? '',
-        destination: this.validateForm.value.tripDestination ?? '',
+        destination: this.fromValue?.address ?? '',
         startDate: this.validateForm.value.startDate ?? new Date(),
         endDate: this.validateForm.value.endDate ?? new Date(),
         homeCurrency: this.validateForm.value.homeCurrency ?? '',
@@ -165,6 +164,14 @@ export class AddTripFormComponent implements OnInit {
         destinationCurrencySymbol: destinationCurrencySymbol,
         imageUrl: this.fromValue?.imageUrl,
       };
+
+      if (this.edit){
+        newTrip = {
+          ...newTrip,
+          id: this.trip?.id,
+          userId: this.trip?.userId
+        }
+      }
 
       const action = this.edit
         ? editTrip({ updatedTrip: newTrip })

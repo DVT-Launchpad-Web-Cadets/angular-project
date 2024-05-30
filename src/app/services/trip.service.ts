@@ -18,7 +18,6 @@ import { AuthState } from '../store/state/auth.state';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TimeUtilService } from './time-util.service';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -29,7 +28,10 @@ export class TripService {
   userId$ = this.store.select(selectUser);
   userId = '';
 
-  constructor(private store: Store<AuthState>, private timeUtilService: TimeUtilService) {
+  constructor(
+    private store: Store<AuthState>,
+    private timeUtilService: TimeUtilService
+  ) {
     this.userId$.pipe(takeUntilDestroyed()).subscribe((userId) => {
       this.userId = userId ?? '';
     });
@@ -45,8 +47,10 @@ export class TripService {
       map((trips) =>
         trips.map((trip) => ({
           ...trip,
-          startDate: this.timeUtilService.firebaseTimestampToDate(trip.startDate),
-          endDate:  this.timeUtilService.firebaseTimestampToDate(trip.endDate),
+          startDate: this.timeUtilService.firebaseTimestampToDate(
+            trip.startDate
+          ),
+          endDate: this.timeUtilService.firebaseTimestampToDate(trip.endDate),
         }))
       )
     );
@@ -67,8 +71,16 @@ export class TripService {
   }
 
   editTrip(trip: TripInterface): Observable<void> {
+    if (!trip.id) {
+      throw new Error('Trip ID is not set');
+    }
+
     const docRef = doc(this.firestore, `trips/${trip.id}`);
-    const promise = setDoc(docRef, trip);
+    console.log('trip edit happened in service: ', trip);
+    const promise = setDoc(docRef, trip).catch((error) => {
+      console.error('Error editing trip:', error);
+      throw error;
+    });
     return from(promise);
   }
 }

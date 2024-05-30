@@ -86,17 +86,42 @@ export class TripsEffects {
     this.actions$.pipe(
       ofType(editTrip),
       switchMap(({ updatedTrip }) =>
-        this.tripsService.editTrip(updatedTrip).pipe(
-          map(() => editTripComplete({ updatedTrip })),
-          catchError((err) => {
-            this.notificationService.error(
-              `Failed to edit trip`,
-              err.toString()
-            );
-            tripLoading({ loading: false });
-            return EMPTY;
-          })
-        )
+        this.currencyService
+          .getCurrencyRates(
+            updatedTrip.homeCurrency,
+            updatedTrip.destinationCurrency
+          )
+          .pipe(
+            switchMap((currencyResponse) => {
+              const exchangeRate =
+                currencyResponse.data[updatedTrip.destinationCurrency].value;
+              const updatedTripWithRate = {
+                ...updatedTrip,
+                exchangeRate: exchangeRate,
+              };
+              return this.tripsService.editTrip(updatedTripWithRate).pipe(
+                map(() =>
+                  editTripComplete({ updatedTrip: updatedTripWithRate })
+                ),
+                catchError((err) => {
+                  this.notificationService.error(
+                    `Failed to edit trip`,
+                    err.toString()
+                  );
+                  tripLoading({ loading: false });
+                  return EMPTY;
+                })
+              );
+            }),
+            catchError((err) => {
+              this.notificationService.error(
+                `Failed to fetch currency rates`,
+                err.toString()
+              );
+              tripLoading({ loading: false });
+              return EMPTY;
+            })
+          )
       )
     )
   );

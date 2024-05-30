@@ -11,6 +11,7 @@ import {
   getEvents,
   getEventsComplete,
 } from '../actions/event.actions';
+import { editTripComplete } from '../actions';
 
 export const eventReducer = createReducer(
   eventInitialState,
@@ -47,7 +48,7 @@ export const eventReducer = createReducer(
   })),
   on(editEventComplete, (state, { updatedEvent }) => ({
     ...state,
-    trips: state.events.map((event) =>
+    events: state.events.map((event) =>
       event.id === updatedEvent.id ? { ...event, ...updatedEvent } : event
     ),
     loading: false,
@@ -55,5 +56,13 @@ export const eventReducer = createReducer(
   on(eventLoading, (state, { loading }) => ({
     ...state,
     loading,
+  })),
+  on(editTripComplete, (state, { updatedTrip }) => ({
+    ...state,
+    events: state.events.map((event) =>
+      event.tripId === updatedTrip.id
+        ? { ...event, currency: updatedTrip.homeCurrency, }
+        : event
+    ),
   }))
 );

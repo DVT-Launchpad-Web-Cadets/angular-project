@@ -106,11 +106,11 @@ export class EventFormComponent implements OnInit {
       ),
       eventTag: ['Other', [Validators.required]],
       eventNotes: [''],
-      locationUrl: ['', [Validators.required]],
+      locationUrl: [''],
       eventLatitude: [''],
       eventLongitude: [''],
-      eventCost: [0, [Validators.required]],
-      eventCurrency: ['R', [Validators.required]],
+      eventCost: [0],
+      eventCurrency: ['R'],
     });
   }
 

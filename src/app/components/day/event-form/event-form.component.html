@@ -52,12 +52,12 @@
         </nz-form-item>
 
         <nz-form-label class="font-bold">Event Type</nz-form-label>
-        <nz-form-item class="w-full">
+        <nz-form-item class="w-full rounded-full">
           <nz-form-control nzHasFeedback nzErrorTip="Event type required">
             <nz-select
               formControlName="eventTag"
               nzPlaceHolder="Select event type"
-              class="w-full"
+              class="w-full rounded-full"
               required
             >
               @for (option of options; track option.value) {
@@ -131,7 +131,6 @@
             <ng-template #addOnBefore>
               @if (selectedCurrencyInfo$ | async; as currencyInfo) {
               <nz-select
-                nzPlaceHolder="cur"
                 formControlName="eventCurrency"
                 class="w-16"
               >
