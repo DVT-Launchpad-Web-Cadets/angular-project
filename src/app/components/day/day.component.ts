@@ -3,7 +3,9 @@ import {
   matEdit,
   matLocationOn,
   matAdd,
-  matEditCalendar
+  matEditCalendar,
+  matMap,
+  matListAlt
 } from '@ng-icons/material-icons/baseline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { EventComponent } from './event/event.component';
@@ -15,17 +17,23 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EventState, TripState } from '../../store/state';
 import { map } from 'rxjs';
+import { MapComponent } from "../map/map.component";
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NgModel } from '@angular/forms';
+
 
 @Component({
-  selector: 'app-day',
-  standalone: true,
-  templateUrl: './day.component.html',
-  styleUrl: './day.component.css',
-  viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd, matEditCalendar })],
-  imports: [NgIconComponent, EventComponent, EventFormComponent, CommonModule],
+    selector: 'app-day',
+    standalone: true,
+    templateUrl: './day.component.html',
+    styleUrl: './day.component.css',
+    viewProviders: [provideIcons({ matEdit, matLocationOn, matAdd, matEditCalendar, matMap, matListAlt })],
+    imports: [NgIconComponent, EventComponent, EventFormComponent, CommonModule, MapComponent,NzSwitchModule]
 })
 export class DayComponent {
   @Input() day: DayInterface | undefined;
+
+  mapOpen = false;
 
   selectedEvents$ = this.store
     .select(selectEvents)
@@ -43,5 +51,9 @@ export class DayComponent {
 
   toggleEdit(): void {
     this.edit = !this.edit;
+  }
+
+  toggleMap(): void {
+    this.mapOpen = !this.mapOpen;
   }
 }

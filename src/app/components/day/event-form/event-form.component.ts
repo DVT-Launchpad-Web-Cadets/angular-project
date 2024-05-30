@@ -144,7 +144,6 @@ export class EventFormComponent implements OnInit {
   addEvent(): void {
     if (this.validateForm.valid) {
       const newEvent: EventInterface = this.createEventObject();
-      console.log(newEvent);
       if (this.edit) {
         this.eventStore.dispatch(editEvent({ updatedEvent: newEvent }));
       } else {

@@ -26,7 +26,6 @@ export class SignupComponent implements OnDestroy {
   router = inject(Router);
 
   validateForm: FormGroup<{
-    username: FormControl<string>;
     email: FormControl<string>;
     password: FormControl<string>;
   }>;
@@ -39,7 +38,6 @@ export class SignupComponent implements OnDestroy {
     private store: Store<AuthState>
   ) {
     this.validateForm = this.fb.group({
-      username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
@@ -50,7 +48,6 @@ export class SignupComponent implements OnDestroy {
       this.store.dispatch(
         signUp({
           email: this.validateForm.value.email!,
-          username: this.validateForm.value.username!,
           password: this.validateForm.value.password!,
         })
       );

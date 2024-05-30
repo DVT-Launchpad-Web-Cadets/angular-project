@@ -17,8 +17,8 @@ export class AuthEffects {
   signup$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signUp),
-      switchMap(({ email, username, password }) =>
-        this.authService.signUp(email, username, password).pipe(
+      switchMap(({ email, password }) =>
+        this.authService.signUp(email,  password).pipe(
           map((userId) => signUpComplete({ userId })),
           catchError((err) => {
             this.notificationService.error(

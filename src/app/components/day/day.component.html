@@ -1,5 +1,21 @@
-<h2 class="text-black my-2 text-xl font-bold">{{ day?.date }}</h2>
+<div class="flex justify-between items-center w-full mt-2">
+    <h2 class="text-black my-2 text-xl font-bold">{{ day?.date }}</h2>
+    <nz-switch
+    (click)="toggleMap()"
+    [nzCheckedChildren]="checkedTemplate"
+    [nzUnCheckedChildren]="unCheckedTemplate"
+  ></nz-switch>
+  <ng-template #checkedTemplate><ng-icon name="matMap" class="text-xl text-white"></ng-icon></ng-template>
+  <ng-template #unCheckedTemplate><ng-icon name="matMap" class="text-xl text-white"></ng-icon></ng-template>
+</div>
 
+
+
+@if(mapOpen){
+        <app-map [events$]="selectedEvents$"></app-map>
+
+}
+@else{
 @for(event of selectedEvents$ | async; track event.id){
 <app-event [event]="event" class="w-full"></app-event>
 } @empty {
@@ -10,3 +26,4 @@
 }
 
 <app-event-form [date]="day?.date"></app-event-form>
+}

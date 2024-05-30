@@ -43,9 +43,6 @@ export const selectTagTotals = createSelector(
           percentage: 0
         })
 
-        console.log(array);
-        console.log(currencyInfo.homeCurrency);
-        console.log(event.currency);
       } else {
         array[matchedIndex].totalCost += event.currency === currencyInfo.homeCurrency ? event.cost : event.cost / (currencyInfo.exchangeRate ?? 1);
       }

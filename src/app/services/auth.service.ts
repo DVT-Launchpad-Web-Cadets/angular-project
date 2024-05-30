@@ -19,7 +19,6 @@ export class AuthService {
 
   signUp(
     email: string,
-    username: string,
     password: string
   ): Observable<string> {
     return from(
