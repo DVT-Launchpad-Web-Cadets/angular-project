@@ -22,7 +22,7 @@ export const selectTotalCost = createSelector(
   (events, currencyInfo) => {
     let total = 0;
     for(const event of events){
-      total += event.currency === currencyInfo.homeCurrency ? event.cost : event.cost * (currencyInfo.exchangeRate ?? 1);
+      total += event.currency === currencyInfo.homeCurrency ? event.cost : event.cost / (currencyInfo.exchangeRate ?? 1);
     }
     return total;
   }
@@ -39,11 +39,15 @@ export const selectTagTotals = createSelector(
       if (matchedIndex === -1){
         array.push({
           tag: event.tag,
-          totalCost: event.currency === currencyInfo.homeCurrency ? event.cost : event.cost * (currencyInfo.exchangeRate ?? 1),
+          totalCost: event.currency === currencyInfo.homeCurrency ? event.cost : event.cost / (currencyInfo.exchangeRate ?? 1),
           percentage: 0
         })
+
+        console.log(array);
+        console.log(currencyInfo.homeCurrency);
+        console.log(event.currency);
       } else {
-        array[matchedIndex].totalCost += event.currency === currencyInfo.homeCurrency ? event.cost : event.cost * (currencyInfo.exchangeRate ?? 1);
+        array[matchedIndex].totalCost += event.currency === currencyInfo.homeCurrency ? event.cost : event.cost / (currencyInfo.exchangeRate ?? 1);
       }
     }
     for(const tagTotal of array){

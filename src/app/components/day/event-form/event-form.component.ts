@@ -26,6 +26,7 @@ import { TagType } from '../../../models';
 import { EventState, TripState } from '../../../store/state';
 import { selectCurrencyInfo, selectEvents } from '../../../store/selectors';
 import { AsyncPipe } from '@angular/common';
+
 import { LocationAutoCompleteComponent, PlaceSearchResult } from "../../shared/location-auto-complete/location-auto-complete.component";
 
 @Component({
@@ -120,8 +121,8 @@ export class EventFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.edit) {
-      this.title = 'Edit Trip';
-      this.buttonText = 'Edit Trip';
+      this.title = 'Edit Event';
+      this.buttonText = 'Edit Event';
     }
     this.tripId = this.route.snapshot.params['tripId'];
     if (this.editMode && this.eventInput) this.populateForm(this.eventInput);
@@ -137,7 +138,7 @@ export class EventFormComponent implements OnInit {
       eventCost: event.cost,
       eventCurrency: event.currency,
     });
-    this.destination = event.locationUrl ?? '';
+    this.destination = event.location ?? '';
   }
 
   addEvent(): void {
@@ -171,7 +172,7 @@ export class EventFormComponent implements OnInit {
   }
 
   private createEventObject(): EventInterface {
-    return {
+    let newEvent : EventInterface = {
       name: this.validateForm.value.eventName ?? '',
       tripId: this.tripId,
       date: this.date ?? '',
@@ -179,11 +180,18 @@ export class EventFormComponent implements OnInit {
       endTime: this.validateForm.value.eventEndTime ?? new Date(),
       tag: this.validateForm.value.eventTag ?? 'Other',
       notes: this.validateForm.value.eventNotes,
-      locationUrl: this.formValue?.url,
+      locationUrl: this.formValue?.url ?? this.eventInput?.locationUrl,
+      location: this.formValue?.address,
       latitude: this.formValue?.location?.lat(),
       longitude: this.formValue?.location?.lng(),
       cost: this.validateForm.value.eventCost ?? 0,
       currency: this.validateForm.value.eventCurrency,
     };
+
+    if (this.editMode && this.eventInput) {
+      newEvent = {...newEvent, id: this.eventInput.id};
+    }
+    return newEvent;
+
   }
 }
