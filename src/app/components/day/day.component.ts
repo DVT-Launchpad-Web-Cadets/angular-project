@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   matEdit,
   matLocationOn,
@@ -15,12 +15,10 @@ import { selectEvents } from '../../store/selectors';
 import { EventFormComponent } from './event-form/event-form.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { EventState, TripState } from '../../store/state';
+import { EventState } from '../../store/state';
 import { map } from 'rxjs';
 import { MapComponent } from "../map/map.component";
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { NgModel } from '@angular/forms';
-
 
 @Component({
     selector: 'app-day',

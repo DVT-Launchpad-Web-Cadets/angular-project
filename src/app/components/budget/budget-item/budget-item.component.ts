@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { TagComponent } from "../../shared/tag/tag.component";
 import { TagType } from '../../../models';
-import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
     selector: 'app-budget-item',
