@@ -1,7 +1,7 @@
 
 <div class="w-screen px-8">
   <div
-  class="w-full md:w-2/3 lg:w-1/2 rounded-lg overflow-hidden shadow-lg text-black md:flex dark:bg-dark-bg-2"
+  class="w-full md:w-2/3 lg:w-1/2 rounded-lg overflow-hidden shadow-lg text-black md:flex"
 >
   <div class="w-full h-54">
     <div class="w-full h-40 bg-gray object-cover">
@@ -12,18 +12,18 @@
     />
     </div>
   </div>
-  <div class="px-4 py-2 md:flex md:flex-col md:justify-center text-black dark:text-gray w-full">
-    <h2 class="text-lg pb-2 font-bold text-black dark:text-gray">{{ trip?.name }}</h2>
-    <div class="flex items-center text-black dark:text-gray">
+  <div class="px-4 py-2 md:flex md:flex-col md:justify-center text-black w-full">
+    <h2 class="text-lg pb-2 font-bold text-black">{{ trip?.name }}</h2>
+    <div class="flex items-center text-black ">
       <ng-icon name="matCalendarMonth" class="text-2xl"></ng-icon>
-      <h3 class="text-sm text-black dark:text-gray">
+      <h3 class="text-sm text-black ">
         {{ trip?.startDate | date : "dd/MM/yyyy" }} -
         {{ trip?.endDate | date : "dd/MM/yyyy" }}
       </h3>
     </div>
-    <div class="flex items-center text-black dark:text-gray">
+    <div class="flex items-center text-black ">
       <ng-icon name="matLocationOn" class="text-2xl"></ng-icon>
-      <h3 class="text-sm text-black dark:text-gray">{{ trip?.destination }}</h3>
+      <h3 class="text-sm text-black ">{{ trip?.destination }}</h3>
     </div>
   </div>
 </div>

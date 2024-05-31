@@ -2,22 +2,22 @@
 <app-loading-page />
 } @else {
 <div
-  class="h-screen w-screen bg-white dark:bg-dark-bg text-black dark:text-gray"
+  class="h-screen w-screen bg-white text-blac"
 >
   <div
-    class="bg-white dark:bg-dark-bg border-b border-b-dark-gray w-full fixed top-0 h-16 flex justify-between items-center px-4"
+    class="bg-white border-b border-b-dark-gray w-full fixed top-0 h-16 flex justify-between items-center px-4"
   >
-    <h1 class="text-2xl text-black dark:text-gray font-bold">My Trips</h1>
+    <h1 class="text-2xl text-blackfont-bold">My Trips</h1>
     <button (click)="logout()" [routerLink]="['/']">
       <ng-icon
         (click)="(logout)"
         name="matExitToApp"
-        class="text-3xl text-black dark:text-gray"
+        class="text-3xl text-black"
       ></ng-icon>
     </button>
   </div>
   <div
-    class="w-screen h-full pt-20 flex flex-col items-center md:justify-start md:items:start gap-4 bg-white dark:bg-dark-bg px-8"
+    class="w-screen h-full pt-20 flex flex-col items-center md:justify-start md:items:start gap-4 bg-white px-8"
   >
     @for (trip of selectedTrips$ | async; track trip.id){
     <a [routerLink]="['/trip', trip.id]" (click)="setTrip(trip ?? '')">

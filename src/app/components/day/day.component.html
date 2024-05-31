@@ -12,8 +12,7 @@
 
 
 @if(mapOpen){
-        <app-map [events$]="selectedEvents$"></app-map>
-
+    <app-map [selectedEvents$]="selectedEvents$"></app-map>
 }
 @else{
 @for(event of selectedEvents$ | async; track event.id){
